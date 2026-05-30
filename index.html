@@ -107,6 +107,15 @@
         .hero-gradient {
             background: radial-gradient(circle at 50% 0%, rgba(180,240,42,0.15) 0%, transparent 60%);
         }
+
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            display: inline-block;
+            animation: spin-slow 4s linear infinite;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-frog selection:text-slate-900 bg-slate-50 dark:bg-bg text-slate-900 dark:text-white transition-colors duration-300">
@@ -209,19 +218,16 @@
             <div class="text-center mb-16 reveal-up">
                 <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-frog-dark dark:text-frog">THE FROG PROJECT: <span class="text-slate-900 dark:text-white">8-TOOL ECOSYSTEM</span></h2>
                 <p class="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">Select a tool to download and instantly integrate it into your workflow. Experience seamless synchronization and intelligent automation.</p>
-            </div>
-
-            <!-- Ecosystem Grid -->
+            </div>            <!-- Ecosystem Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
                 <!-- Tool 1 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('BUILDSYNC')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-arrows-clockwise text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-arrows-clockwise text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">BUILDSYNC</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Construction submittal & package automation.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
 
@@ -237,71 +243,64 @@
                 </div>
 
                 <!-- Tool 3 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up delay-200 flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('SITE FROG')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-map-pin text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-200 flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-map-pin text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">SITE FROG</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Smart Site analysis & automated earthworks data.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
 
                 <!-- Tool 4 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up delay-300 flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('3D FROG')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-cube text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-300 flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-cube text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">3D FROG</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Lightweight 2D/3D modeling bridging tools.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
 
                 <!-- Tool 5 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('SPEC FROG')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-file-text text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-file-text text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">SPEC FROG</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Automated material specifications and computation.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
 
                 <!-- Tool 6 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up delay-100 flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('FROG REVIEW')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-magnifying-glass text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-100 flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-magnifying-glass text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">FROG REVIEW</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Smart Board Exam mastery for future staff.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
 
                 <!-- Tool 7 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up delay-200 flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('FROG ADMIN')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-user-circle-gear text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-200 flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-user-circle-gear text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">FROG ADMIN</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Student & Project management toolset.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
 
                 <!-- Tool 8 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up delay-300 flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('FROG CLOUD')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-cloud text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
+                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-300 flex flex-col h-full relative overflow-hidden">
+                    <i class="ph-bold ph-cloud text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
                     <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">FROG CLOUD</h3>
                     <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Centralized ecosystem data hosting.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
+                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
+                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
