@@ -371,17 +371,34 @@
 
     <!-- Scripts for animations and interactions -->
     <script>
+        // Audio Initialization
+        const frogSound = new Audio('freesound_community-frog-39142.mp3');
+        let soundPlayed = false;
+
+        function playFrogSound() {
+            if (!soundPlayed) {
+                frogSound.play()
+                    .then(() => { soundPlayed = true; })
+                    .catch(() => console.log('Audio blocked: User interaction required.'));
+            }
+        }
+
+        // Listen for the landing moment as soon as the DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            const frogEmoji = document.querySelector('.animate-fall');
+            if (frogEmoji) {
+                frogEmoji.addEventListener('animationend', playFrogSound);
+            }
+            
+            // Fallback: If the browser blocks the automatic sound, 
+            // it will play on the user's first click anywhere on the page.
+            document.addEventListener('click', playFrogSound, { once: true });
+        });
+
         // Splash Screen Lifecycle
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
             const wrapper = document.getElementById('main-content-wrapper');
-            const frogEmoji = document.querySelector('.animate-fall');
-            const frogSound = new Audio('freesound_community-frog-39142.mp3');
-
-            // Play sound effect when the falling animation finishes
-            frogEmoji.addEventListener('animationend', () => {
-                frogSound.play().catch(err => console.log('Audio playback was blocked by the browser.'));
-            });
             
             // Animation (1s) + Hold (2s) + Buffer (0.5s)
             setTimeout(() => {
