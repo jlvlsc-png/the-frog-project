@@ -372,14 +372,20 @@
     <!-- Scripts for animations and interactions -->
     <script>
         // Audio Initialization
-        const frogSound = new Audio('freesound_community-frog-39142.mp3');
+        const frogSound = new Audio('./freesound_community-frog-39142.mp3');
+        frogSound.preload = 'auto';
         let soundPlayed = false;
 
         function playFrogSound() {
             if (!soundPlayed) {
                 frogSound.play()
-                    .then(() => { soundPlayed = true; })
-                    .catch(() => console.log('Audio blocked: User interaction required.'));
+                    .then(() => { 
+                        soundPlayed = true; 
+                        console.log('Frog sound played successfully!');
+                    })
+                    .catch((err) => {
+                        console.warn('Audio blocked by browser. Click anywhere to "unlock" sound.', err);
+                    });
             }
         }
 
@@ -390,9 +396,13 @@
                 frogEmoji.addEventListener('animationend', playFrogSound);
             }
             
-            // Fallback: If the browser blocks the automatic sound, 
-            // it will play on the user's first click anywhere on the page.
-            document.addEventListener('click', playFrogSound, { once: true });
+            // "Unlock" audio on the very first user interaction (click, touch, or key)
+            const unlockEvents = ['click', 'touchstart', 'keydown'];
+            unlockEvents.forEach(evt => {
+                document.addEventListener(evt, () => {
+                    playFrogSound();
+                }, { once: true });
+            });
         });
 
         // Splash Screen Lifecycle
