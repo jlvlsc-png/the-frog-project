@@ -116,11 +116,51 @@
             display: inline-block;
             animation: spin-slow 4s linear infinite;
         }
-    * { user-select: none; -webkit-user-select: none; }
+
+        /* Splash Screen Animations */
+        @keyframes fall {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            70% { transform: translateY(0); opacity: 1; }
+            85% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-fall {
+            display: inline-block;
+            animation: fall 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes glowAppear {
+            to { text-shadow: 0 0 15px #B4F02A, 0 0 30px #B4F02A, 0 0 45px rgba(180, 240, 42, 0.5); }
+        }
+        .glow-on-land {
+            animation: glowAppear 0.8s forwards;
+            animation-delay: 1s;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .splash-subtitle {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.8s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        * { user-select: none; -webkit-user-select: none; }
 </style>
 </head>
 <body class="antialiased selection:bg-frog selection:text-slate-900 bg-slate-50 dark:bg-bg text-slate-900 dark:text-white transition-colors duration-300 select-none">
 
+    <!-- Splash Screen Overlay -->
+    <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0F1319] overflow-hidden transition-opacity duration-1000">
+        <div class="text-center">
+            <h1 class="font-display text-4xl md:text-6xl font-bold text-white mb-4 glow-on-land">
+                The Fr<span class="animate-fall">🐸</span>g Project
+            </h1>
+            <p class="splash-subtitle text-frog font-medium tracking-[0.3em] uppercase text-sm">by John Lloyd Velasco</p>
+        </div>
+    </div>
+
+    <div id="main-content-wrapper" class="opacity-0 transition-all duration-1000 scale-105">
     <!-- Fixed Background Logo -->
     <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center mix-blend-overlay dark:mix-blend-screen">
         <img src="./logo.png" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.35]" />
@@ -316,6 +356,7 @@
     </footer>
 
     </div> <!-- End Main Content Wrapper -->
+    </div> <!-- End Transition Wrapper -->
 
     <!-- Notification Modal (Hidden by default) -->
     <div id="downloadToast" class="fixed bottom-10 right-10 bg-white dark:bg-card border border-frog/30 text-slate-900 dark:text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
@@ -330,6 +371,22 @@
 
     <!-- Scripts for animations and interactions -->
     <script>
+        // Splash Screen Lifecycle
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splash-screen');
+            const wrapper = document.getElementById('main-content-wrapper');
+            
+            // Animation (1s) + Hold (2s) + Buffer (0.5s)
+            setTimeout(() => {
+                splash.classList.add('opacity-0');
+                wrapper.classList.remove('opacity-0', 'scale-105');
+                
+                setTimeout(() => {
+                    splash.remove();
+                }, 1000);
+            }, 3500);
+        });
+
         // Theme Toggle Ripple Effect
         function toggleTheme(event) {
             const html = document.documentElement;
