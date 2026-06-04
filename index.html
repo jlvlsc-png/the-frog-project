@@ -375,6 +375,13 @@
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
             const wrapper = document.getElementById('main-content-wrapper');
+            const frogEmoji = document.querySelector('.animate-fall');
+            const frogSound = new Audio('freesound_community-frog-39142.mp3');
+
+            // Play sound effect when the falling animation finishes
+            frogEmoji.addEventListener('animationend', () => {
+                frogSound.play().catch(err => console.log('Audio playback was blocked by the browser.'));
+            });
             
             // Animation (1s) + Hold (2s) + Buffer (0.5s)
             setTimeout(() => {
