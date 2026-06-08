@@ -90,9 +90,22 @@
         }
 
         * { user-select: none; -webkit-user-select: none; }
+
+        /* Tool Rail Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B4F02A; border-radius: 10px; }
+        
+        .tool-card-active {
+            border-color: #B4F02A !important;
+            background: rgba(180, 240, 42, 0.1) !important;
+            transform: translateX(10px);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-frog selection:text-slate-900 bg-slate-50 dark:bg-bg text-slate-900 dark:text-white transition-colors duration-300 select-none">
+
+    <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
 
     <!-- Splash Screen Overlay -->
     <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0F1319] overflow-hidden transition-opacity duration-700">
@@ -133,37 +146,45 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center pt-24 hero-gradient overflow-hidden">
-        <!-- Background Elements -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-frog/20 dark:bg-frog/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen pointer-events-none"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen pointer-events-none"></div>
-
-            <div class="max-w-4xl mx-auto px-6 text-center z-10">
+    <!-- Redesigned Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10">
+            
+            <!-- Left Content: Text & Info -->
+            <div class="lg:col-span-7">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 text-frog-dark dark:text-frog text-sm font-medium mb-8 neon-pulse">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-frog opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-frog"></span>
+                    </span>
+                    8-Tool Ecosystem Active
+                </div>
+                <h1 class="font-display text-6xl md:text-8xl font-bold tracking-tighter mb-8 glow-text leading-[0.9] dark:text-white text-slate-900">
+                    Work Smarter,<br/>
+                    <span class="text-frog">Leap Further.</span>
+                </h1>
+                <p class="text-xl text-slate-600 dark:text-gray-400 max-w-xl mb-12 leading-relaxed">
+                    The modern architecture and construction industries are plagued by tedious workflows. The Frog Project was built to change that. By automating complex processes, it makes your workload lighter.
+                </p>
                 
-                <!-- Looping ambient background overlays (smooth) -->
-                <div class="bg-ambient absolute inset-0 pointer-events-none z-[-1]" aria-hidden="true"></div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 dark:bg-frog/5 text-frog-dark dark:text-frog text-sm font-medium mb-8 intro-fade delay-1 neon-pulse">
-
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-frog opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-frog"></span>
-                </span>
-                Introducing an 8-Tool Ecosystem
+                <!-- Stat Cluster -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md">
+                        <span class="block text-2xl font-bold text-frog">8+</span>
+                        <span class="text-xs uppercase tracking-widest opacity-60">Smart Apps</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md">
+                        <span class="block text-2xl font-bold text-frog">Zero</span>
+                        <span class="text-xs uppercase tracking-widest opacity-60">Redundancy</span>
+                    </div>
+                </div>
             </div>
-            
-<h1 class="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 reveal-up delay-100 intro-fade delay-2 glow-text leading-tight text-slate-900 dark:text-white neon-title">
 
-                Work Smarter, <br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-frog-dark to-green-500 dark:from-frog dark:to-green-400">Leap Further.</span>
-            </h1>
-            
-            <p class="text-lg md:text-xl text-slate-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed reveal-up delay-200 intro-fade delay-3">
-                The modern architecture and construction industries are plagued by tedious workflows. The Frog Project was built to change that. By automating complex processes, it makes your workload lighter and faster so you can focus on building the future.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up delay-300 intro-fade delay-3">
-                <a href="#ecosystem" class="w-full sm:w-auto px-8 py-4 bg-frog text-slate-900 font-bold rounded-xl hover:bg-frog-light transition-all flex items-center justify-center gap-2 hover:-translate-y-1 shadow-lg shadow-frog/20">
+            <!-- Right Content: Side CTA Panel -->
+            <div class="lg:col-span-5">
+                <div class="bg-slate-900/50 dark:bg-card/50 backdrop-blur-2xl p-8 rounded-[2.5rem] border border-white/10 shadow-2xl space-y-4">
+                    <h3 class="text-white font-display font-bold text-xl mb-4">Quick Start</h3>
+                    <a href="#ecosystem" class="group w-full px-8 py-6 bg-frog text-slate-900 font-bold rounded-2xl flex items-center justify-between hover:bg-frog-light transition-all">
                         <span class="inline-flex items-center justify-center" style="width:22px;height:22px; position:relative;">
                         <span id="forceAnimDot" style="display:inline-block; width:10px; height:10px; border-radius:9999px; background: rgb(180,240,42);
                           box-shadow: 0 0 12px rgba(180,240,42,0.55), 0 0 28px rgba(180,240,42,0.25);
@@ -171,12 +192,27 @@
                           opacity: 1;
                           animation: neonPulse 0.8s ease-in-out infinite;"></span>
                     </span>
-                    Explore the Apps <i class="ph-bold ph-arrow-down"></i>
+                    Explore the Apps <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                 </a>
+                    <a href="#developer" class="w-full px-8 py-5 bg-white/5 hover:bg-white/10 text-white font-medium rounded-2xl border border-white/10 flex items-center justify-center gap-2 transition-all">
+                        Meet the Developer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <a href="#developer" class="w-full sm:w-auto px-8 py-4 bg-slate-200 dark:bg-white/5 text-slate-800 dark:text-white font-medium rounded-xl hover:bg-slate-300 dark:hover:bg-white/10 transition-all border border-slate-300 dark:border-white/10 flex items-center justify-center gap-2">
-                    Meet the Developer
-                </a>
+    <!-- Project Timeline Band -->
+    <section class="py-12 border-y border-slate-200 dark:border-white/5 bg-white/30 dark:bg-transparent overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="flex items-center gap-4"><span class="text-2xl font-display font-bold">01</span> <span class="text-sm uppercase tracking-[0.2em]">Inception</span></div>
+                <div class="h-[1px] flex-grow bg-slate-300 dark:bg-white/10 hidden md:block"></div>
+                <div class="flex items-center gap-4"><span class="text-2xl font-display font-bold">02</span> <span class="text-sm uppercase tracking-[0.2em]">Growth</span></div>
+                <div class="h-[1px] flex-grow bg-slate-300 dark:bg-white/10 hidden md:block"></div>
+                <div class="flex items-center gap-4"><span class="text-2xl font-display font-bold">03</span> <span class="text-sm uppercase tracking-[0.2em]">Automation</span></div>
+                <div class="h-[1px] flex-grow bg-slate-300 dark:bg-white/10 hidden md:block"></div>
+                <div class="flex items-center gap-4 text-frog"><span class="text-2xl font-display font-bold">04</span> <span class="text-sm uppercase tracking-[0.2em]">Delivery</span></div>
             </div>
         </div>
     </section>
@@ -228,87 +264,33 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
 
 
                 <p class="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">Select a tool to download and instantly integrate it into your workflow. Experience seamless synchronization and intelligent automation.</p>
-            </div>            <!-- Ecosystem Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Tool 1 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-arrows-clockwise text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">BUILDSYNC</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Construction submittal & package automation.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
-                    </div>
+            </div>
+
+            <!-- Tool Rail & Spotlight UI -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start">
+                <!-- Left: Interactive Rail -->
+                <div class="w-full lg:w-1/3 flex flex-col gap-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar" id="toolRail">
+                    <!-- Items populated by JS -->
                 </div>
 
-                <!-- Tool 2 -->
-                <div class="group bg-white dark:bg-card rounded-2xl p-6 border border-slate-200 dark:border-white/5 hover:border-frog-dark dark:hover:border-frog/50 transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_10px_30px_rgba(180,240,42,0.1)] reveal-up delay-100 flex flex-col h-full cursor-pointer relative overflow-hidden" onclick="handleDownload('SPACE FROG')">
-                    <div class="absolute inset-0 bg-frog/10 dark:bg-frog/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <i class="ph-bold ph-bounding-box text-3xl text-frog-dark dark:text-frog mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">SPACE FROG</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Smart space programming & adjacency logic.</p>
-                    <div class="mt-6 flex items-center text-xs font-bold text-frog-dark dark:text-frog opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 relative z-10">
-                        <i class="ph-bold ph-download-simple mr-1 text-sm"></i> Download App
-                    </div>
-                </div>
-
-                <!-- Tool 3 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-200 flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-map-pin text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">SITE FROG</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Smart Site analysis & automated earthworks data.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
-                    </div>
-                </div>
-
-                <!-- Tool 4 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-300 flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-cube text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">3D FROG</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Lightweight 2D/3D modeling bridging tools.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
-                    </div>
-                </div>
-
-                <!-- Tool 5 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-file-text text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">SPEC FROG</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Automated material specifications and computation.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
-                    </div>
-                </div>
-
-                <!-- Tool 6 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-100 flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-magnifying-glass text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">FROG REVIEW</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Smart Board Exam mastery for future staff.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
-                    </div>
-                </div>
-
-                <!-- Tool 7 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-200 flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-user-circle-gear text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">FROG ADMIN</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Student & Project management toolset.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
-                    </div>
-                </div>
-
-                <!-- Tool 8 -->
-                <div class="bg-white/40 dark:bg-card/40 rounded-2xl p-6 border border-slate-200/50 dark:border-white/5 opacity-50 select-none cursor-not-allowed reveal-up delay-300 flex flex-col h-full relative overflow-hidden">
-                    <i class="ph-bold ph-cloud text-3xl text-slate-400 dark:text-slate-600 mb-4 relative z-10"></i>
-                    <h3 class="font-display font-bold text-lg mb-2 text-slate-900 dark:text-white relative z-10">FROG CLOUD</h3>
-                    <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed flex-grow relative z-10">Centralized ecosystem data hosting.</p>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 relative z-10 gap-1.5">
-                        <span class="animate-spin-slow text-sm">⚙️</span> Under Construction
+                <!-- Right: Tool Spotlight -->
+                <div class="w-full lg:w-2/3 sticky top-32">
+                    <div id="toolSpotlight" class="bg-white dark:bg-card border border-slate-200 dark:border-white/10 rounded-[2rem] p-10 min-h-[450px] flex flex-col justify-center transition-all duration-500 shadow-2xl">
+                        <div class="flex items-center gap-6 mb-8">
+                            <div id="spotlightIcon" class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl">
+                                <i class="ph-bold ph-lightning"></i>
+                            </div>
+                            <div>
+                                <h3 id="spotlightTitle" class="text-4xl font-display font-bold text-slate-900 dark:text-white uppercase tracking-tight">Select a Tool</h3>
+                                <span id="spotlightStatus" class="text-xs font-bold text-frog uppercase tracking-widest">Active System</span>
+                            </div>
+                        </div>
+                        <p id="spotlightDesc" class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10 max-w-xl">
+                            Click on any tool in the rail to see how it can revolutionize your architectural workflow with automated precision.
+                        </p>
+                        <div id="spotlightAction">
+                             <!-- Download button injected here -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -343,6 +325,107 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
 
     <!-- Scripts for animations and interactions -->
     <script>
+        // Particle Background Logic
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#B4F02A';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            // Draw lines
+            ctx.strokeStyle = 'rgba(180, 240, 42, 0.1)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Tool Rail Data
+        const tools = [
+            { name: "BUILDSYNC", icon: "ph-arrows-clockwise", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
+            { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "Available Now", color: "frog" },
+            { name: "SITE FROG", icon: "ph-map-pin", desc: "Smart Site analysis & automated earthworks data.", status: "Under Construction", color: "slate-400" },
+            { name: "3D FROG", icon: "ph-cube", desc: "Lightweight 2D/3D modeling bridging tools.", status: "Under Construction", color: "slate-400" },
+            { name: "SPEC FROG", icon: "ph-file-text", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
+            { name: "FROG REVIEW", icon: "ph-magnifying-glass", desc: "Smart Board Exam mastery for future staff.", status: "Under Construction", color: "slate-400" },
+            { name: "FROG ADMIN", icon: "ph-user-circle-gear", desc: "Student & Project management toolset.", status: "Under Construction", color: "slate-400" },
+            { name: "FROG CLOUD", icon: "ph-cloud", desc: "Centralized ecosystem data hosting.", status: "Under Construction", color: "slate-400" }
+        ];
+
+        const toolRail = document.getElementById('toolRail');
+        tools.forEach((tool, index) => {
+            const div = document.createElement('div');
+            div.className = `p-5 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/40 dark:bg-card/40 cursor-pointer transition-all duration-300 hover:border-frog/50 group flex items-center gap-4 reveal-up`;
+            div.innerHTML = `
+                <i class="ph-bold ${tool.icon} text-2xl ${tool.name === 'SPACE FROG' ? 'text-frog' : 'text-slate-500'}"></i>
+                <div>
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">${tool.name}</h4>
+                    <p class="text-xs opacity-50">${tool.status}</p>
+                </div>
+            `;
+            div.onclick = () => selectTool(index, div);
+            toolRail.appendChild(div);
+            if (tool.name === 'SPACE FROG') selectTool(index, div);
+        });
+
+        function selectTool(index, element) {
+            document.querySelectorAll('#toolRail > div').forEach(el => el.classList.remove('tool-card-active'));
+            element.classList.add('tool-card-active');
+            const tool = tools[index];
+            document.getElementById('spotlightTitle').innerText = tool.name;
+            document.getElementById('spotlightDesc').innerText = tool.desc;
+            document.getElementById('spotlightStatus').innerText = tool.status;
+            document.getElementById('spotlightIcon').innerHTML = `<i class="ph-bold ${tool.icon}"></i>`;
+            document.getElementById('spotlightAction').innerHTML = tool.name === 'SPACE FROG' 
+                ? `<button onclick="handleDownload('SPACE FROG')" class="px-10 py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-105 transition-transform flex items-center gap-2">Download App <i class="ph-bold ph-download"></i></button>`
+                : `<div class="text-slate-500 font-medium italic">Integration pending release...</div>`;
+        }
+
         // Audio Initialization
         const frogSound = new Audio('./freesound_community-frog-39142.mp3');
         frogSound.preload = 'auto';
