@@ -5,4 +5,5 @@
 - [x] Add animated SVG/Canvas background
 - [x] Fix layout overflow and ensure screen-fit for all devices
 - [x] Update Splash Screen title to "THE FROG PROJECT"
+- [x] Optimize "8-tool ecosystem" section layout to prevent excessive scrolling.
 - [x] Redeploy to Firebase Hosting via `firebase deploy`
