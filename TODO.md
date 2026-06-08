@@ -3,4 +3,5 @@
 - [x] Add “The Frog Project” timeline/feature cards and interactive tool rail
 - [x] Replace old ecosystem grid presentation with a carousel/hover spotlight layout
 - [x] Add animated SVG/Canvas background
+- [x] Ensure content fits on screen, especially on mobile, without requiring excessive scrolling.
 - [x] Redeploy to Firebase Hosting via `firebase deploy`
