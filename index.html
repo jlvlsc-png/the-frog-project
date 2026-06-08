@@ -78,22 +78,38 @@
             background: #4A5568; 
         }
 
-        /* Reveal Animations */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
+        /* Smooth Reveal Animations (futuristic UI) */
+        .reveal-up,
         .reveal-scale {
             opacity: 0;
-            transform: scale(0.95);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(26px);
+            transition:
+                opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
 
-        .reveal-up.visible, .reveal-scale.visible {
+        .reveal-scale {
+            transform: translateY(26px) scale(0.98);
+        }
+
+        .reveal-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-scale.visible {
             opacity: 1;
             transform: translateY(0) scale(1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-up,
+            .reveal-scale {
+                transition: none !important;
+                transform: none !important;
+                opacity: 1 !important;
+            }
         }
 
         /* Staggered transition delays for grid items */
@@ -108,7 +124,38 @@
         }
         
         .hero-gradient {
-            background: radial-gradient(circle at 50% 0%, rgba(180,240,42,0.15) 0%, transparent 60%);
+            background: radial-gradient(circle at 50% 0%, rgba(180,240,42,0.18) 0%, transparent 62%);
+        }
+
+        /* Futuristic ambient background drift */
+        .bg-ambient {
+            animation: bgDrift 14s ease-in-out infinite;
+        }
+
+        @keyframes bgDrift {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.95; }
+            50% { transform: translate3d(-18px, 14px, 0) scale(1.02); opacity: 1; }
+        }
+
+        /* Landing intro animations */
+        @keyframes revealSoft {
+            from { opacity: 0; transform: translateY(18px) scale(0.99); filter: blur(6px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+        }
+        .intro-fade {
+            opacity: 0;
+            animation: revealSoft 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .intro-fade.delay-1 { animation-delay: 140ms; }
+        .intro-fade.delay-2 { animation-delay: 280ms; }
+        .intro-fade.delay-3 { animation-delay: 420ms; }
+
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floaty {
+            animation: floaty 5.5s ease-in-out infinite;
         }
 
         @keyframes spin-slow {
@@ -191,8 +238,11 @@
         <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-frog/20 dark:bg-frog/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen pointer-events-none"></div>
         <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen pointer-events-none"></div>
 
-        <div class="max-w-4xl mx-auto px-6 text-center z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 dark:bg-frog/5 text-frog-dark dark:text-frog text-sm font-medium mb-8 reveal-up">
+            <div class="max-w-4xl mx-auto px-6 text-center z-10">
+                
+                <!-- Looping ambient background overlays (smooth) -->
+                <div class="bg-ambient absolute inset-0 pointer-events-none z-[-1]" aria-hidden="true"></div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 dark:bg-frog/5 text-frog-dark dark:text-frog text-sm font-medium mb-8 intro-fade delay-1">
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-frog opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-frog"></span>
@@ -200,16 +250,16 @@
                 Introducing an 8-Tool Ecosystem
             </div>
             
-            <h1 class="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 reveal-up delay-100 glow-text leading-tight text-slate-900 dark:text-white">
+            <h1 class="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 reveal-up delay-100 intro-fade delay-2 glow-text leading-tight text-slate-900 dark:text-white">
                 Work Smarter, <br />
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-frog-dark to-green-500 dark:from-frog dark:to-green-400">Leap Further.</span>
             </h1>
             
-            <p class="text-lg md:text-xl text-slate-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed reveal-up delay-200">
+            <p class="text-lg md:text-xl text-slate-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed reveal-up delay-200 intro-fade delay-3">
                 The modern architecture and construction industries are plagued by tedious workflows. The Frog Project was built to change that. By automating complex processes, it makes your workload lighter and faster so you can focus on building the future.
             </p>
             
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up delay-300">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up delay-300 intro-fade delay-3">
                 <a href="#ecosystem" class="w-full sm:w-auto px-8 py-4 bg-frog text-slate-900 font-bold rounded-xl hover:bg-frog-light transition-all flex items-center justify-center gap-2 hover:-translate-y-1 shadow-lg shadow-frog/20">
                     Explore the Apps <i class="ph-bold ph-arrow-down"></i>
                 </a>
