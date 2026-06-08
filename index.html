@@ -63,6 +63,38 @@
             100% { filter: drop-shadow(0 0 6px rgba(180,240,42,0.20)); opacity: 0.85; }
         }
 
+        /* New: Frog Bounce Animation */
+        @keyframes frogBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-10px) scale(1.05); }
+            50% { transform: translateY(0) scale(1); }
+            75% { transform: translateY(-5px) scale(1.02); }
+        }
+        .animate-frog-bounce { animation: frogBounce 2s ease-in-out infinite; }
+
+        /* New: Neon Grid Animation */
+        @keyframes neonGridPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+        .neon-grid {
+            background-image: linear-gradient(to right, rgba(180,240,42,0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(180,240,42,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: neonGridPulse 4s ease-in-out infinite alternate;
+        }
+
+        /* New: Neon Sweep Scanlines */
+        @keyframes scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+        .neon-sweep {
+            background: repeating-linear-gradient(to bottom, transparent, transparent 1px, rgba(180,240,42,0.05) 1px, rgba(180,240,42,0.05) 2px);
+            background-size: 100% 100px; /* Adjust height for scanline density */
+            animation: scanlines 10s linear infinite;
+        }
+
         .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; }
 
         .glow-text { text-shadow: 0 0 15px rgba(180,240,42,0.4); }
@@ -134,7 +166,7 @@
             
             <div class="relative text-center z-10">
                 <div class="mb-6 inline-block">
-                    <svg class="w-20 h-20 text-frog animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="w-20 h-20 text-frog animate-frog-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 10l5 5 5-5M12 15V3" />
                         <path d="M12 15c-3 0-5 2-5 5h10c0-3-2-5-5-5z" />
                     </svg>
@@ -152,11 +184,13 @@
 
     <!-- Moving Graphic Elements -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px] animate-pulse"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 0s; animation-duration: 8s;"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s; animation-duration: 10s;"></div>
+        <div class="absolute top-[20%] right-[5%] w-[20%] h-[20%] bg-frog/5 rounded-full blur-[80px] animate-pulse" style="animation-delay: 4s; animation-duration: 7s;"></div>
+        <div class="absolute bottom-[10%] left-[15%] w-[25%] h-[25%] bg-blue-500/5 rounded-full blur-[100px] animate-pulse" style="animation-delay: 6s; animation-duration: 9s;"></div>
         <!-- Animated Grid -->
-        <div class="absolute inset-0 neon-grid opacity-30"></div>
-        <div class="absolute inset-0 neon-sweep scanlines opacity-40"></div>
+        <div class="absolute inset-0 neon-grid opacity-50"></div>
+        <div class="absolute inset-0 neon-sweep scanlines opacity-60"></div>
     </div>
 
     <!-- Fixed Background Logo -->
@@ -381,8 +415,8 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
+                this.vx = (Math.random() - 0.5) * 0.6; /* Increased speed */
+                this.vy = (Math.random() - 0.5) * 0.6; /* Increased speed */
                 this.radius = Math.random() * 2;
                 this.baseX = this.x;
                 this.baseY = this.y;
@@ -393,9 +427,9 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
                 let dy = mouse.y - this.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < mouse.radius) {
-                    const force = (mouse.radius - distance) / mouse.radius;
-                    this.x -= dx * force * 0.2;
-                    this.y -= dy * force * 0.2;
+                    const force = (mouse.radius - distance) / mouse.radius; /* Stronger flee force */
+                    this.x -= dx * force * 0.6;
+                    this.y -= dy * force * 0.6;
                 }
 
                 this.x += this.vx;
@@ -410,8 +444,8 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
                 ctx.fill();
             }
         }
-
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
+        /* Increased particle count */
+        for (let i = 0; i < 120; i++) particles.push(new Particle());
 
         function animateBg() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
