@@ -223,7 +223,7 @@
 
     <!-- Redesigned Hero Section (Snappable) -->
     <section class="relative h-screen flex items-center overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center z-10 w-full">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center z-10 w-full">
             
             <!-- Left Content: Text & Info -->
             <div class="lg:col-span-7">
@@ -243,7 +243,7 @@
                 </p>
                 
                 <!-- Stat Cluster -->
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div class="p-3 sm:p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md">
                         <span class="block text-xl font-bold text-frog">8+</span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Smart Apps</span>
@@ -252,6 +252,10 @@
                         <span class="block text-xl font-bold text-frog">Zero</span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Redundancy</span>
                     </div>
+                    <div class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30 backdrop-blur-md cursor-pointer hover:bg-frog/20 transition-all group" onclick="window.location.href='#ecosystem'">
+                        <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-app-window"></i></span>
+                        <span class="text-[10px] uppercase tracking-widest opacity-60">Apps</span>
+                    </div>
                     <div class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30 backdrop-blur-md cursor-pointer hover:bg-frog/20 transition-all group" onclick="openDevModal()">
                         <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-user-focus"></i></span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Creator</span>
@@ -259,23 +263,9 @@
                 </div>
             </div>
 
-            <!-- Right Content: Side CTA Panel -->
-            <div class="lg:col-span-5 w-full">
-                <div class="bg-slate-900/50 dark:bg-card/50 backdrop-blur-2xl p-6 sm:p-8 rounded-[2rem] lg:rounded-[2.5rem] border border-white/10 shadow-2xl space-y-4 flex flex-col justify-center">
-                    <a href="#ecosystem" class="group w-full px-6 sm:px-8 py-4 sm:py-6 bg-frog text-slate-900 font-bold rounded-xl sm:rounded-2xl flex items-center justify-between hover:bg-frog-light transition-all mb-2">
-                        <span class="inline-flex items-center justify-center" style="width:22px;height:22px; position:relative;">
-                        <span id="forceAnimDot" style="display:inline-block; width:10px; height:10px; border-radius:9999px; background: rgb(180,240,42);
-                          box-shadow: 0 0 12px rgba(180,240,42,0.55), 0 0 28px rgba(180,240,42,0.25);
-                          transform: translateY(0) scale(1);
-                          opacity: 1;
-                          animation: neonPulse 0.8s ease-in-out infinite;"></span>
-                    </span>
-                    Explore the Apps <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                    <a href="#developer" class="w-full px-6 sm:px-8 py-4 sm:py-5 bg-white/5 hover:bg-white/10 text-white font-medium rounded-xl sm:rounded-2xl border border-white/10 flex items-center justify-center gap-2 transition-all">
-                        Meet the Developer
-                    </a>
-                </div>
+            <!-- Adjust the col-span for the left content now that the right panel is removed -->
+            <div class="lg:col-span-12">
+                <!-- Content will now take full width on large screens -->
             </div>
         </div>
     </section>

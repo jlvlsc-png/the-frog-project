@@ -7,4 +7,5 @@
 - [x] Update Splash Screen title to "THE FROG PROJECT"
 - [x] Implement Modal (Pop-up) system for Developer and Tool details
 - [x] Add CSS Scroll Snapping for a "mechanical" dashboard feel
+- [x] Remove redundant "Quick Start" and "Meet the Developer" buttons, integrate "Apps" into stat cluster.
 - [x] Redeploy to Firebase Hosting via `firebase deploy`
