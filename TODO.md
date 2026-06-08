@@ -3,7 +3,8 @@
 - [x] Add “The Frog Project” timeline/feature cards and interactive tool rail
 - [x] Replace old ecosystem grid presentation with a carousel/hover spotlight layout
 - [x] Add animated SVG/Canvas background
-- [x] Fix layout overflow and ensure screen-fit for all devices
+- [x] Redesign layout to strictly fit sections to the screen viewport
 - [x] Update Splash Screen title to "THE FROG PROJECT"
-- [x] Optimize "8-tool ecosystem" section layout to prevent excessive scrolling.
+- [x] Implement Modal (Pop-up) system for Developer and Tool details
+- [x] Add CSS Scroll Snapping for a "mechanical" dashboard feel
 - [x] Redeploy to Firebase Hosting via `firebase deploy`

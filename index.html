@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark snap-y snap-mandatory">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,6 +62,17 @@
             50% { filter: drop-shadow(0 0 14px rgba(180,240,42,0.45)); opacity: 1; }
             100% { filter: drop-shadow(0 0 6px rgba(180,240,42,0.20)); opacity: 0.85; }
         }
+
+        /* Modal UI Styles */
+        #modalOverlay { display: flex; visibility: hidden; opacity: 0; transition: all 0.3s ease; }
+        #modalOverlay.active { visibility: visible; opacity: 1; }
+        .modal-box { transform: scale(0.9) translateY(20px); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        #modalOverlay.active .modal-box { transform: scale(1) translateY(0); }
+
+        section { scroll-snap-align: start; scroll-snap-stop: always; }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* New: Frog Bounce Animation */
         @keyframes frogBounce {
@@ -171,7 +182,7 @@
                         <path d="M12 15c-3 0-5 2-5 5h10c0-3-2-5-5-5z" />
                     </svg>
                 </div>
-                <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 tracking-tighter uppercase">
+                <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 tracking-widest uppercase">
                     The <span class="text-frog">Frog</span> Project
                 </h1>
                 <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-frog to-transparent mb-6 opacity-50"></div>
@@ -180,7 +191,7 @@
         </div>
     </div>
 
-    <div id="main-content-wrapper" class="opacity-0 transition-all duration-1000 scale-105">
+    <div id="main-content-wrapper" class="opacity-0 transition-all duration-1000 scale-105 bg-slate-50 dark:bg-bg">
 
     <!-- Moving Graphic Elements -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -213,9 +224,9 @@
         </div>
     </nav>
 
-    <!-- Redesigned Hero Section -->
-    <section class="relative min-h-screen lg:h-screen flex items-center pt-20 lg:pt-0 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center z-10 w-full">
+    <!-- Redesigned Hero Section (Snappable) -->
+    <section class="relative h-screen flex items-center overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center z-10 w-full">
             
             <!-- Left Content: Text & Info -->
             <div class="lg:col-span-7">
@@ -226,23 +237,27 @@
                     </span>
                     8-Tool Ecosystem Active
                 </div>
-                <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-4 sm:mb-6 glow-text leading-[0.9] dark:text-white text-slate-900">
+                <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-4 glow-text leading-[0.9] dark:text-white text-slate-900">
                     Work Smarter,<br/>
                     <span class="text-frog">Leap Further.</span>
                 </h1>
-                <p class="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-gray-400 max-w-xl mb-6 sm:mb-8 leading-relaxed">
+                <p class="text-sm sm:text-lg text-slate-600 dark:text-gray-400 max-w-xl mb-6 leading-relaxed">
                     The modern architecture and construction industries are plagued by tedious workflows. The Frog Project was built to change that. By automating complex processes, it makes your workload lighter.
                 </p>
                 
                 <!-- Stat Cluster -->
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <div class="p-3 sm:p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md">
-                        <span class="block text-xl sm:text-2xl font-bold text-frog">8+</span>
-                        <span class="text-[10px] sm:text-xs uppercase tracking-widest opacity-60">Smart Apps</span>
+                        <span class="block text-xl font-bold text-frog">8+</span>
+                        <span class="text-[10px] uppercase tracking-widest opacity-60">Smart Apps</span>
                     </div>
                     <div class="p-3 sm:p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md">
-                        <span class="block text-xl sm:text-2xl font-bold text-frog">Zero</span>
-                        <span class="text-[10px] sm:text-xs uppercase tracking-widest opacity-60">Redundancy</span>
+                        <span class="block text-xl font-bold text-frog">Zero</span>
+                        <span class="text-[10px] uppercase tracking-widest opacity-60">Redundancy</span>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30 backdrop-blur-md cursor-pointer hover:bg-frog/20 transition-all group" onclick="openDevModal()">
+                        <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-user-focus"></i></span>
+                        <span class="text-[10px] uppercase tracking-widest opacity-60">Creator</span>
                     </div>
                 </div>
             </div>
@@ -269,118 +284,52 @@
         </div>
     </section>
 
-    <!-- Project Timeline Band -->
-    <section class="py-8 lg:py-12 border-y border-slate-200 dark:border-white/5 bg-white/30 dark:bg-transparent overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-4 md:gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
-                <div class="flex items-center gap-2 sm:gap-4"><span class="text-xl sm:text-2xl font-display font-bold">01</span> <span class="text-[10px] sm:text-sm uppercase tracking-[0.2em]">Inception</span></div>
-                <div class="h-[1px] flex-grow bg-slate-300 dark:bg-white/10 hidden md:block"></div>
-                <div class="flex items-center gap-2 sm:gap-4"><span class="text-xl sm:text-2xl font-display font-bold">02</span> <span class="text-[10px] sm:text-sm uppercase tracking-[0.2em]">Growth</span></div>
-                <div class="h-[1px] flex-grow bg-slate-300 dark:bg-white/10 hidden md:block"></div>
-                <div class="flex items-center gap-2 sm:gap-4"><span class="text-xl sm:text-2xl font-display font-bold">03</span> <span class="text-[10px] sm:text-sm uppercase tracking-[0.2em]">Automation</span></div>
-                <div class="h-[1px] flex-grow bg-slate-300 dark:bg-white/10 hidden md:block"></div>
-                <div class="flex items-center gap-2 sm:gap-4 text-frog"><span class="text-xl sm:text-2xl font-display font-bold">04</span> <span class="text-[10px] sm:text-sm uppercase tracking-[0.2em]">Delivery</span></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Developer Section -->
-    <section id="developer" class="py-16 sm:py-24 bg-slate-50/70 dark:bg-bg/70 backdrop-blur-2xl relative transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-16">
-                <!-- Developer Image Representation -->
-                <div class="w-full md:w-1/2 flex justify-center reveal-scale">
-                    <div class="relative w-72 h-72 rounded-full border border-slate-300 dark:border-white/10 flex items-center justify-center p-4 before:absolute before:inset-0 before:rounded-full before:border before:border-frog/50 dark:before:border-frog/30 before:scale-110 before:animate-[ping_3s_ease-in-out_infinite]">
-                        <div class="w-full h-full bg-slate-200 dark:bg-card rounded-full overflow-hidden relative flex items-center justify-center shadow-2xl transition-colors duration-300">
-                            <img src="./profile.jpg" alt="John Lloyd N. Velasco" class="w-full h-full object-cover" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-100/50 dark:from-bg/50 to-transparent transition-colors duration-300 pointer-events-none"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-1/2 reveal-up">
-                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Behind The Vision</h2>
-                    <h3 class="text-2xl text-frog-dark dark:text-frog font-medium mb-6"><a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" class="select-none">John Lloyd N. Velasco</a></h3>
-
-<p class="text-slate-600 dark:text-gray-400 mb-8 leading-relaxed select-none">
-He developed <strong>The Frog Project</strong>, an ecosystem of smart and multipurpose tools for Students, Architects, Engineers, Builders, etc. . The goal was simple : Engineer an ecosystem of smart tools that acts as a force multiplier for architects and builders. Let the software handle the heavy lifting, ensure the accuracy and speed while working, so professionals can focus on pure design and execution.
-                    </p>
-
-                    <div class="flex gap-4 border-t border-slate-200 dark:border-white/10 pt-6 transition-colors duration-300">
-                        <div class="text-sm">
-                            <span class="block text-slate-900 dark:text-white font-semibold text-xl">8</span>
-
-                            <span class="text-slate-500 dark:text-gray-500 uppercase tracking-wider text-xs font-medium">Powerful Tools</span>
-                        </div>
-                        <div class="text-sm border-l border-slate-200 dark:border-white/10 pl-4 transition-colors duration-300">
-                            <span class="block text-slate-900 dark:text-white font-semibold text-xl">1</span>
-                            <span class="text-slate-500 dark:text-gray-500 uppercase tracking-wider text-xs font-medium">Unified Ecosystem</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- The Ecosystem (Apps) Section -->
-    <section id="ecosystem" class="py-16 sm:py-24 bg-slate-100/70 dark:bg-[#0a0d11]/70 backdrop-blur-2xl border-t border-slate-200/50 dark:border-white/5 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-6">
+    <!-- The Ecosystem (Apps) Section (Snappable) -->
+    <section id="ecosystem" class="relative h-screen flex flex-col justify-center items-center bg-slate-100/70 dark:bg-[#0a0d11]/70 backdrop-blur-2xl border-t border-slate-200/50 dark:border-white/5 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 w-full">
             
-            <div class="text-center mb-16 reveal-up">
-                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-frog-dark dark:text-frog neon-title neon-pulse">THE FROG PROJECT: <span class="text-slate-900 dark:text-white">8-TOOL ECOSYSTEM</span></h2>
-
-
-                <p class="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">Select a tool to download and instantly integrate it into your workflow. Experience seamless synchronization and intelligent automation.</p>
+            <div class="text-center mb-8">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-frog-dark dark:text-frog neon-title neon-pulse">8-TOOL ECOSYSTEM</h2>
             </div>
 
-            <!-- Tool Rail & Spotlight UI -->
-            <div class="flex flex-col lg:flex-row gap-8 items-start">
-                <!-- Left: Interactive Rail -->
-                <div class="w-full lg:w-1/3 flex flex-col gap-3 max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar" id="toolRail">
-                    <!-- Items populated by JS -->
-                </div>
+            <!-- Compact Timeline Band -->
+            <div class="mb-10 flex items-center justify-between gap-2 sm:gap-4 opacity-50 px-2 sm:px-10">
+                <div class="flex items-center gap-2"><span class="font-bold">01</span><span class="text-[10px] uppercase">Inception</span></div>
+                <div class="h-[1px] flex-grow bg-frog/20"></div>
+                <div class="flex items-center gap-2"><span class="font-bold">02</span><span class="text-[10px] uppercase">Growth</span></div>
+                <div class="h-[1px] flex-grow bg-frog/20"></div>
+                <div class="flex items-center gap-2 text-frog"><span class="font-bold">03</span><span class="text-[10px] uppercase">Delivery</span></div>
+            </div>
 
-                <!-- Right: Tool Spotlight -->
-                <div class="w-full lg:w-2/3 lg:sticky lg:top-20">
-                    <div id="toolSpotlight" class="bg-white dark:bg-card border border-slate-200 dark:border-white/10 rounded-[2rem] p-6 sm:p-8 lg:p-10 min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] flex flex-col justify-center transition-all duration-500 shadow-2xl">
-                        <div class="flex items-center gap-6 mb-8">
-                            <div id="spotlightIcon" class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl">
-                                <i class="ph-bold ph-lightning"></i>
-                            </div>
-                            <div>
-                                <h3 id="spotlightTitle" class="text-4xl font-display font-bold text-slate-900 dark:text-white uppercase tracking-tight">Select a Tool</h3>
-                                <span id="spotlightStatus" class="text-xs font-bold text-frog uppercase tracking-widest">Active System</span>
-                            </div>
-                        </div>
-                        <p id="spotlightDesc" class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10 max-w-xl">
-                            Click on any tool in the rail to see how it can revolutionize your architectural workflow with automated precision.
-                        </p>
-                        <div id="spotlightAction">
-                             <!-- Download button injected here -->
-                        </div>
-                    </div>
-                </div>
+            <!-- Compact Tool Grid (Pop-up Triggers) -->
+            <div id="toolGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Populated by JS -->
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-200/70 dark:bg-[#05070a]/70 backdrop-blur-2xl py-12 border-t border-slate-300/50 dark:border-white/5 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex items-center justify-center gap-2 mb-6 cursor-pointer" onclick="window.scrollTo(0,0)">
-                <i class="ph-fill ph-frog text-2xl text-frog-dark dark:text-frog"></i>
-                <span class="font-display font-bold text-lg tracking-tight text-slate-900 dark:text-white">THE FROG PROJECT</span>
-            </div>
-            <p class="text-slate-500 dark:text-gray-500 text-sm mb-2">Developed by John Lloyd N. Velasco</p>
-<p class="text-slate-400 dark:text-gray-600 text-xs">@2026 The Frog Project. All rights reserved</p>
-        </div>
-    </footer>
+    <!-- Footer (Embedded in Ecosystem to save screen space) -->
+    <div class="absolute bottom-6 w-full text-center opacity-40 hover:opacity-100 transition-opacity">
+        <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500 dark:text-gray-500">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
+    </div>
 
     </div> <!-- End Main Content Wrapper -->
     </div> <!-- End Transition Wrapper -->
 
+    <!-- Modal Overlay System -->
+    <div id="modalOverlay" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/80 backdrop-blur-md px-4">
+        <div class="modal-box bg-white dark:bg-card w-full max-w-2xl rounded-3xl overflow-hidden relative border border-white/10 shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-frog transition-colors text-2xl z-20">
+                <i class="ph-bold ph-x"></i>
+            </button>
+            <div id="modalContent" class="p-8 sm:p-12 max-h-[85vh] overflow-y-auto hide-scrollbar">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
     <!-- Notification Modal (Hidden by default) -->
-    <div id="downloadToast" class="fixed bottom-10 right-10 bg-white dark:bg-card border border-frog/30 text-slate-900 dark:text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
+    <div id="downloadToast" class="fixed bottom-6 right-6 bg-white dark:bg-card border border-frog/30 text-slate-900 dark:text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
         <div class="w-10 h-10 rounded-full bg-frog/20 dark:bg-frog/10 flex items-center justify-center text-frog-dark dark:text-frog">
             <i class="ph-bold ph-check text-xl"></i>
         </div>
@@ -483,34 +432,72 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
             { name: "FROG CLOUD", icon: "ph-cloud", desc: "Centralized ecosystem data hosting.", status: "Under Construction", color: "slate-400" }
         ];
 
-        const toolRail = document.getElementById('toolRail');
+        const toolGrid = document.getElementById('toolGrid');
         tools.forEach((tool, index) => {
             const div = document.createElement('div');
-            div.className = `p-5 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/40 dark:bg-card/40 cursor-pointer transition-all duration-300 hover:border-frog/50 group flex items-center gap-4 reveal-up`;
+            div.className = `p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/40 dark:bg-card/40 cursor-pointer transition-all duration-300 hover:border-frog/50 hover:bg-frog/5 flex flex-col items-center justify-center text-center gap-3 group reveal-up`;
             div.innerHTML = `
-                <i class="ph-bold ${tool.icon} text-2xl ${tool.name === 'SPACE FROG' ? 'text-frog' : 'text-slate-500'}"></i>
-                <div>
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">${tool.name}</h4>
-                    <p class="text-xs opacity-50">${tool.status}</p>
-                </div>
+                <i class="ph-bold ${tool.icon} text-3xl sm:text-4xl ${tool.name === 'SPACE FROG' ? 'text-frog' : 'text-slate-500'} group-hover:scale-110 transition-transform"></i>
+                <h4 class="font-bold text-[10px] sm:text-xs uppercase tracking-widest text-slate-900 dark:text-white">${tool.name}</h4>
             `;
-            div.onclick = () => selectTool(index, div);
-            toolRail.appendChild(div);
-            if (tool.name === 'SPACE FROG') selectTool(index, div);
+            div.onclick = () => openToolModal(index);
+            toolGrid.appendChild(div);
         });
 
-        function selectTool(index, element) {
-            document.querySelectorAll('#toolRail > div').forEach(el => el.classList.remove('tool-card-active'));
-            element.classList.add('tool-card-active');
+        // Modal Control Logic
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalContent = document.getElementById('modalContent');
+
+        function openToolModal(index) {
             const tool = tools[index];
-            document.getElementById('spotlightTitle').innerText = tool.name;
-            document.getElementById('spotlightDesc').innerText = tool.desc;
-            document.getElementById('spotlightStatus').innerText = tool.status;
-            document.getElementById('spotlightIcon').innerHTML = `<i class="ph-bold ${tool.icon}"></i>`;
-            document.getElementById('spotlightAction').innerHTML = tool.name === 'SPACE FROG' 
-                ? `<button onclick="handleDownload('SPACE FROG')" class="px-10 py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-105 transition-transform flex items-center gap-2">Download App <i class="ph-bold ph-download"></i></button>`
-                : `<div class="text-slate-500 font-medium italic">Integration pending release...</div>`;
+            modalContent.innerHTML = `
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
+                    <div>
+                        <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase">${tool.name}</h3>
+                        <span class="text-xs font-bold text-frog uppercase tracking-widest">${tool.status}</span>
+                    </div>
+                </div>
+                <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
+                ${tool.name === 'SPACE FROG' 
+                    ? `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`
+                    : `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center">System integration pending public release.</div>`}
+            `;
+            modalOverlay.classList.add('active');
         }
+
+        function openDevModal() {
+            modalContent.innerHTML = `
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog mb-6 shadow-2xl">
+                        <img src="./profile.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-white mb-2 uppercase">John Lloyd N. Velasco</h3>
+                    <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Principal Architect & Developer</p>
+                    <p class="text-slate-400 leading-relaxed mb-8">
+                        Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 w-full">
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
+                            <span class="block text-2xl font-bold text-frog">8</span>
+                            <span class="text-[10px] uppercase opacity-50">Smart Tools</span>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
+                            <span class="block text-2xl font-bold text-frog">1</span>
+                            <span class="text-[10px] uppercase opacity-50">Unified Hub</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // Close on escape key
+        window.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
 
         // Audio Initialization
         const frogSound = new Audio('./freesound_community-frog-39142.mp3');
