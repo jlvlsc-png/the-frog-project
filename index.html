@@ -89,6 +89,24 @@
             box-shadow: 0 0 18px rgba(180,240,42,0.35);
         }
 
+        /* Cinematic Iris Morph Transition */
+        .iris-reveal {
+            clip-path: circle(0% at 50% 50%);
+            animation: irisIn 1.2s cubic-bezier(0.9, 0, 0.1, 1) forwards;
+        }
+        @keyframes irisIn {
+            0% { clip-path: circle(0% at 50% 50%); }
+            100% { clip-path: circle(150% at 50% 50%); }
+        }
+
+        /* Liquid Morph Animation */
+        @keyframes morph {
+            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: scale(1) rotate(0deg); }
+            33% { border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%; transform: scale(1.1) rotate(120deg); }
+            66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: scale(1.2) rotate(240deg); }
+        }
+        .blob-morph { animation: morph 8s linear infinite; }
+
         * { user-select: none; -webkit-user-select: none; }
 
         /* Tool Rail Scrollbar */
@@ -107,21 +125,36 @@
 
     <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
 
-    <!-- Splash Screen Overlay -->
-    <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0F1319] overflow-hidden transition-opacity duration-700">
-
-        <div class="text-center">
-            <h1 class="font-display text-4xl md:text-6xl font-bold text-white mb-4 glow-on-land">
-                The Fr<span class="animate-fall">🐸</span>g Project
-            </h1>
-            <p class="splash-subtitle text-frog font-medium tracking-[0.3em] uppercase text-sm">by John Lloyd Velasco</p>
+    <!-- Futuristic Morphing Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#06080a] overflow-hidden transition-all duration-1000">
+        <div class="relative flex items-center justify-center">
+            <!-- Morphing Background Blob -->
+            <div class="absolute w-64 h-64 bg-frog/20 blur-[80px] blob-morph"></div>
+            <div class="absolute w-48 h-48 border border-frog/30 blob-morph"></div>
+            
+            <div class="relative text-center z-10">
+                <div class="mb-6 inline-block">
+                    <svg class="w-20 h-20 text-frog animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 10l5 5 5-5M12 15V3" />
+                        <path d="M12 15c-3 0-5 2-5 5h10c0-3-2-5-5-5z" />
+                    </svg>
+                </div>
+                <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-2 tracking-tighter">
+                    FRO<span class="text-frog">G</span>
+                </h1>
+                <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-frog to-transparent mb-4 opacity-50"></div>
+                <p class="text-frog text-xs font-bold tracking-[0.5em] uppercase opacity-70">Initializing Ecosystem</p>
+            </div>
         </div>
     </div>
 
     <div id="main-content-wrapper" class="opacity-0 transition-all duration-1000 scale-105">
 
-    <!-- Futuristic background overlays -->
-    <div class="fixed inset-0 pointer-events-none z-[-1]">
+    <!-- Moving Graphic Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s"></div>
+        <!-- Animated Grid -->
         <div class="absolute inset-0 neon-grid opacity-30"></div>
         <div class="absolute inset-0 neon-sweep scanlines opacity-40"></div>
     </div>
@@ -328,6 +361,13 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
         // Particle Background Logic
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
+        const mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        
         let particles = [];
         
         function resize() {
@@ -341,11 +381,23 @@ He developed <strong>The Frog Project</strong>, an ecosystem of smart and multip
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
                 this.radius = Math.random() * 2;
+                this.baseX = this.x;
+                this.baseY = this.y;
             }
             update() {
+                // Mouse Interaction (Flee)
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    this.x -= dx * force * 0.2;
+                    this.y -= dy * force * 0.2;
+                }
+
                 this.x += this.vx;
                 this.y += this.vy;
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
