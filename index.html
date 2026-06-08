@@ -473,12 +473,27 @@
                     <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
                     <div>
                         <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
-                        <span class="text-xs font-bold text-frog uppercase tracking-widest">${tool.status}</span>
+                        <span class="text-xs font-bold text-frog uppercase tracking-widest" id="toolStatus">${tool.status}</span>
                     </div>
                 </div>
                 <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
                 ${tool.name === 'SPACE FROG' 
-                    ? `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`
+                    ? (() => {
+                        const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000'); // Set release date to Friday, June 12, 2026
+                        const now = new Date();
+                        if (now < releaseDate) {
+                            // Update status for countdown
+                            document.getElementById('toolStatus').innerText = 'Releasing Soon';
+                            setTimeout(() => startCountdown(releaseDate, tool.name), 0); // Start countdown after modal is rendered
+                            return `<div id="countdownTimer" class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center text-lg font-bold">
+                                        Release in: --d --h --m --s
+                                    </div>`;
+                        } else {
+                            // Update status for download
+                            document.getElementById('toolStatus').innerText = 'Available Now';
+                            return `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                        }
+                    })()
                     : `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
                         <i class="ph-bold ph-gear animate-spin"></i>
                         <span>Under Construction</span>
@@ -528,6 +543,7 @@
         // Audio Initialization
         const frogSound = new Audio('./freesound_community-frog-39142.mp3');
         frogSound.preload = 'auto';
+        let countdownInterval; // Declare countdownInterval globally
         const clickSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
         clickSound.preload = 'auto';
         let soundPlayed = false;
@@ -565,6 +581,36 @@
                 }, { once: true });
             });
         });
+
+        function startCountdown(releaseDate, appName) {
+            const countdownElement = document.getElementById('countdownTimer');
+            if (!countdownElement) return;
+
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = releaseDate.getTime() - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.outerHTML = `<button onclick="handleDownload('${appName}'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = `Release in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
 
         // Splash Screen Lifecycle
         window.addEventListener('load', () => {
