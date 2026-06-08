@@ -161,7 +161,7 @@
             0% { background-position: -200% center; }
             100% { background-position: 200% center; }
         }
-        .shimmer-text { background: linear-gradient(90deg, currentColor 0%, #B4F02A 50%, currentColor 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textShimmer 6s linear infinite; }
+        .shimmer-text { background: linear-gradient(90deg, currentColor 0%, #B4F02A 50%, currentColor 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: textShimmer 6s linear infinite; }
 
         @keyframes sweep {
             0% { transform: translateX(-100%); }
@@ -254,7 +254,7 @@
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center z-10 w-full">
             
             <!-- Left Content: Text & Info -->
-            <div class="lg:col-span-7">
+            <div class="lg:col-span-12">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 text-frog-dark dark:text-frog text-sm font-medium mb-6 neon-pulse">
                     <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-frog opacity-75"></span>
@@ -291,11 +291,6 @@
                 </div>
             </div>
 
-            <!-- Adjust the col-span for the left content now that the right panel is removed -->
-            <div class="lg:col-span-12">
-                <!-- Content will now take full width on large screens -->
-            </div>
-        </div>
     </section>
 
     <!-- The Ecosystem (Apps) Section (Snappable) -->
@@ -484,7 +479,11 @@
                 <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
                 ${tool.name === 'SPACE FROG' 
                     ? `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`
-                    : `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center">System integration pending public release.</div>`}
+                    : `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
+                        <i class="ph-bold ph-gear animate-spin"></i>
+                        <span>Under Construction</span>
+                        <i class="ph-bold ph-gear animate-spin" style="animation-direction: reverse;"></i>
+                       </div>`}
                 </div>
             `;
             modalOverlay.classList.add('active');
@@ -497,7 +496,9 @@
                         <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
                         <img src="./profile.jpg" class="w-full h-full object-cover relative z-10">
                     </div>
-                    <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text">John Lloyd N. Velasco</h3>
+                    <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text hover:text-frog transition-colors duration-300">
+                        <h3>John Lloyd N. Velasco</h3>
+                    </a>
                     <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Founder & Developer</p>
                     <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8">
                         Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
@@ -527,7 +528,14 @@
         // Audio Initialization
         const frogSound = new Audio('./freesound_community-frog-39142.mp3');
         frogSound.preload = 'auto';
+        const clickSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
+        clickSound.preload = 'auto';
         let soundPlayed = false;
+
+        function playClickSound() {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
+        }
 
         function playFrogSound() {
             if (!soundPlayed) {
