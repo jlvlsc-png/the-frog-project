@@ -36,12 +36,17 @@
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
+                        'fall': 'fall 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-20px)' },
-                        }
+                        },
+                        fall: {
+                            '0%': { transform: 'translateY(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
                     }
                 }
             }
@@ -49,155 +54,43 @@
     </script>
 
     <style>
-        /* Custom Smooth Scroll & Animations */
-        html, body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
+        html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+
+        /* Minimal motion for obvious feedback (fixes editor CSS errors reliably) */
+        @keyframes neonPulse {
+            0% { filter: drop-shadow(0 0 6px rgba(180,240,42,0.20)); opacity: 0.85; }
+            50% { filter: drop-shadow(0 0 14px rgba(180,240,42,0.45)); opacity: 1; }
+            100% { filter: drop-shadow(0 0 6px rgba(180,240,42,0.20)); opacity: 0.85; }
         }
 
+        .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; }
 
-        /* Themed Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #CBD5E1; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94A3B8; 
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #2D3748; 
-        }
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: #4A5568; 
-        }
-
-        /* Smooth Reveal Animations (futuristic UI) */
-        .reveal-up,
-        .reveal-scale {
-            opacity: 0;
-            transform: translateY(26px);
-            transition:
-                opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-                transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .reveal-scale {
-            transform: translateY(26px) scale(0.98);
-        }
-
-        .reveal-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-scale.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+        .glow-text { text-shadow: 0 0 15px rgba(180,240,42,0.4); }
 
         @media (prefers-reduced-motion: reduce) {
-            .reveal-up,
-            .reveal-scale {
-                transition: none !important;
-                transform: none !important;
-                opacity: 1 !important;
-            }
+            .neon-pulse { animation: none !important; }
         }
 
-        /* Staggered transition delays for grid items */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-        .delay-400 { transition-delay: 400ms; }
+        /* Keep reveal + underline that your markup uses */
+        .reveal-up, .reveal-scale { opacity: 0; transform: translateY(26px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+        .reveal-scale { transform: translateY(26px) scale(0.98); }
+        .reveal-up.visible { opacity: 1; transform: translateY(0); }
+        .reveal-scale.visible { opacity: 1; transform: translateY(0) scale(1); }
 
-        /* Subtle Glow Effects */
-        .glow-text {
-            text-shadow: 0 0 30px rgba(180, 240, 42, 0.3);
+        .neon-title { position: relative; }
+        .neon-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(180,240,42,0) 0%, rgba(180,240,42,0.7) 20%, rgba(180,240,42,0.7) 80%, rgba(180,240,42,0) 100%);
+            box-shadow: 0 0 18px rgba(180,240,42,0.35);
         }
-        
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 0%, rgba(180,240,42,0.18) 0%, transparent 62%);
-        }
-
-        /* Futuristic ambient background drift */
-        .bg-ambient {
-            animation: bgDrift 14s ease-in-out infinite;
-        }
-
-        @keyframes bgDrift {
-            0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.95; }
-            50% { transform: translate3d(-18px, 14px, 0) scale(1.02); opacity: 1; }
-        }
-
-        /* Landing intro animations */
-        @keyframes revealSoft {
-            from { opacity: 0; transform: translateY(18px) scale(0.99); filter: blur(6px); }
-            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
-        }
-        .intro-fade {
-            opacity: 0;
-            animation: revealSoft 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .intro-fade.delay-1 { animation-delay: 140ms; }
-        .intro-fade.delay-2 { animation-delay: 280ms; }
-        .intro-fade.delay-3 { animation-delay: 420ms; }
-
-        @keyframes floaty {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .floaty {
-            animation: floaty 5.5s ease-in-out infinite;
-        }
-
-        @keyframes spin-slow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-            display: inline-block;
-            animation: spin-slow 4s linear infinite;
-        }
-
-        /* Splash Screen Animations */
-        @keyframes fall {
-            0% { transform: translateY(-100vh); opacity: 0; }
-            70% { transform: translateY(0); opacity: 1; }
-            85% { transform: translateY(-15px); }
-            100% { transform: translateY(0); }
-        }
-        .animate-fall {
-            display: inline-block;
-            animation: fall 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        @keyframes glowAppear {
-            to { text-shadow: 0 0 15px #B4F02A, 0 0 30px #B4F02A, 0 0 45px rgba(180, 240, 42, 0.5); }
-        }
-        .glow-on-land {
-            animation: glowAppear 0.8s forwards;
-            animation-delay: 1s;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .splash-subtitle {
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.6s ease-out forwards;
-            animation-delay: 0.35s;
-        }
-
 
         * { user-select: none; -webkit-user-select: none; }
-</style>
+    </style>
 </head>
 <body class="antialiased selection:bg-frog selection:text-slate-900 bg-slate-50 dark:bg-bg text-slate-900 dark:text-white transition-colors duration-300 select-none">
 
@@ -213,8 +106,16 @@
     </div>
 
     <div id="main-content-wrapper" class="opacity-0 transition-all duration-1000 scale-105">
+
+    <!-- Futuristic background overlays -->
+    <div class="fixed inset-0 pointer-events-none z-[-1]">
+        <div class="absolute inset-0 neon-grid opacity-30"></div>
+        <div class="absolute inset-0 neon-sweep scanlines opacity-40"></div>
+    </div>
+
     <!-- Fixed Background Logo -->
     <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center mix-blend-overlay dark:mix-blend-screen">
+
         <img src="./logo.png" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.18]" />
 
     </div>
@@ -242,7 +143,8 @@
                 
                 <!-- Looping ambient background overlays (smooth) -->
                 <div class="bg-ambient absolute inset-0 pointer-events-none z-[-1]" aria-hidden="true"></div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 dark:bg-frog/5 text-frog-dark dark:text-frog text-sm font-medium mb-8 intro-fade delay-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 dark:bg-frog/5 text-frog-dark dark:text-frog text-sm font-medium mb-8 intro-fade delay-1 neon-pulse">
+
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-frog opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-frog"></span>
@@ -250,7 +152,8 @@
                 Introducing an 8-Tool Ecosystem
             </div>
             
-            <h1 class="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 reveal-up delay-100 intro-fade delay-2 glow-text leading-tight text-slate-900 dark:text-white">
+<h1 class="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 reveal-up delay-100 intro-fade delay-2 glow-text leading-tight text-slate-900 dark:text-white neon-title">
+
                 Work Smarter, <br />
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-frog-dark to-green-500 dark:from-frog dark:to-green-400">Leap Further.</span>
             </h1>
@@ -261,8 +164,16 @@
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up delay-300 intro-fade delay-3">
                 <a href="#ecosystem" class="w-full sm:w-auto px-8 py-4 bg-frog text-slate-900 font-bold rounded-xl hover:bg-frog-light transition-all flex items-center justify-center gap-2 hover:-translate-y-1 shadow-lg shadow-frog/20">
+                        <span class="inline-flex items-center justify-center" style="width:22px;height:22px; position:relative;">
+                        <span id="forceAnimDot" style="display:inline-block; width:10px; height:10px; border-radius:9999px; background: rgb(180,240,42);
+                          box-shadow: 0 0 12px rgba(180,240,42,0.55), 0 0 28px rgba(180,240,42,0.25);
+                          transform: translateY(0) scale(1);
+                          opacity: 1;
+                          animation: neonPulse 0.8s ease-in-out infinite;"></span>
+                    </span>
                     Explore the Apps <i class="ph-bold ph-arrow-down"></i>
                 </a>
+
                 <a href="#developer" class="w-full sm:w-auto px-8 py-4 bg-slate-200 dark:bg-white/5 text-slate-800 dark:text-white font-medium rounded-xl hover:bg-slate-300 dark:hover:bg-white/10 transition-all border border-slate-300 dark:border-white/10 flex items-center justify-center gap-2">
                     Meet the Developer
                 </a>
@@ -289,7 +200,7 @@
                     <h3 class="text-2xl text-frog-dark dark:text-frog font-medium mb-6"><a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" class="select-none">John Lloyd N. Velasco</a></h3>
 
 <p class="text-slate-600 dark:text-gray-400 mb-8 leading-relaxed select-none">
-He developed <span class="text-slate-900 dark:text-white">The Frog Project</span>, an ecosystem of smart and multipurpose tools for Students, Architects, Engineers, Builders, etc. . The goal was simple : Engineer an ecosystem of smart tools that acts as a force multiplier for architects and builders. Let the software handle the heavy lifting, ensure the accuracy and speed while working, so professionals can focus on pure design and execution.
+He developed <strong>The Frog Project</strong>, an ecosystem of smart and multipurpose tools for Students, Architects, Engineers, Builders, etc. . The goal was simple : Engineer an ecosystem of smart tools that acts as a force multiplier for architects and builders. Let the software handle the heavy lifting, ensure the accuracy and speed while working, so professionals can focus on pure design and execution.
                     </p>
 
                     <div class="flex gap-4 border-t border-slate-200 dark:border-white/10 pt-6 transition-colors duration-300">
@@ -313,7 +224,9 @@ He developed <span class="text-slate-900 dark:text-white">The Frog Project</span
         <div class="max-w-7xl mx-auto px-6">
             
             <div class="text-center mb-16 reveal-up">
-                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-frog-dark dark:text-frog">THE FROG PROJECT: <span class="text-slate-900 dark:text-white">8-TOOL ECOSYSTEM</span></h2>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-frog-dark dark:text-frog neon-title neon-pulse">THE FROG PROJECT: <span class="text-slate-900 dark:text-white">8-TOOL ECOSYSTEM</span></h2>
+
+
                 <p class="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">Select a tool to download and instantly integrate it into your workflow. Experience seamless synchronization and intelligent automation.</p>
             </div>            <!-- Ecosystem Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
