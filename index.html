@@ -150,6 +150,24 @@
         }
         .blob-morph { animation: morph 8s linear infinite; }
 
+        /* New: Header/Navbar Animations */
+        @keyframes navGlow {
+            0%, 100% { border-bottom-color: rgba(180, 240, 42, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+            50% { border-bottom-color: rgba(180, 240, 42, 0.4); box-shadow: 0 4px 30px rgba(180, 240, 42, 0.1); }
+        }
+        .nav-animate { animation: navGlow 4s ease-in-out infinite; }
+
+        @keyframes textShimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .shimmer-text { background: linear-gradient(90deg, currentColor 0%, #B4F02A 50%, currentColor 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textShimmer 6s linear infinite; }
+
+        @keyframes sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(300%); }
+        }
+
         @keyframes modalBlob {
             0%, 100% { transform: translate(0, 0) scale(1); }
             33% { transform: translate(40px, -60px) scale(1.2); }
@@ -219,11 +237,14 @@
     <div class="relative z-10">
 
     <!-- Sticky Navigation (Theme Toggle Only) -->
-    <nav class="fixed w-full z-50 top-0 transition-all duration-300 backdrop-blur-md bg-slate-50/80 dark:bg-bg/80 border-b border-slate-200 dark:border-white/5" id="navbar">
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 backdrop-blur-md bg-slate-50/80 dark:bg-bg/80 border-b border-slate-200 dark:border-white/5 nav-animate overflow-hidden" id="navbar">
+        <div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+            <div class="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-frog/10 to-transparent -skew-x-12 animate-[sweep_8s_linear_infinite]"></div>
+        </div>
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center transition-all duration-300" id="navContainer">
             <div class="flex items-center gap-2 cursor-pointer group select-none" onclick="toggleTheme(event)">
-                <i class="ph-fill ph-frog text-3xl text-frog-dark dark:text-frog group-hover:scale-110 transition-transform duration-300"></i>
-                <span class="font-display font-bold text-xl tracking-tight text-slate-900 dark:text-white group-active:scale-95 transition-transform duration-300">THE FROG PROJECT</span>
+                <i class="ph-fill ph-frog text-3xl text-frog-dark dark:text-frog group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-frog-bounce"></i>
+                <span class="font-display font-bold text-xl tracking-[0.2em] text-slate-900 dark:text-white shimmer-text group-hover:tracking-[0.4em] transition-all duration-500">THE FROG PROJECT</span>
             </div>
         </div>
     </nav>
