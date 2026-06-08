@@ -150,6 +150,13 @@
         }
         .blob-morph { animation: morph 8s linear infinite; }
 
+        @keyframes modalBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -60px) scale(1.2); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+        .animate-modal-blob { animation: modalBlob 12s infinite alternate ease-in-out; }
+
         * { user-select: none; -webkit-user-select: none; }
 
         /* Tool Rail Scrollbar */
@@ -303,12 +310,20 @@
     </div> <!-- End Transition Wrapper -->
 
     <!-- Modal Overlay System -->
-    <div id="modalOverlay" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/80 backdrop-blur-md px-4">
-        <div class="modal-box bg-white dark:bg-card w-full max-w-2xl rounded-3xl overflow-hidden relative border border-white/10 shadow-2xl">
+    <div id="modalOverlay" class="fixed inset-0 z-[200] items-center justify-center bg-black/90 backdrop-blur-lg px-4">
+        <div class="modal-box bg-white/90 dark:bg-card/90 backdrop-blur-2xl w-full max-w-2xl rounded-[2.5rem] overflow-hidden relative border border-white/10 shadow-2xl">
+            <!-- Modal Background Animations -->
+            <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-50 dark:opacity-70">
+                <div class="absolute -top-[30%] -left-[30%] w-[80%] h-[80%] bg-frog/15 rounded-full blur-[120px] animate-modal-blob"></div>
+                <div class="absolute -bottom-[30%] -right-[30%] w-[80%] h-[80%] bg-blue-500/10 rounded-full blur-[120px] animate-modal-blob" style="animation-delay: -6s"></div>
+                <div class="absolute inset-0 neon-grid opacity-20"></div>
+                <div class="absolute inset-0 neon-sweep opacity-10"></div>
+            </div>
+
             <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-frog transition-colors text-2xl z-20">
                 <i class="ph-bold ph-x"></i>
             </button>
-            <div id="modalContent" class="p-8 sm:p-12 max-h-[85vh] overflow-y-auto hide-scrollbar">
+            <div id="modalContent" class="p-8 sm:p-12 max-h-[85vh] overflow-y-auto hide-scrollbar relative z-10">
                 <!-- Dynamic content -->
             </div>
         </div>
@@ -437,10 +452,11 @@
         function openToolModal(index) {
             const tool = tools[index];
             modalContent.innerHTML = `
+                <div class="relative z-10">
                 <div class="flex items-center gap-6 mb-8">
                     <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
                     <div>
-                        <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase">${tool.name}</h3>
+                        <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
                         <span class="text-xs font-bold text-frog uppercase tracking-widest">${tool.status}</span>
                     </div>
                 </div>
@@ -448,19 +464,21 @@
                 ${tool.name === 'SPACE FROG' 
                     ? `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`
                     : `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center">System integration pending public release.</div>`}
+                </div>
             `;
             modalOverlay.classList.add('active');
         }
 
         function openDevModal() {
             modalContent.innerHTML = `
-                <div class="flex flex-col items-center text-center">
-                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog mb-6 shadow-2xl">
-                        <img src="./profile.jpg" class="w-full h-full object-cover">
+                <div class="flex flex-col items-center text-center relative z-10">
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog mb-6 shadow-2xl relative">
+                        <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
+                        <img src="./profile.jpg" class="w-full h-full object-cover relative z-10">
                     </div>
-                    <h3 class="text-2xl font-display font-bold text-white mb-2 uppercase">John Lloyd N. Velasco</h3>
+                    <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text">John Lloyd N. Velasco</h3>
                     <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Founder & Developer</p>
-                    <p class="text-slate-400 leading-relaxed mb-8">
+                    <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8">
                         Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
                     </p>
                     <div class="grid grid-cols-2 gap-4 w-full">
