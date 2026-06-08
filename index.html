@@ -467,41 +467,53 @@
 
         function openToolModal(index) {
             const tool = tools[index];
+            let actionHtml = '';
+            let statusText = tool.status; // Default status
+
+            if (tool.name === 'SPACE FROG') {
+                const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000'); // Set release date to Friday, June 12, 2026
+                const now = new Date();
+
+                if (now < releaseDate) {
+                    statusText = 'Releasing Soon';
+                    actionHtml = `<div id="countdownTimer" class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center text-lg font-bold">
+                                        Release in: --d --h --m --s
+                                    </div>`;
+                } else {
+                    statusText = 'Available Now';
+                    actionHtml = `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                }
+            } else {
+                actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
+                                <i class="ph-bold ph-gear animate-spin"></i>
+                                <span>Under Construction</span>
+                                <i class="ph-bold ph-gear animate-spin" style="animation-direction: reverse;"></i>
+                               </div>`;
+            }
+
             modalContent.innerHTML = `
                 <div class="relative z-10">
                 <div class="flex items-center gap-6 mb-8">
                     <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
                     <div>
                         <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
-                        <span class="text-xs font-bold text-frog uppercase tracking-widest" id="toolStatus">${tool.status}</span>
+                        <span class="text-xs font-bold text-frog uppercase tracking-widest" id="toolStatus">${statusText}</span>
                     </div>
                 </div>
                 <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
-                ${tool.name === 'SPACE FROG' 
-                    ? (() => {
-                        const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000'); // Set release date to Friday, June 12, 2026
-                        const now = new Date();
-                        if (now < releaseDate) {
-                            // Update status for countdown
-                            document.getElementById('toolStatus').innerText = 'Releasing Soon';
-                            setTimeout(() => startCountdown(releaseDate, tool.name), 0); // Start countdown after modal is rendered
-                            return `<div id="countdownTimer" class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center text-lg font-bold">
-                                        Release in: --d --h --m --s
-                                    </div>`;
-                        } else {
-                            // Update status for download
-                            document.getElementById('toolStatus').innerText = 'Available Now';
-                            return `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
-                        }
-                    })()
-                    : `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
-                        <i class="ph-bold ph-gear animate-spin"></i>
-                        <span>Under Construction</span>
-                        <i class="ph-bold ph-gear animate-spin" style="animation-direction: reverse;"></i>
-                       </div>`}
+                ${actionHtml}
                 </div>
             `;
             modalOverlay.classList.add('active');
+
+            // Now that the modal content is in the DOM, start the countdown if applicable
+            if (tool.name === 'SPACE FROG') {
+                const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000');
+                const now = new Date();
+                if (now < releaseDate) {
+                    startCountdown(releaseDate, tool.name);
+                }
+            }
         }
 
         function openDevModal() {
@@ -535,6 +547,11 @@
 
         function closeModal() {
             modalOverlay.classList.remove('active');
+            // Clear countdown interval when modal is closed
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null; // Reset to null
+            }
         }
 
         // Close on escape key
