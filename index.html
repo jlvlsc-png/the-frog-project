@@ -751,6 +751,32 @@
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
         }
+
+        // --- SECURITY & PRIVACY: ANTI-INSPECTION LOGIC ---
+        
+        // 1. Disable Right-Click (Context Menu)
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        // 2. Disable Common DevTools Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                (e.ctrlKey && e.key === 'U') ||
+                (e.ctrlKey && e.key === 'S')
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 3. Debugger Trap (Optional/Aggressive)
+        // This pauses the execution of the page if the DevTools console is opened.
+        setInterval(() => {
+            (function() {
+                return false;
+            }['constructor']('debugger')());
+        }, 2000);
     </script>
 </body>
 </html>
