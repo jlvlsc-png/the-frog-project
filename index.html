@@ -446,7 +446,7 @@
         const tools = [
             { name: "BUILDSYNC", icon: "ph-arrows-clockwise", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
             { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "Available Now", color: "frog" },
-            { name: "SITE FROG", icon: "ph-map-pin", desc: "Smart Site analysis & automated earthworks data.", status: "Under Construction", color: "slate-400" },
+            { name: "SITE FROG", icon: "ph-map-pin", desc: "Smart Site analysis & automated earthworks data.", status: "On Progress", color: "blue-500" },
             { name: "3D FROG", icon: "ph-cube", desc: "Lightweight 2D/3D modeling bridging tools.", status: "Under Construction", color: "slate-400" },
             { name: "SPEC FROG", icon: "ph-file-text", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
             { name: "FROG REVIEW", icon: "ph-magnifying-glass", desc: "Smart Board Exam mastery for future staff.", status: "Under Construction", color: "slate-400" },
@@ -459,7 +459,7 @@
             const div = document.createElement('div');
             div.className = `p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/40 dark:bg-card/40 cursor-pointer transition-all duration-300 hover:border-frog/50 hover:bg-frog/5 flex flex-col items-center justify-center text-center gap-3 group reveal-up`;
             div.innerHTML = `
-                <i class="ph-bold ${tool.icon} text-3xl sm:text-4xl ${tool.name === 'SPACE FROG' ? 'text-frog' : 'text-slate-500'} group-hover:scale-110 transition-transform"></i>
+                <i class="ph-bold ${tool.icon} text-3xl sm:text-4xl ${tool.name === 'SPACE FROG' ? 'text-frog' : (tool.name === 'SITE FROG' ? 'text-blue-500' : 'text-slate-500')} group-hover:scale-110 transition-transform"></i>
                 <h4 class="font-bold text-[10px] sm:text-xs uppercase tracking-widest text-slate-900 dark:text-white">${tool.name}</h4>
             `;
             div.onclick = () => openToolModal(index);
@@ -474,6 +474,7 @@
             const tool = tools[index];
             let actionHtml = '';
             let statusText = tool.status; // Default status
+            let statusColor = tool.name === 'SITE FROG' ? 'text-blue-500' : 'text-frog';
 
             if (tool.name === 'SPACE FROG') {
                 const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000'); // Set release date to Friday, June 12, 2026
@@ -488,6 +489,13 @@
                     statusText = 'Available Now';
                     actionHtml = `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                 }
+            } else if (tool.name === 'SITE FROG') {
+                actionHtml = `<div class="p-4 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-500 dark:text-blue-400 italic text-center flex items-center justify-center gap-3 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -skew-x-12 animate-[sweep_4s_linear_infinite]"></div>
+                                <i class="ph-bold ph-arrow-clockwise animate-spin text-xl"></i>
+                                <span class="relative z-10 font-bold">On Progress</span>
+                                <i class="ph-bold ph-arrow-clockwise animate-spin text-xl" style="animation-direction: reverse;"></i>
+                               </div>`;
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
                                 <i class="ph-bold ph-gear animate-spin"></i>
@@ -499,10 +507,10 @@
             modalContent.innerHTML = `
                 <div class="relative z-10">
                 <div class="flex items-center gap-6 mb-8">
-                    <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
+                    <div class="w-20 h-20 rounded-2xl ${tool.name === 'SITE FROG' ? 'bg-blue-500/20' : 'bg-frog/20'} flex items-center justify-center ${tool.name === 'SITE FROG' ? 'text-blue-500' : 'text-frog'} text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
                     <div>
                         <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
-                        <span class="text-xs font-bold text-frog uppercase tracking-widest" id="toolStatus">${statusText}</span>
+                        <span class="text-xs font-bold ${statusColor} uppercase tracking-widest" id="toolStatus">${statusText}</span>
                     </div>
                 </div>
                 <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
