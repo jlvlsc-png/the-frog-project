@@ -490,11 +490,10 @@
                     actionHtml = `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                 }
             } else if (tool.name === 'SITE FROG') {
-                actionHtml = `<div class="p-4 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-500 dark:text-blue-400 italic text-center flex items-center justify-center gap-3 relative overflow-hidden">
+                actionHtml = `<div class="p-4 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-500 dark:text-blue-400 italic text-center flex items-center justify-center gap-2 relative overflow-hidden">
                                 <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -skew-x-12 animate-[sweep_4s_linear_infinite]"></div>
-                                <i class="ph-bold ph-arrow-clockwise animate-spin text-xl"></i>
                                 <span class="relative z-10 font-bold">On Progress</span>
-                                <i class="ph-bold ph-arrow-clockwise animate-spin text-xl" style="animation-direction: reverse;"></i>
+                                <i class="ph-bold ph-arrow-clockwise animate-spin text-xl"></i>
                                </div>`;
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
@@ -532,18 +531,21 @@
         function openDevModal() {
             modalContent.innerHTML = `
                 <div class="flex flex-col items-center text-center relative z-10">
-                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog mb-6 shadow-2xl relative">
+                    <div class="relative mb-6">
+                        <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog shadow-2xl relative z-10">
+                            <img src="./profile.jpg" class="w-full h-full object-cover">
+                        </div>
                         <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
-                        <img src="./profile.jpg" class="w-full h-full object-cover relative z-10">
+                        <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-frog rounded-full flex items-center justify-center text-slate-900 border-4 border-card z-20"><i class="ph-bold ph-user-focus"></i></div>
                     </div>
                     <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text hover:text-frog transition-colors duration-300">
                         <h3>John Lloyd N. Velasco</h3>
                     </a>
                     <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Founder & Developer</p>
-                    <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8">
+                    <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8 max-w-md">
                         Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
                     </p>
-                    <div class="grid grid-cols-2 gap-4 w-full">
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
                         <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
                             <span class="block text-2xl font-bold text-frog">8</span>
                             <span class="text-[10px] uppercase opacity-50">Smart Tools</span>
