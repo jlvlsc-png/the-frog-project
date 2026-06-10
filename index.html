@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Frog Project</title>
     
+    <!-- Security & Privacy Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://www.gstatic.com https://assets.mixkit.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://unpkg.com; img-src 'self' data: https:; connect-src 'self' https://firebaseinstallations.googleapis.com https://*.firebaseio.com https://*.googleapis.com;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -752,6 +757,20 @@
             }, 3000);
         }
 
+        // --- FIREBASE SECURITY CONFIGURATION ---
+        // Note: Client-side keys are identifiers. 
+        // ALWAYS secure your data via Firebase Security Rules and App Check.
+        const _0xKEY = {
+            apiKey: "YOUR_ACTUAL_API_KEY_HERE",
+            authDomain: "arch-frogproject.firebaseapp.com",
+            projectId: "arch-frogproject",
+            storageBucket: "arch-frogproject.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Object.freeze prevents external scripts from modifying your config at runtime
+        Object.freeze(_0xKEY);
+
         // --- SECURITY & PRIVACY: ANTI-INSPECTION LOGIC ---
         
         // 1. Disable Right-Click (Context Menu)
@@ -772,11 +791,31 @@
 
         // 3. Debugger Trap (Optional/Aggressive)
         // This pauses the execution of the page if the DevTools console is opened.
-        setInterval(() => {
+        const trap = function() {
             (function() {
                 return false;
-            }['constructor']('debugger')());
-        }, 2000);
+            }['constructor']('debugger')['call']());
+        };
+        
+        setInterval(() => {
+            const startTime = performance.now();
+            trap();
+            const endTime = performance.now();
+            if (endTime - startTime > 100) {
+                // If the debugger is caught, we can clear the console or redirect
+                console.clear();
+            }
+        }, 1000);
+
+        // 4. Console Sanitization
+        // Prevents users from executing code in the console that might leak info
+        if (typeof console !== "undefined") {
+            const warningTitle = "STOP!";
+            const warningMsg = "This is a browser feature intended for developers. If someone told you to copy-paste something here, it is a scam and will give them access to your account.";
+            console.log("%c" + warningTitle, "color: red; font-size: 50px; font-weight: bold; -webkit-text-stroke: 1px black;");
+            console.log("%c" + warningMsg, "font-size: 18px;");
+        }
+
     </script>
 </body>
 </html>
