@@ -490,10 +490,11 @@
                     actionHtml = `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                 }
             } else if (tool.name === 'SITE FROG') {
-                actionHtml = `<div class="p-4 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-500 dark:text-blue-400 italic text-center flex items-center justify-center gap-3 relative overflow-hidden">
+                actionHtml = `<div class="p-4 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-500 dark:text-blue-400 italic text-center flex items-center justify-center gap-4 relative overflow-hidden">
                                 <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -skew-x-12 animate-[sweep_4s_linear_infinite]"></div>
                                 <i class="ph-bold ph-arrow-clockwise animate-spin text-xl relative z-10"></i>
-                                <span class="relative z-10 font-bold">On Progress</span>
+                                <span class="relative z-10 font-bold uppercase tracking-wider">On Progress</span>
+                                <i class="ph-bold ph-arrow-clockwise animate-spin text-xl relative z-10" style="animation-direction: reverse;"></i>
                                </div>`;
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
