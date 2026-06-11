@@ -111,7 +111,7 @@
             animation: scanlines 10s linear infinite;
         }
 
-        .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; }
+        .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; will-change: opacity, box-shadow; }
 
         .glow-text { text-shadow: 0 0 15px rgba(180,240,42,0.4); }
 
@@ -120,7 +120,7 @@
         }
 
         /* Keep reveal + underline that your markup uses */
-        .reveal-up, .reveal-scale { opacity: 0; transform: translateY(26px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+        .reveal-up, .reveal-scale { opacity: 0; transform: translateY(26px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform, contents; }
         .reveal-scale { transform: translateY(26px) scale(0.98); }
         .reveal-up.visible { opacity: 1; transform: translateY(0); }
         .reveal-scale.visible { opacity: 1; transform: translateY(0) scale(1); }
@@ -153,7 +153,7 @@
             33% { border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%; transform: scale(1.1) rotate(120deg); }
             66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: scale(1.2) rotate(240deg); }
         }
-        .blob-morph { animation: morph 8s linear infinite; }
+        .blob-morph { animation: morph 8s linear infinite; will-change: border-radius, transform; }
 
         /* New: Header/Navbar Animations */
         @keyframes navGlow {
@@ -261,7 +261,7 @@
     <!-- Fixed Background Logo -->
     <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center mix-blend-overlay dark:mix-blend-screen">
 
-        <img src="./logo.png" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.18]" />
+        <img src="./logo.webp" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.18]" loading="lazy" />
 
     </div>
 
@@ -405,8 +405,8 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.6; /* Increased speed */
-                this.vy = (Math.random() - 0.5) * 0.6; /* Increased speed */
+                this.vx = (Math.random() - 0.5) * 0.4; /* Optimized speed */
+                this.vy = (Math.random() - 0.5) * 0.4; /* Optimized speed */
                 this.radius = Math.random() * 2;
                 this.baseX = this.x;
                 this.baseY = this.y;
@@ -434,8 +434,8 @@
                 ctx.fill();
             }
         }
-        /* Increased particle count */
-        for (let i = 0; i < 120; i++) particles.push(new Particle());
+        /* Optimized particle count */
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
 
         function animateBg() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -449,7 +449,7 @@
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-                    if (dist < 150) {
+                    if (dist < 100) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -537,7 +537,7 @@
                                     Release in: --d --h --m --s
                                 </div>`;
                 } else {
-                    actionHtml = `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    actionHtml = `<button onclick="window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                 }
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
@@ -676,7 +676,7 @@
 
                 if (distance < 0) {
                     clearInterval(countdownInterval);
-                    countdownElement.outerHTML = `<button onclick="handleDownload('${appName}'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    countdownElement.outerHTML = `<button onclick="window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                     return;
                 }
 
