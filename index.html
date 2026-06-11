@@ -558,35 +558,30 @@
         function openDevModal() {
             modalContent.innerHTML = `
                 <div class="relative z-10">
-                    <div class="flex flex-col items-center text-center pt-8">
-                        <div class="relative mb-6">
-                            <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog shadow-2xl relative z-10">
+                    <div class="flex flex-col items-center text-center px-4 py-6">
+                        <div class="relative mb-4">
+                            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-frog shadow-xl relative z-10">
                                 <img src="./profile.jpg" class="w-full h-full object-cover">
                             </div>
                             <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
-                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-frog rounded-full flex items-center justify-center text-slate-900 border-4 border-card z-20"><i class="ph-bold ph-user-focus"></i></div>
                         </div>
-                        <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text hover:text-frog transition-colors duration-300">
+                        <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-xl font-display font-bold text-slate-900 dark:text-white mb-1 uppercase glow-text hover:text-frog transition-colors duration-300">
                             <h3>John Lloyd N. Velasco</h3>
                         </a>
-                        <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Founder & Developer</p>
-                        <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8 max-w-md">
+                        <p class="text-frog text-xs font-bold tracking-widest uppercase mb-4">Founder & Developer</p>
+                        <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed mb-4 max-w-md">
                             Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
                         </p>
-                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                            <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                                <span class="block text-2xl font-bold text-frog">8</span>
+                        <div class="grid grid-cols-2 gap-2 w-full max-w-xs">
+                            <div class="p-2 bg-white/5 rounded-xl border border-white/5">
+                                <span class="block text-xl font-bold text-frog">8</span>
                                 <span class="text-[10px] uppercase opacity-50">Smart Tools</span>
                             </div>
-                            <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                                <span class="block text-2xl font-bold text-frog">1</span>
+                            <div class="p-2 bg-white/5 rounded-xl border border-white/5">
+                                <span class="block text-xl font-bold text-frog">1</span>
                                 <span class="text-[10px] uppercase opacity-50">Unified Hub</span>
                             </div>
                         </div>
-                        <button onclick="closeModal()" class="mt-6 inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-slate-700 dark:text-slate-200 transition-colors">
-                            <i class="ph-bold ph-x"></i>
-                            <span class="font-bold text-sm">Close</span>
-                        </button>
                     </div>
                 </div>
             `;
