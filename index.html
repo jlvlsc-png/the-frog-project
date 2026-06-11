@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark snap-y snap-mandatory">
+<html lang="en" class="scroll-smooth snap-y snap-mandatory">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Frog Project</title>
     
     <!-- Security & Privacy Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://www.gstatic.com https://assets.mixkit.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://unpkg.com; img-src 'self' data: https:; connect-src 'self' https://firebaseinstallations.googleapis.com https://*.firebaseio.com https://*.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://www.gstatic.com https://assets.mixkit.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://unpkg.com https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://firebaseinstallations.googleapis.com https://*.firebaseio.com https://*.googleapis.com;">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
 
@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/index.css">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -183,6 +183,8 @@
         * { user-select: none; -webkit-user-select: none; }
 
         /* Tool Rail Scrollbar */
+        * { user-select: none; -webkit-user-select: none; }
+
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #B4F02A; border-radius: 10px; }
@@ -193,10 +195,10 @@
             transform: translateX(10px);
         }
     </style>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
 </head>
-<body class="antialiased selection:bg-frog selection:text-slate-900 bg-slate-50 dark:bg-bg text-slate-900 dark:text-white transition-colors duration-300 select-none">
-
-    <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
+    <body class="bg-slate-50 dark:bg-[#0F1319] text-slate-900 dark:text-white transition-colors duration-300">
+        <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
 
     <!-- Futuristic Morphing Splash Screen -->
     <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#06080a] overflow-hidden transition-all duration-1000">
@@ -299,8 +301,8 @@
     </section>
 
     <!-- The Ecosystem (Apps) Section (Snappable) -->
-    <section id="ecosystem" class="relative h-screen flex flex-col justify-center items-center bg-slate-100/70 dark:bg-[#0a0d11]/70 backdrop-blur-2xl border-t border-slate-200/50 dark:border-white/5 overflow-hidden">
-        <div class="max-w-6xl mx-auto px-6 w-full">
+    <section id="ecosystem" class="relative min-h-screen flex flex-col justify-center items-center bg-slate-100/70 dark:bg-[#0a0d11]/70 backdrop-blur-2xl border-t border-slate-200/50 dark:border-white/5 overflow-x-hidden">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
             
             <div class="text-center mb-8">
                 <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-frog-dark dark:text-frog neon-title neon-pulse">8-TOOL ECOSYSTEM</h2>
@@ -316,16 +318,16 @@
             </div>
 
             <!-- Compact Tool Grid (Pop-up Triggers) -->
-            <div id="toolGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+            <div id="toolGrid" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
                 <!-- Populated by JS -->
+            </div>
+            
+            <!-- Footer (Embedded in Ecosystem to save screen space) -->
+            <div class="mt-auto pt-6 w-full text-center opacity-40 hover:opacity-100 transition-opacity">
+                <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500 dark:text-gray-500">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
             </div>
         </div>
     </section>
-
-    <!-- Footer (Embedded in Ecosystem to save screen space) -->
-    <div class="absolute bottom-6 w-full text-center opacity-40 hover:opacity-100 transition-opacity">
-        <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500 dark:text-gray-500">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
-    </div>
 
     </div> <!-- End Main Content Wrapper -->
     </div> <!-- End Transition Wrapper -->
@@ -341,7 +343,8 @@
                 <div class="absolute inset-0 neon-sweep opacity-10"></div>
             </div>
 
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-frog transition-colors text-2xl z-20">
+            <!-- Primary modal close button - only one needed -->
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-frog transition-colors text-2xl z-20" aria-label="Close modal">
                 <i class="ph-bold ph-x"></i>
             </button>
             <div id="modalContent" class="p-8 sm:p-12 max-h-[85vh] overflow-y-auto hide-scrollbar relative z-10">
@@ -444,14 +447,14 @@
 
         // Tool Rail Data
         const tools = [
-            { name: "BUILDSYNC", icon: "ph-arrows-clockwise", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
+            { name: "BUILDSYNC", icon: "ph-package", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
             { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "Available Now", color: "frog" },
-            { name: "SITE FROG", icon: "ph-map-pin", desc: "Smart Site analysis & automated earthworks data.", status: "On Progress", color: "blue-500" },
+            { name: "SITE FROG", icon: "ph-map-trifold", desc: "Smart Site analysis & automated earthworks data.", status: "Under Construction", color: "slate-400" },
             { name: "3D FROG", icon: "ph-cube", desc: "Lightweight 2D/3D modeling bridging tools.", status: "Under Construction", color: "slate-400" },
-            { name: "SPEC FROG", icon: "ph-file-text", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
-            { name: "FROG REVIEW", icon: "ph-magnifying-glass", desc: "Smart Board Exam mastery for future staff.", status: "Under Construction", color: "slate-400" },
-            { name: "FROG ADMIN", icon: "ph-user-circle-gear", desc: "Student & Project management toolset.", status: "Under Construction", color: "slate-400" },
-            { name: "FROG CLOUD", icon: "ph-cloud", desc: "Centralized ecosystem data hosting.", status: "Under Construction", color: "slate-400" }
+            { name: "SPEC FROG", icon: "ph-article", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
+            { name: "FROG REVIEW", icon: "ph-book-open", desc: "Smart Board Exam mastery for future staff.", status: "Under Construction", color: "slate-400" },
+            { name: "FROG ADMIN", icon: "ph-identification-card", desc: "Student & Project management toolset.", status: "Under Construction", color: "slate-400" },
+            { name: "FROG CLOUD", icon: "ph-cloud-arrow-up", desc: "Centralized ecosystem data hosting.", status: "Under Construction", color: "slate-400" }
         ];
 
         const toolGrid = document.getElementById('toolGrid');
@@ -461,26 +464,36 @@
             const isSpaceFrog = tool.name === 'SPACE FROG';
             const isDisabled = !isSpaceFrog;
 
-            div.className = `p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/40 dark:bg-card/40 transition-all duration-300 flex flex-col items-center justify-center text-center gap-3 group reveal-up ${
-                isDisabled ? 'opacity-50 cursor-not-allowed grayscale hover:border-slate-200 dark:hover:border-white/5 hover:bg-white/40 dark:hover:bg-card/40' : 'cursor-pointer hover:border-frog/50 hover:bg-frog/5'
+            div.className = `p-6 sm:p-8 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-center text-center gap-4 group reveal-up ${
+                isDisabled
+                    ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-slate-200/60 dark:border-white/10 bg-white/20 dark:bg-card/20'
+                    : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white/40 dark:bg-card/40 hover:border-frog/60 hover:bg-frog/10'
+            } ${
+                isSpaceFrog ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : ''
             }`;
 
             div.innerHTML = `
                 <div class="relative w-full flex flex-col items-center justify-center">
-                    <i class="ph-bold ${tool.icon} text-3xl sm:text-4xl ${
-                        isSpaceFrog ? 'text-frog group-hover:scale-110' : 'text-slate-400'
-                    } transition-transform ${
-                        isSpaceFrog ? '' : 'animate-spin opacity-80'
-                    }"></i>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
+                        isSpaceFrog ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
+                    } flex items-center justify-center">
+                        <i class="ph-bold ${tool.icon} text-2xl sm:text-3xl ${
+                            isSpaceFrog ? 'text-frog' : 'text-slate-400'
+                        } transition-transform group-hover:scale-110"></i>
+                    </div>
 
-                    <div class="mt-2 text-[10px] uppercase tracking-widest font-bold ${
+
+                    <h4 class="mt-3 font-display font-bold text-[13px] sm:text-sm uppercase tracking-widest ${
                         isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
-                    }">
-                        ${tool.name === 'SITE FROG' ? '<span class="inline-flex items-center gap-1"><i class="ph-bold ph-arrows-clockwise animate-spin"></i> On Progress</span>' : (isSpaceFrog ? '' : '<span class="inline-flex items-center gap-1"><i class="ph-bold ph-cog animate-spin"></i> Under Construction</span>')}
-                        ${isSpaceFrog ? tool.status : ''}
+                    }">${tool.name}</h4>
+
+                    <div class="mt-2 text-[11px] uppercase tracking-widest font-bold ${isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">
+                        ${(isSpaceFrog
+                            ? ''
+                            : '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> Under Construction</span>'
+                            )}
                     </div>
                 </div>
-                <h4 class="mt-1 font-bold text-[10px] sm:text-xs uppercase tracking-widest ${isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">${tool.name}</h4>
             `;
 
             if (!isDisabled) {
@@ -497,50 +510,38 @@
         function openToolModal(index) {
             const tool = tools[index];
             let actionHtml = '';
-            let statusText = tool.status; // Default status
-            let statusColor = tool.name === 'SITE FROG' ? 'text-blue-500' : 'text-frog';
-
             if (tool.name === 'SPACE FROG') {
-                const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000'); // Set release date to Friday, June 12, 2026
+                const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000');
                 const now = new Date();
-
                 if (now < releaseDate) {
-                    statusText = 'Releasing Soon';
-                    actionHtml = `<div id="countdownTimer" class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center text-lg font-bold">
-                                        Release in: --d --h --m --s
-                                    </div>`;
+                    actionHtml = `<div id="countdownTimer" class="p-4 mb-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center text-lg font-bold">
+                                    Release in: --d --h --m --s
+                                </div>`;
                 } else {
-                    statusText = 'Available Now';
                     actionHtml = `<button onclick="handleDownload('SPACE FROG'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                 }
-            } else if (tool.name === 'SITE FROG') {
-                actionHtml = `<div class="p-4 rounded-xl border border-blue-500/40 bg-blue-500/10 text-blue-500 dark:text-blue-400 italic text-center flex items-center justify-center gap-4 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -skew-x-12 animate-[sweep_4s_linear_infinite]"></div>
-                                <i class="ph-bold ph-arrows-clockwise animate-spin text-xl relative z-10"></i>
-                                <span class="relative z-10 font-bold uppercase tracking-wider">On Progress</span>
-                                <i class="ph-bold ph-arrows-clockwise animate-spin text-xl relative z-10" style="animation-direction: reverse;"></i>
-                               </div>`;
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
+                                <i class="ph-bold ph-wrench"></i>
                                 <i class="ph-bold ph-gear animate-spin"></i>
                                 <span>Under Construction</span>
+                                <i class="ph-bold ph-hammer"></i>
                                 <i class="ph-bold ph-gear animate-spin" style="animation-direction: reverse;"></i>
                                </div>`;
             }
 
             modalContent.innerHTML = `
                 <div class="relative z-10">
-                <button onclick="closeModal()" class="inline-flex items-center justify-center gap-2 mb-6 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-slate-700 dark:text-slate-200 transition-colors">
-                    <i class="ph-bold ph-x"></i>
-                    <span class="font-bold text-sm">Close</span>
-                </button>
-                <div class="flex items-center gap-6 mb-8">
-                    <div class="w-20 h-20 rounded-2xl ${tool.name === 'SITE FROG' ? 'bg-blue-500/20' : 'bg-frog/20'} flex items-center justify-center ${tool.name === 'SITE FROG' ? 'text-blue-500' : 'text-frog'} text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
-                    <div>
-                        <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
-                        <span class="text-xs font-bold ${statusColor} uppercase tracking-widest" id="toolStatus">${statusText}</span>
+                <div class="flex items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-6">
+                        <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
+                        <div>
+                            <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
+                            <span class="text-xs font-bold text-frog uppercase tracking-widest" id="toolStatus">${tool.status}</span>
+                        </div>
                     </div>
                 </div>
+
                 <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
                 ${actionHtml}
                 </div>
@@ -550,49 +551,49 @@
             // Now that the modal content is in the DOM, start the countdown if applicable
             if (tool.name === 'SPACE FROG') {
                 const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000');
-                const now = new Date();
-                if (now < releaseDate) {
-                    startCountdown(releaseDate, tool.name);
-                }
+                startCountdown(releaseDate, tool.name);
             }
         }
 
         function openDevModal() {
             modalContent.innerHTML = `
-                <div class="flex flex-col items-center text-center relative z-10">
-                    <button onclick="closeModal()" class="inline-flex items-center justify-center gap-2 mb-6 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-slate-700 dark:text-slate-200 transition-colors">
-                        <i class="ph-bold ph-x"></i>
-                        <span class="font-bold text-sm">Close</span>
-                    </button>
-                    <div class="relative mb-6">
-                        <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog shadow-2xl relative z-10">
-                            <img src="./profile.jpg" class="w-full h-full object-cover">
+                <div class="relative z-10">
+                    <div class="flex flex-col items-center text-center pt-8">
+                        <div class="relative mb-6">
+                            <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-frog shadow-2xl relative z-10">
+                                <img src="./profile.jpg" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
+                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-frog rounded-full flex items-center justify-center text-slate-900 border-4 border-card z-20"><i class="ph-bold ph-user-focus"></i></div>
                         </div>
-                        <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-frog rounded-full flex items-center justify-center text-slate-900 border-4 border-card z-20"><i class="ph-bold ph-user-focus"></i></div>
-                    </div>
-                    <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text hover:text-frog transition-colors duration-300">
-                        <h3>John Lloyd N. Velasco</h3>
-                    </a>
-                    <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Founder & Developer</p>
-                    <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8 max-w-md">
-                        Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="block text-2xl font-bold text-frog">8</span>
-                            <span class="text-[10px] uppercase opacity-50">Smart Tools</span>
+                        <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2 uppercase glow-text hover:text-frog transition-colors duration-300">
+                            <h3>John Lloyd N. Velasco</h3>
+                        </a>
+                        <p class="text-frog text-sm font-bold tracking-widest uppercase mb-6">Founder & Developer</p>
+                        <p class="text-slate-600 dark:text-gray-400 leading-relaxed mb-8 max-w-md">
+                            Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                            <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
+                                <span class="block text-2xl font-bold text-frog">8</span>
+                                <span class="text-[10px] uppercase opacity-50">Smart Tools</span>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
+                                <span class="block text-2xl font-bold text-frog">1</span>
+                                <span class="text-[10px] uppercase opacity-50">Unified Hub</span>
+                            </div>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="block text-2xl font-bold text-frog">1</span>
-                            <span class="text-[10px] uppercase opacity-50">Unified Hub</span>
-                        </div>
+                        <button onclick="closeModal()" class="mt-6 inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-slate-700 dark:text-slate-200 transition-colors">
+                            <i class="ph-bold ph-x"></i>
+                            <span class="font-bold text-sm">Close</span>
+                        </button>
                     </div>
                 </div>
             `;
             modalOverlay.classList.add('active');
         }
 
+        // closeModal() remains below
         function closeModal() {
             modalOverlay.classList.remove('active');
             // Clear countdown interval when modal is closed
@@ -677,7 +678,9 @@
             countdownInterval = setInterval(updateCountdown, 1000);
         }
 
-        // Splash Screen Lifecycle
+        // Initialize theme and splash screen
+        initTheme();
+        
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
             const wrapper = document.getElementById('main-content-wrapper');
@@ -693,13 +696,30 @@
             }, 3500);
         });
 
+        // Initialize theme based on preference
+        function initTheme() {
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme) {
+                html.classList.toggle('dark', savedTheme === 'dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
         // Theme Toggle Ripple Effect
         function toggleTheme(event) {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            
+            // Save preference
+            localStorage.setItem('theme', newTheme);
             
             // Define the background color of the new theme (matching tailwind config)
-            const nextBgColor = isDark ? '#f8fafc' : '#0F1319'; // slate-50 or dark bg
+            const nextBgColor = newTheme === 'dark' ? '#0F1319' : '#f8fafc';
             
             // Create ripple element
             const ripple = document.createElement('div');
@@ -831,24 +851,6 @@
                 return false;
             }
         });
-
-        // 3. Debugger Trap (Optional/Aggressive)
-        // This pauses the execution of the page if the DevTools console is opened.
-        const trap = function() {
-            (function() {
-                return false;
-            }['constructor']('debugger')['call']());
-        };
-        
-        setInterval(() => {
-            const startTime = performance.now();
-            trap();
-            const endTime = performance.now();
-            if (endTime - startTime > 100) {
-                // If the debugger is caught, we can clear the console or redirect
-                console.clear();
-            }
-        }, 1000);
 
         // 4. Console Sanitization
         // Prevents users from executing code in the console that might leak info

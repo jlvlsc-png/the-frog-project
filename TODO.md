@@ -1,11 +1,10 @@
-- [x] Confirm visual redesign approach for homepage (page transitions + layout changes)
-- [x] Update `index.html` with a genuinely different layout while keeping existing text content
-- [x] Add “The Frog Project” timeline/feature cards and interactive tool rail
-- [x] Replace old ecosystem grid presentation with a carousel/hover spotlight layout
-- [x] Add animated SVG/Canvas background
-- [x] Redesign layout to strictly fit sections to the screen viewport
-- [x] Update Splash Screen title to "THE FROG PROJECT"
-- [x] Implement Modal (Pop-up) system for Developer and Tool details
-- [x] Add CSS Scroll Snapping for a "mechanical" dashboard feel
-- [x] Remove redundant "Quick Start" and "Meet the Developer" buttons, integrate "Apps" into stat cluster.
-- [x] Redeploy to Firebase Hosting via `firebase deploy`
+# TODO - Frog Project fixes
+
+- [x] Grey out and disable 7 app tiles; keep SPACE FROG active.
+- [x] Add explicit in-modal Close buttons for tool popups.
+- [ ] Fix broken `openDevModal()` by removing duplicated trailing markup and rewriting it as a single valid `modalContent.innerHTML = \`...\`;` block.
+- [ ] Ensure creator modal also shows explicit Close button inside modal content.
+- [ ] Quick sanity check: open index.html and confirm no JS parse errors.
+
+
+
