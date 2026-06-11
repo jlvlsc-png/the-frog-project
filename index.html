@@ -194,6 +194,31 @@
             background: rgba(180, 240, 42, 0.1) !important;
             transform: translateX(10px);
         }
+
+        @keyframes borderPulse {
+            0% { box-shadow: 0 0 0 0 rgba(180, 240, 42, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(180, 240, 42, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(180, 240, 42, 0); }
+        }
+        .border-animate {
+            animation: borderPulse 2s infinite;
+            position: relative;
+        }
+        .border-animate::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid transparent;
+            border-radius: 1rem;
+            background: linear-gradient(90deg, rgba(180,240,42,0.8), rgba(180,240,42,0.2)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            animation: borderPulse 2s infinite;
+        }
     </style>
     <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
 </head>
@@ -262,12 +287,12 @@
             
             <!-- Left Content: Text & Info -->
             <div class="lg:col-span-12">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/30 bg-frog/10 text-frog-dark dark:text-frog text-sm font-medium mb-6 neon-pulse">
+                <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-frog/30 bg-frog/10 text-frog-dark dark:text-frog text-sm font-medium mb-6 neon-pulse">
                     <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-frog opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-frog"></span>
                     </span>
-                    8-Tool Ecosystem Active
+                    8-Tool Ecosystem UNDER CONSTRUCTION
                 </div>
                 <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-4 glow-text leading-[0.9] dark:text-white text-slate-900">
                     Work Smarter,<br/>
@@ -305,16 +330,7 @@
         <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
             
             <div class="text-center mb-8">
-                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-frog-dark dark:text-frog neon-title neon-pulse">8-TOOL ECOSYSTEM</h2>
-            </div>
-
-            <!-- Compact Timeline Band -->
-            <div class="mb-10 flex items-center justify-between gap-2 sm:gap-4 opacity-50 px-2 sm:px-10">
-                <div class="flex items-center gap-2"><span class="font-bold">01</span><span class="text-[10px] uppercase">Inception</span></div>
-                <div class="h-[1px] flex-grow bg-frog/20"></div>
-                <div class="flex items-center gap-2"><span class="font-bold">02</span><span class="text-[10px] uppercase">Growth</span></div>
-                <div class="h-[1px] flex-grow bg-frog/20"></div>
-                <div class="flex items-center gap-2 text-frog"><span class="font-bold">03</span><span class="text-[10px] uppercase">Delivery</span></div>
+                <h2 class="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-frog-dark dark:text-frog neon-title neon-pulse animate-[neonPulse_4s_ease-in-out_infinite] reveal-up">8-TOOL ECOSYSTEM</h2>
             </div>
 
             <!-- Compact Tool Grid (Pop-up Triggers) -->
@@ -449,7 +465,7 @@
         const tools = [
             { name: "BUILDSYNC", icon: "ph-package", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
             { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "Available Now", color: "frog" },
-            { name: "SITE FROG", icon: "ph-map-trifold", desc: "Smart Site analysis & automated earthworks data.", status: "Under Construction", color: "slate-400" },
+            { name: "SITE FROG", icon: "ph-map-trifold", desc: "Smart Site analysis & automated earthworks data.", status: "ON PROGRESS", color: "slate-400" },
             { name: "3D FROG", icon: "ph-cube", desc: "Lightweight 2D/3D modeling bridging tools.", status: "Under Construction", color: "slate-400" },
             { name: "SPEC FROG", icon: "ph-article", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
             { name: "FROG REVIEW", icon: "ph-book-open", desc: "Smart Board Exam mastery for future staff.", status: "Under Construction", color: "slate-400" },
@@ -469,7 +485,8 @@
                     ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-slate-200/60 dark:border-white/10 bg-white/20 dark:bg-card/20'
                     : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white/40 dark:bg-card/40 hover:border-frog/60 hover:bg-frog/10'
             } ${
-                isSpaceFrog ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : ''
+                isSpaceFrog ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : 
+                tool.name === 'SITE FROG' ? 'border-animate' : ''
             }`;
 
             div.innerHTML = `
@@ -488,9 +505,11 @@
                     }">${tool.name}</h4>
 
                     <div class="mt-2 text-[11px] uppercase tracking-widest font-bold ${isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">
-                        ${(isSpaceFrog
-                            ? ''
-                            : '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> Under Construction</span>'
+                            ${(isSpaceFrog
+                                ? ''
+                                : tool.name === 'SITE FROG' 
+                                    ? '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> ON PROGRESS</span>'
+                                    : '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> Under Construction</span>'
                             )}
                     </div>
                 </div>
