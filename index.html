@@ -212,6 +212,63 @@
             animation: borderPulse 2s infinite;
             position: relative;
         }
+        .button-edge-pulse {
+            position: absolute;
+            inset: -2px;
+            border-radius: 0.75rem;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .button-edge-pulse::before {
+            content: '';
+            position: absolute;
+            width: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #B4F02A, transparent);
+            box-shadow: 0 0 10px #B4F02A;
+            animation: edgePulse 2.5s linear infinite;
+        }
+        @keyframes edgePulse {
+            0% { 
+                top: -2px; 
+                left: -100%; 
+            }
+            25% { 
+                top: -2px; 
+                left: 100%; 
+            }
+            26% { 
+                top: -2px; 
+                left: 100%; 
+                transform: rotate(90deg);
+                transform-origin: left;
+            }
+            50% { 
+                top: calc(100% - 2px); 
+                left: 100%; 
+            }
+            51% { 
+                top: calc(100% - 2px); 
+                left: 100%; 
+                transform: rotate(180deg);
+                transform-origin: top;
+            }
+            75% { 
+                top: calc(100% - 2px); 
+                left: -100%; 
+            }
+            76% { 
+                top: calc(100% - 2px); 
+                left: -100%; 
+                transform: rotate(270deg);
+                transform-origin: right;
+            }
+            100% { 
+                top: -2px; 
+                left: -100%; 
+            }
+        }
+
         .border-animate::before {
             content: '';
             position: absolute;
@@ -558,7 +615,14 @@
                                     Release in: --d --h --m --s
                                 </div>`;
                 } else {
-                    actionHtml = `<button onclick="window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    actionHtml = `<button type="button" disabled aria-disabled="true" class="w-full py-4 bg-frog/10 text-slate-900 font-bold rounded-xl flex items-center justify-center gap-2 relative overflow-hidden opacity-80 cursor-not-allowed pointer-events-none">
+                                <span class="relative z-10 flex items-center justify-center gap-2">
+                                    Troubleshooting <i class="ph-bold ph-download"></i>
+                                </span>
+                                <span class="absolute inset-0 pointer-events-none">
+                                    <span class="button-edge-pulse"></span>
+                                </span>
+                            </button>`;
                 }
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
@@ -841,8 +905,11 @@ right to a refund or chargeback once a transaction is processed.
                 const distance = releaseDate.getTime() - now;
 
                 if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.outerHTML = `<button onclick="window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+clearInterval(countdownInterval);
+	                    countdownElement.outerHTML = `<button type="button" disabled aria-disabled="true" class="w-full py-4 bg-frog/10 text-white font-bold rounded-xl flex items-center justify-center gap-2 relative overflow-hidden opacity-80 cursor-not-allowed pointer-events-none">
+	                        <span class="relative z-10 flex items-center justify-center gap-2">Troubleshooting <i class="ph-bold ph-download"></i></span>
+                        <span class="absolute inset-0 pointer-events-none"><span class="button-edge-pulse"></span></span>
+                    </button>`;
                     return;
                 }
 
