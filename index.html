@@ -69,10 +69,11 @@
         }
 
         /* Modal UI Styles */
-        #modalOverlay { display: flex; visibility: hidden; opacity: 0; transition: all 0.3s ease; }
+        #modalOverlay { display: flex; visibility: hidden; opacity: 0; transition: all 0.3s ease; padding: 0; }
         #modalOverlay.active { visibility: visible; opacity: 1; }
-        .modal-box { transform: scale(0.9) translateY(20px); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .modal-box { transform: scale(0.9) translateY(20px); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 2.5rem; overflow: hidden; }
         #modalOverlay.active .modal-box { transform: scale(1) translateY(0); }
+
 
         section { scroll-snap-align: start; scroll-snap-stop: always; }
         
@@ -537,7 +538,7 @@
                                     Release in: --d --h --m --s
                                 </div>`;
                 } else {
-                    actionHtml = `<button onclick="window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    actionHtml = `<button onclick="window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                 }
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
@@ -565,12 +566,157 @@
                 ${actionHtml}
                 </div>
             `;
+
+            // Inject T&C text once (for all Space Frog actions)
+            if (!window.__frogTcTextInjected) {
+                window.__frogTcTextInjected = true;
+
+                // Make sure modal has the latest text even if user opened it before
+                window.__frogTcText = window.__frogTcText || '';
+
+                // PDF copied content
+                window.__frogTcText = `THE FROG PROJECT (8 SMART TOOLS • 1 UNIFIED HUB)
+"Work Smarter, Leap Further."
+EFFECTIVE DATE: June 2026 | FOUNDER & DEVELOPER: John Lloyd N. Velasco
+DOMAIN: arch-frogproject.web.app 
+IMPORTANT NOTICE: PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY. BY
+ACCESSING arch-frogproject.web.app, OR BY DOWNLOADING, INSTALLING, OR USING ANY
+APPLICATION WITHIN "THE FROG PROJECT" ECOSYSTEM, YOU EXPLICITLY AGREE TO BE
+BOUND BY THESE TERMS. IF YOU DO NOT AGREE, DO NOT ACCESS OR USE THE PLATFORM.
+
+1. THE ECOSYSTEM & "FORCE MULTIPLIER" PHILOSOPHY
+The Frog Project is a unified hub containing 8 smart tools engineered to address the tedious
+workflows that plague the modern architecture and construction industries. The software is
+designed to act as a "force multiplier" for architects, builders, and allied professionals. By
+automating complex processes and handling the heavy lifting to ensure accuracy and speed, the
+platform allows professionals to focus on pure design. However, the pursuit of "Zero
+Redundancy" does not negate the User's professional and legal responsibilities.
+
+2. ACCEPTANCE OF TERMS & ELECTRONIC AGREEMENT
+Pursuant to the Electronic Commerce Act of 2000 (Republic Act No. 8792), the act of accessing the
+web application or downloading the tools constitutes a legally binding electronic agreement
+between you (the "User") and the Founder & Developer (John Lloyd N. Velasco). No physical
+signature is required to formalize this contract.
+
+3. EARLY PHASE SOFTWARE NATURE (SAAS)
+The Frog Project is a newly launched Software as a Service (SaaS) suite. You acknowledge that
+the software is in its early phases of deployment and may contain undiscovered bugs,
+limitations, or incomplete features. The Developer reserves the right to modify, update, or
+discontinue features at any time without prior notice.
+
+4. PROFESSIONAL DISCLAIMER & MANDATORY VERIFICATION
+While the algorithms and automated calculation tools within The Frog Project have been
+rigorously tested to align with Philippine structural and architectural codes, the applications act
+strictly as supplementary productivity tools. They are not replacements for professional
+judgment, manual computation, or certified engineering analysis.
+
+National & Safety Codes: Automated spatial computations and outputs relating to The
+National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas
+Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be
+independently verified by the User.
+
+Local Government (LGU) Ordinances: Users must manually confirm all outputs, zonings,
+and spatial limitations with their respective Local Government Units (LGUs). Local
+ordinances supersede general code interpretations as stipulated under the Local Government
+Code of 1991 (Republic Act No. 7160).
+
+LIABILITY SHIELD: The Developer assumes absolutely NO RESPONSIBILITY for rejected
+building permits, structural failures, financial losses, or legal disputes arising from unverified
+reliance on the software's automated output. The professional architect, engineer, or designer
+of record retains full, sole, and exclusive liability for their submitted plans.
+
+5. INTELLECTUAL PROPERTY & STRICT ANTI-PIRACY
+All source code, UI/UX designs, HTML/JavaScript algorithms, databases, structural assets, and
+hybrid verification mechanisms within The Frog Project ecosystem are the exclusive intellectual
+property of the Founder & Developer, protected under the Intellectual Property Code of the
+Philippines (Republic Act No. 8293). Users are granted a limited, non-transferable, and revocable
+license for standard use.
+
+Prohibited Actions: You strictly agree NOT to:
+Reverse engineer, decompile, disassemble, or extract the source code of any Frog Project app
+or web component.
+
+Pirate, distribute, crack, or attempt to bypass the platform's login or hybrid verification
+systems.
+
+Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for NBCP
+space computations, zoning automation, or any other ecosystem features.
+
+Violations of these terms constitute a criminal offense and will be aggressively prosecuted
+under the Cybercrime Prevention Act of 2012 (Republic Act No. 10175), carrying severe financial
+penalties and potential imprisonment.
+
+6. DISCLAIMER OF WARRANTIES ("AS IS" BASIS)
+In accordance with applicable provisions of the Civil Code of the Philippines, the applications
+and the unified web hub are provided "AS IS" and "AS AVAILABLE." The Developer explicitly
+disclaims all warranties, express or implied, including but not limited to the implied warranties
+of merchantability, fitness for a particular purpose, and non-infringement.
+
+7. LIMITATION OF LIABILITY & INDEMNIFICATION
+To the maximum extent permitted by law, the Developer shall not be liable for any direct,
+indirect, incidental, consequential, or punitive damages arising from the use or inability to use
+the platform. You agree to indemnify, defend, and hold harmless the Developer from any claims,
+damages, liabilities, and expenses arising from your violation of these Terms or infringement of
+third-party rights.
+
+8. SUBSCRIPTION TIERS, FEES, AND ACCESS EXPIRATION
+A. Free vs. Pro Tiers (Feature Gating)
+The Frog Project offers both free features and paid subscription tiers ("Pro Features"). The
+Developer reserves the sole right to modify, restrict, add, or reassign features between the Free
+and Pro tiers at any time without prior notice.
+
+B. Manual Renewal and Access Termination
+No Auto-Renewal: The SaaS does not employ an automatic renewal or recurring billing
+system. It is the User’s sole responsibility to manually renew their subscription to maintain
+uninterrupted access to Pro Features.
+
+Immediate Expiration: Upon the expiration of a subscription cycle, access to Pro Features,
+premium automation tools, and advanced modules will be immediately revoked or
+downgraded to the Free tier.
+
+C. Data Handling and Gating Upon Expiration
+In the event of subscription expiration or account downgrade:
+Saved configurations, automated spatial computations, or projects may become locked,
+restricted, or limited to a "Read-Only" status.
+The Developer shall not be held liable for the User’s inability to access, edit, modify, or export
+data after a subscription has expired.
+The Developer assumes no liability for any project delays, missed deadlines, or financial
+losses resulting from the immediate gating of features upon subscription expiration.
+
+D. No Refunds / Finality of Payment
+In accordance with the Consumer Act of the Philippines (Republic Act No. 7394) and standard
+digital goods regulations, all payments made for premium access or subscriptions within The
+Frog Project ecosystem are strictly non-refundable. Because digital service delivery and
+computational output are consumed immediately upon access, the User explicitly waives any
+right to a refund or chargeback once a transaction is processed.
+`;
+
+                // Provide a modal function only once
+                window.openFrogTermsModal = window.openFrogTermsModal || function (opts = {}) {
+                    return openFrogTcModalOnly(opts);
+                };
+            }
+
+            // For Space Frog, download flow will be gated by T&C modal.
+            if (window.__frogTcDownloadGatePending) {
+                // noop; gating handled in actionHtml handlers
+            }
+
             modalOverlay.classList.add('active');
 
             // Now that the modal content is in the DOM, start the countdown if applicable
             if (tool.name === 'SPACE FROG') {
                 const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000');
                 startCountdown(releaseDate, tool.name);
+
+                // Immediately gate download behind Terms & Conditions
+                // (If release is in the future, the countdown will still render, but download remains gated.)
+                if (window.__frogTcDownloadGatePending) {
+                    // no-op
+                } else {
+                    window.__frogTcDownloadGatePending = true;
+                }
+                // When user clicks "Download Package" we will open the T&C modal first.
             }
         }
 
@@ -676,7 +822,7 @@
 
                 if (distance < 0) {
                     clearInterval(countdownInterval);
-                    countdownElement.outerHTML = `<button onclick="window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    countdownElement.outerHTML = `<button onclick="window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
                     return;
                 }
 
@@ -711,6 +857,148 @@
         });
 
         // Initialize theme based on preference
+        // Terms-gating entrypoint for Space Frog downloads
+        function openFrogTcModalOnly({ onAgree, onDecline } = {}) {
+            const modalOverlay = document.getElementById('modalOverlay');
+            if (modalOverlay) modalOverlay.classList.add('active');
+            const modalBox = modalOverlay ? modalOverlay.querySelector('.modal-box') : null;
+            if (modalBox) {
+                // Prevent modal internal scrolling from hiding buttons
+                modalBox.classList.remove('overflow-hidden');
+            }
+            // If already accepted, allow immediately
+            if (localStorage.getItem('frogTcAccepted') === 'true') {
+                if (typeof onAgree === 'function') onAgree();
+                return;
+            }
+
+            // Provide a modal function only once
+            window.openFrogTermsModal = window.openFrogTermsModal || function ({ onAgree: innerOnAgree, onDecline: innerOnDecline } = {}) {
+                return window.openFrogTcModalOnly({ onAgree: innerOnAgree, onDecline: innerOnDecline });
+            };
+
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="relative z-10">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-3xl">
+                                <i class="ph-bold ph-book-open"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">Terms & Conditions</h3>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="flex flex-col gap-4">
+            <div id="tcScrollBox" class="h-[50vh] overflow-y-auto pr-2 hide-scrollbar rounded-[1.25rem] border border-white/10 bg-white/5">
+                            <pre class="whitespace-pre-wrap text-[12px] leading-relaxed text-slate-600 dark:text-gray-300 p-6">${window.__frogTcText || ''}</pre>
+                        </div>
+
+                        <div class="mt-1 flex flex-col sm:flex-row gap-3 items-stretch">
+                            <button id="tcDeclineBtn" onclick="if (typeof window.__frogTcDeclined === 'function') window.__frogTcDeclined(); closeModal();" class="flex-1 py-4 bg-white/20 dark:bg-card/20 border border-white/10 text-slate-900 dark:text-white font-bold rounded-xl hover:bg-white/30 transition-transform">
+                                Decline
+                            </button>
+
+                            <button id="tcAgreeBtn" disabled onclick="window.__frogTcAgreed && window.__frogTcAgreed();" class="flex-1 py-4 relative overflow-hidden bg-frog/10 text-slate-900 dark:text-white font-bold rounded-xl transition-transform disabled:opacity-100 disabled:cursor-not-allowed">
+                                <span class="relative z-10 flex items-center justify-center gap-2">
+                                    Agree
+                                </span>
+                                <span id="tcAgreeFill" class="absolute left-0 top-0 h-full w-0 bg-frog transition-[width] duration-150 ease-linear"></span>
+                                <span class="absolute left-0 top-0 h-full w-full opacity-30 bg-frog/10 pointer-events-none"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+
+            const scrollBox = document.getElementById('tcScrollBox');
+            const agreeBtn = document.getElementById('tcAgreeBtn');
+            const statusEl = document.getElementById('tcStatus');
+
+            window.__frogTcAgreed = () => {
+                try {
+                    localStorage.setItem('frogTcAccepted', 'true');
+                    if (typeof onAgree === 'function') onAgree();
+                } finally {
+                    closeModal();
+                }
+            };
+
+            window.__frogTcDeclined = () => {
+                try {
+                    if (typeof onDecline === 'function') onDecline();
+                } finally {
+                    // no-op
+                }
+            };
+
+            const tcAgreeFill = document.getElementById('tcAgreeFill');
+
+            const markCompleted = () => {
+                if (!agreeBtn || agreeBtn.disabled === false) return;
+                agreeBtn.disabled = false;
+                if (statusEl) statusEl.textContent = 'Completed';
+
+                // Fill bar fully
+                if (tcAgreeFill) tcAgreeFill.style.width = '100%';
+
+                // Keep label (avoid replacing innerHTML which would remove progress bar)
+                agreeBtn.classList.remove('bg-frog/10');
+                agreeBtn.classList.add('bg-frog');
+                agreeBtn.classList.add('text-slate-900');
+            };
+
+            const checkBottom = () => {
+                if (!scrollBox) return;
+                const tolerance = 16;
+                const scrollable = Math.max(1, scrollBox.scrollHeight - scrollBox.clientHeight);
+                const progress = Math.min(1, Math.max(0, scrollBox.scrollTop / scrollable));
+
+                if (tcAgreeFill) tcAgreeFill.style.width = `${Math.round(progress * 100)}%`;
+
+                const atBottom = scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - tolerance;
+                if (atBottom) markCompleted();
+            };
+
+
+            scrollBox.addEventListener('scroll', checkBottom, { passive: true });
+            setTimeout(checkBottom, 50);
+
+            // Ensure modal visible
+            document.getElementById('modalOverlay')?.classList.add('active');
+        }
+
+        // Terms-gating entrypoint for Space Frog downloads
+        window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName){
+            if (appName !== 'SPACE FROG') return;
+
+            // If already accepted, go straight to download
+            if (localStorage.getItem('frogTcAccepted') === 'true') {
+                window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
+                closeModal();
+                return;
+            }
+
+            // Open T&C modal first
+            if (typeof openFrogTcModalOnly === 'function') {
+                openFrogTcModalOnly({
+                    onAgree: () => {
+                        window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
+                    },
+                    onDecline: () => {}
+                });
+            } else {
+                window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
+                closeModal();
+            }
+        };
+
         function initTheme() {
             const html = document.documentElement;
             const savedTheme = localStorage.getItem('theme');
