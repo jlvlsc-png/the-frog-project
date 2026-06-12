@@ -1105,6 +1105,9 @@ clearInterval(countdownInterval);
             if (__updatesFirebaseReady) return;
             if (!window.firebase) throw new Error('Firebase SDK not available on window.firebase');
 
+            // Log config so we can verify we’re pointing to the correct Firebase project
+            console.log('[UPDATES] Using Firebase projectId:', _0xKEY && _0xKEY.projectId, 'storageBucket:', _0xKEY && _0xKEY.storageBucket);
+
             const app = window.firebase.apps && window.firebase.apps.length
                 ? window.firebase.app()
                 : window.firebase.initializeApp(_0xKEY);
@@ -1112,6 +1115,14 @@ clearInterval(countdownInterval);
             // RTDB
             __updatesDb = app.database();
             __updatesAuth = null;
+
+            // Extra diagnostics: verify databaseURL
+            try {
+                console.log('[UPDATES] RTDB databaseURL:', __updatesDb && __updatesDb.app ? __updatesDb.app.options.databaseURL : '(unknown)');
+            } catch (e) {
+                console.warn('[UPDATES] Could not read RTDB databaseURL', e);
+            }
+
             __updatesFirebaseReady = true;
         }
 
@@ -1144,12 +1155,58 @@ clearInterval(countdownInterval);
             if (!postedAt) postedAt = Date.now();
             const update = { title: title || 'Update', body: body || '', postedAt };
 
-            const ref = __updatesDb.ref('updates');
-            if (id) {
-                await ref.child(id).update(update);
-            } else {
-                const newRef = ref.push();
-                await newRef.set(update);
+            const status = document.getElementById('updatesSaveMsg');
+            if (status) status.textContent = 'Saving update...';
+
+            // Real diagnostic: test RTDB read before write to isolate endpoint/rules/connectivity.
+            // This avoids “write promise never resolves” without knowing why.
+            let __healthcheckOk = false;
+            try {
+                if (__updatesDb && __updatesDb.ref) {
+                    const pingRef = __updatesDb.ref('updates/__healthcheck__');
+                    await pingRef.set({ t: Date.now() });
+                    const snap = await pingRef.once('value');
+                    __healthcheckOk = !!(snap && snap.val());
+                    console.log('[UPDATES][DEBUG] healthcheck ok:', __healthcheckOk, snap.val());
+                }
+            } catch (e) {
+                console.error('[UPDATES][DEBUG] healthcheck failed:', e);
+            }
+
+
+            // Add a timeout so UI doesn’t look “stuck” if RTDB request hangs
+            const timeoutMs = 10000;
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('RTDB timeout after ' + timeoutMs + 'ms')), timeoutMs);
+            });
+
+            try {
+                const doWrite = (async () => {
+                    const ref = __updatesDb.ref('updates');
+                    const baseUrl = __updatesDb && __updatesDb.app && __updatesDb.app.options ? __updatesDb.app.options.databaseURL : '(unknown)';
+                    console.log('[UPDATES][DEBUG] databaseURL:', baseUrl);
+
+                    if (id) {
+                        console.log('[UPDATES][DEBUG] writing to:', 'updates/' + id);
+                        const childRef = ref.child(id);
+                        await childRef.set(update);
+                    } else {
+                        console.log('[UPDATES][DEBUG] pushing to: updates');
+                        const newRef = ref.push();
+                        console.log('[UPDATES][DEBUG] pushed key:', newRef.key);
+                        await newRef.set(update);
+                    }
+                })();
+
+                await Promise.race([doWrite, timeoutPromise]);
+
+
+                if (status) status.textContent = 'Saved.';
+                await __fetchUpdatesFeed();
+            } catch (err) {
+                console.error('RTDB add/update failed:', err);
+                if (status) status.textContent = 'Save failed: ' + (err && err.message ? err.message : String(err));
+                throw err;
             }
         }
 
@@ -1245,6 +1302,7 @@ clearInterval(countdownInterval);
                         <button onclick="window.__updatesAddOrUpdate && window.__updatesAddOrUpdate(null)" class="w-full px-4 py-3 rounded-xl bg-frog text-slate-900 font-bold text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
                             Add Update <i class="ph-bold ph-plus"></i>
                         </button>
+                        <p id="updatesSaveMsg" class="text-xs text-slate-500 dark:text-gray-400" />
                         <p class="text-xs text-slate-500 dark:text-gray-400">Edit/Delete buttons appear next to each update once unlocked.</p>
                     </div>
                 </div>

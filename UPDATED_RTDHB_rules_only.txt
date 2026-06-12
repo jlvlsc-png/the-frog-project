@@ -1,0 +1,14 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "updates": {
+      ".read": true,
+      "$updateId": {
+        ".write": "newData.exists() || !newData.exists()",
+        ".validate": "(!newData.exists()) || (newData.hasChildren(['title','body','postedAt']) && newData.child('title').isString() && newData.child('body').isString() && newData.child('postedAt').isNumber())"
+      }
+    }
+  }
+}
+
