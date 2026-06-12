@@ -771,9 +771,11 @@
         // Initialize theme and splash screen
         initTheme();
         
-        window.addEventListener('load', () => {
+        function handleSplashRemoval() {
             const splash = document.getElementById('splash-screen');
             const wrapper = document.getElementById('main-content-wrapper');
+            
+            if (!splash || !wrapper) return;
             
             // Animation (1s) + Hold (2s) + Buffer (0.5s)
             setTimeout(() => {
@@ -781,10 +783,20 @@
                 wrapper.classList.remove('opacity-0', 'scale-105');
                 
                 setTimeout(() => {
-                    splash.remove();
+                    if (splash && splash.parentNode) {
+                        splash.remove();
+                    }
                 }, 1000);
             }, 3500);
-        });
+        }
+
+        // Try both DOMContentLoaded and load events for maximum compatibility
+        if (document.readyState === 'complete') {
+            handleSplashRemoval();
+        } else {
+            window.addEventListener('load', handleSplashRemoval);
+            document.addEventListener('DOMContentLoaded', handleSplashRemoval);
+        }
 
         // Initialize theme based on preference
         function initTheme() {
