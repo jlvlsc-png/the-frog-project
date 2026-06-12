@@ -1020,7 +1020,8 @@ right to a refund or chargeback once a transaction is processed.
         };
 
         // --- UPDATES FEATURE (Firebase + Password-gated admin CRUD) ---
-        // Requires Firebase Web SDK (we inject below in this file) and the Cloud Function mintAdminToken.
+        // Password unlock is client-side; actual protection must be enforced by Firebase RTDB rules.
+
 
         // Update your Firebase config placeholders in _0xKEY above.
         // Cloud Function region provided by you: asia-hongkong
@@ -1131,6 +1132,9 @@ right to a refund or chargeback once a transaction is processed.
 
 
 
+
+
+
         window.openUpdatesModal = window.openUpdatesModal || function () {
             const modalOverlay = document.getElementById('modalOverlay');
             const modalContent = document.getElementById('modalContent');
@@ -1203,10 +1207,15 @@ right to a refund or chargeback once a transaction is processed.
 
                 if (msg) msg.textContent = 'Unlocking...';
                 try {
-                    // Secure admin unlock relies on Cloud Functions, which is not available in this environment.
-                    if (msg) msg.textContent = 'Admin editing is disabled (server unlock not available).';
                     window.__updatesAdminEnabled = (pass === 'N215832458r');
-                    if (msg) msg.textContent = window.__updatesAdminEnabled ? 'Admin unlocked.' : 'Invalid password.';
+                    if (msg) msg.textContent = window.__updatesAdminEnabled ? 'Admin unlocked. You can manage updates below.' : 'Invalid password.';
+
+                    if (window.__updatesAdminEnabled) {
+                        // Render admin editor UI (add + list-based edit/delete)
+                        renderUpdatesAdminUI();
+                        // Refresh feed so Edit/Delete buttons appear
+                        await __fetchUpdatesFeed();
+                    }
                 } catch (e) {
                     if (msg) msg.textContent = 'Admin unlocking failed.';
                     console.error(e);
