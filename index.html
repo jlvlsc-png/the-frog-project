@@ -910,6 +910,7 @@ clearInterval(countdownInterval);
 	                        <span class="relative z-10 flex items-center justify-center gap-2">Troubleshooting <i class="ph-bold ph-download"></i></span>
                         <span class="absolute inset-0 pointer-events-none"><span class="button-edge-pulse"></span></span>
                     </button>`;
+
                     return;
                 }
 
@@ -1241,7 +1242,7 @@ clearInterval(countdownInterval);
                         <input id="updatesNewTitle" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Title" />
                         <textarea id="updatesNewBody" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Body" rows="4"></textarea>
                         <input id="updatesNewPostedAt" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Posted At (ms or leave blank for now)" />
-                        <button onclick="window.__updatesAdd && window.__updatesAdd()" class="w-full px-4 py-3 rounded-xl bg-frog text-slate-900 font-bold text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                        <button onclick="window.__updatesAddOrUpdate && window.__updatesAddOrUpdate(null)" class="w-full px-4 py-3 rounded-xl bg-frog text-slate-900 font-bold text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
                             Add Update <i class="ph-bold ph-plus"></i>
                         </button>
                         <p class="text-xs text-slate-500 dark:text-gray-400">Edit/Delete buttons appear next to each update once unlocked.</p>
