@@ -1050,13 +1050,46 @@ right to a refund or chargeback once a transaction is processed.
 
         function __formatDate(ts) {
             try {
-                // Firestore Timestamp or ms
                 const d = ts && typeof ts.toDate === 'function' ? ts.toDate() : new Date(ts);
                 return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
             } catch (e) {
                 return '';
             }
         }
+
+        async function __updatesAddOrUpdate(id) {
+            await __ensureUpdatesFirebase();
+
+            const titleEl = document.getElementById('updatesNewTitle');
+            const bodyEl = document.getElementById('updatesNewBody');
+            const postedEl = document.getElementById('updatesNewPostedAt');
+
+            const title = titleEl ? titleEl.value : '';
+            const body = bodyEl ? bodyEl.value : '';
+            let postedAt = null;
+            const postedRaw = postedEl ? postedEl.value : '';
+            if (postedRaw && String(postedRaw).trim() !== '') {
+                const n = Number(postedRaw);
+                if (!Number.isNaN(n)) postedAt = n;
+            }
+
+            if (!postedAt) postedAt = Date.now();
+            const update = { title: title || 'Update', body: body || '', postedAt };
+
+            const ref = __updatesDb.ref('updates');
+            if (id) {
+                await ref.child(id).update(update);
+            } else {
+                const newRef = ref.push();
+                await newRef.set(update);
+            }
+        }
+
+        async function __updatesDeleteById(id) {
+            await __ensureUpdatesFirebase();
+            await __updatesDb.ref('updates').child(id).remove();
+        }
+
 
         async function __fetchUpdatesFeed() {
             await __ensureUpdatesFirebase();
@@ -1128,6 +1161,28 @@ right to a refund or chargeback once a transaction is processed.
                 .replaceAll('"', '"')
                 .replaceAll("'", '&#039;');
         }
+
+        // --- Admin UI helpers (so unlock never crashes) ---
+        function renderUpdatesAdminUI() {
+            const gateEl = document.getElementById('updatesAdminGate');
+            if (!gateEl) return;
+
+            gateEl.innerHTML = `
+                <div class="p-4 rounded-2xl border border-frog/30 bg-frog/5">
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">Admin: Manage Updates</h4>
+                    <div class="mt-3 grid grid-cols-1 gap-3">
+                        <input id="updatesNewTitle" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Title" />
+                        <textarea id="updatesNewBody" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Body" rows="4"></textarea>
+                        <input id="updatesNewPostedAt" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Posted At (ms or leave blank for now)" />
+                        <button onclick="window.__updatesAdd && window.__updatesAdd()" class="w-full px-4 py-3 rounded-xl bg-frog text-slate-900 font-bold text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                            Add Update <i class="ph-bold ph-plus"></i>
+                        </button>
+                        <p class="text-xs text-slate-500 dark:text-gray-400">Edit/Delete buttons appear next to each update once unlocked.</p>
+                    </div>
+                </div>
+            `;
+        }
+
 
 
 
@@ -1220,6 +1275,18 @@ right to a refund or chargeback once a transaction is processed.
                     if (window.__updatesAdminEnabled) {
                         // Render admin editor UI (add + list-based edit/delete)
                         renderUpdatesAdminUI();
+
+                        // Attach admin handlers if missing
+                        window.__updatesAdd = window.__updatesAdd || (async function(){
+                            await __updatesAddOrUpdate(null);
+                        });
+                        window.__updatesEdit = window.__updatesEdit || (async function(id){
+                            await __updatesAddOrUpdate(id);
+                        });
+                        window.__updatesDelete = window.__updatesDelete || (async function(id){
+                            await __updatesDeleteById(id);
+                        });
+
                         // Refresh feed so Edit/Delete buttons appear
                         await __fetchUpdatesFeed();
                     }
