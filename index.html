@@ -214,9 +214,10 @@
             border: 2px solid transparent;
             border-radius: 1rem;
             background: linear-gradient(90deg, rgba(180,240,42,0.8), rgba(180,240,42,0.2)) border-box;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
             -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
             mask-composite: exclude;
+            -webkit-mask-composite: destination-out;
             animation: borderPulse 2s infinite;
         }
     </style>
@@ -261,7 +262,7 @@
     <!-- Fixed Background Logo -->
     <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center mix-blend-overlay dark:mix-blend-screen">
 
-        <img src="./logo.webp" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.18]" loading="lazy" />
+        <img src="./logo.webp" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.12]" loading="lazy" />
 
     </div>
 
@@ -537,7 +538,82 @@
                                     Release in: --d --h --m --s
                                 </div>`;
                 } else {
-                    actionHtml = `<button onclick="window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank'); closeModal();" class="w-full py-4 bg-frog text-slate-900 font-bold rounded-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">Download Package <i class="ph-bold ph-download"></i></button>`;
+                    actionHtml = `
+                        <div id="termsSection" class="mb-4">
+                            <div class="max-h-48 overflow-y-auto p-4 rounded-xl border border-white/10 bg-white/5 text-xs text-slate-400 dark:text-gray-400 mb-4 custom-scrollbar">
+                                <h4 class="font-bold text-frog mb-2">TERMS AND CONDITIONS OF USE</h4>
+                                <p class="mb-2"><strong>THE FROG PROJECT</strong> (8 SMART TOOLS • 1 UNIFIED HUB)<br>"Work Smarter, Leap Further."</p>
+                                <p class="mb-2"><strong>EFFECTIVE DATE:</strong> June 2026 | <strong>FOUNDER & DEVELOPER:</strong> John Lloyd N. Velasco<br>
+                                <strong>DOMAIN:</strong> arch-frogproject.web.app</p>
+                                
+                                <p class="mb-2"><strong>IMPORTANT NOTICE:</strong> PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY. BY ACCESSING arch-frogproject.web.app, OR BY DOWNLOADING, INSTALLING, OR USING ANY APPLICATION WITHIN "THE FROG PROJECT" ECOSYSTEM, YOU EXPLICITLY AGREE TO BE BOUND BY THESE TERMS. IF YOU DO NOT AGREE, DO NOT ACCESS OR USE THE PLATFORM.</p>
+                                
+                                <p class="mb-2">The Frog Project is a unified hub containing 8 smart tools engineered to address the tedious workflows that plague the modern architecture and construction industries. The software is designed to act as a "force multiplier" for architects, builders, and allied professionals. By automating complex processes and handling the heavy lifting to ensure accuracy and speed, the platform allows professionals to focus on pure design. However, the pursuit of "Zero Redundancy" does not negate the User's professional and legal responsibilities.</p>
+                                
+                                <p class="mb-2"><strong>Subscription Tiers:</strong> The Frog Project offers both free features and paid subscription tiers ("Pro Features"). The Developer reserves the sole right to modify, restrict, add, or reassign features between the Free and Pro tiers at any time without prior notice.</p>
+                                
+                                <p class="mb-2"><strong>No Auto-Renewal:</strong> The SaaS does not employ an automatic renewal or recurring billing system. It is the User's sole responsibility to manually renew their subscription to maintain uninterrupted access to Pro Features.</p>
+                                
+                                <p class="mb-2"><strong>Immediate Expiration:</strong> Upon the expiration of a subscription cycle, access to Pro Features, premium automation tools, and advanced modules will be immediately revoked or downgraded to the Free tier.</p>
+                                
+                                <p class="mb-2"><strong>Subscription Terms:</strong></p>
+                                <ul class="list-disc pl-5 mb-2">
+                                    <li>Saved configurations or projects may become locked or restricted to "Read-Only" status after expiration</li>
+                                    <li>The Developer assumes no liability for inability to access or edit data after subscription expiration</li>
+                                    <li>No liability for project delays or financial losses due to feature gating</li>
+                                </ul>
+                                
+                                <p class="mb-2"><strong>Non-Refundable Policy:</strong> In accordance with the Consumer Act of the Philippines (Republic Act No. 7394), all payments for premium access are strictly non-refundable. The User explicitly waives any right to a refund or chargeback once a transaction is processed.</p>
+                                
+                                <p class="mb-2">Pursuant to the Electronic Commerce Act of 2000 (Republic Act No. 8792), the act of accessing the web application or downloading the tools constitutes a legally binding electronic agreement between you (the "User") and the Founder & Developer (John Lloyd N. Velasco). No physical signature is required to formalize this contract.</p>
+                                
+                                <p class="mb-2">While the algorithms and automated calculation tools within The Frog Project have been rigorously tested to align with Philippine structural and architectural codes, the applications act strictly as supplementary productivity tools. They are not replacements for professional judgment, manual computation, or certified engineering analysis.</p>
+                                
+                                <p class="mb-2"><strong>National & Safety Codes:</strong> Automated spatial computations and outputs relating to The National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be independently verified by the User.</p>
+                                
+                                <p class="mb-2"><strong>Local Government (LGU) Ordinances:</strong> Users must manually confirm all outputs, zonings, and spatial limitations with their respective Local Government Units (LGUs). Local ordinances supersede general code interpretations as stipulated under the Local Government Code of 1991 (Republic Act No. 7160).</p>
+                                
+                                <p class="mb-2"><strong>LIABILITY SHIELD:</strong> The Developer assumes absolutely NO RESPONSIBILITY for rejected building permits, structural failures, financial losses, or legal disputes arising from unverified reliance on the software's automated output. The professional architect, engineer, or designer of record retains full, sole, and exclusive liability for their submitted plans.</p>
+                                
+                                <p class="mb-2">All source code, UI/UX designs, HTML/JavaScript algorithms, databases, structural assets, and hybrid verification mechanisms within The Frog Project ecosystem are the exclusive intellectual property of the Founder & Developer, protected under the Intellectual Property Code of the Philippines (Republic Act No. 8293). Users are granted a limited, non-transferable, and revocable license for standard use.</p>
+                                
+                                <p class="mb-2"><strong>Prohibited Actions:</strong> You strictly agree NOT to:</p>
+                                <ul class="list-disc pl-5 mb-2">
+                                    <li>Reverse engineer, decompile, disassemble, or extract the source code of any Frog Project app or web component</li>
+                                    <li>Pirate, distribute, crack, or attempt to bypass the platform's login or hybrid verification systems</li>
+                                    <li>Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for NBCP space computations, zoning automation, or any other ecosystem features</li>
+                                </ul>
+                                
+                                <p class="mb-2">Violations of these terms constitute a criminal offense and will be aggressively prosecuted under the Cybercrime Prevention Act of 2012 (Republic Act No. 10175), carrying severe financial penalties and potential imprisonment.</p>
+                                
+                                <p class="mb-2">In accordance with applicable provisions of the Civil Code of the Philippines, the applications and the unified web hub are provided "AS IS" and "AS AVAILABLE." The Developer explicitly disclaims all warranties, express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+                                
+                                <p class="mb-2">To the maximum extent permitted by law, the Developer shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use or inability to use the platform. You agree to indemnify, defend, and hold harmless the Developer from any claims, damages, liabilities, and expenses arising from your violation of these Terms or infringement of third-party rights.</p>
+                            </div>
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="termsCheckbox" onchange="toggleDownloadButton()" class="mt-1 w-4 h-4 accent-frog">
+                                <span class="text-xs text-slate-400 dark:text-gray-400">I have read and agree to the <span class="text-frog font-bold">Terms and Conditions</span> of use. I understand that this software is provided "AS IS" and I am responsible for verifying all outputs independently.</span>
+                            </label>
+                        </div>
+                        <button id="downloadBtn" onclick="window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank'); closeModal();" disabled class="w-full py-4 bg-frog/50 text-slate-900/50 font-bold rounded-xl flex items-center justify-center gap-2 cursor-not-allowed transition-all">
+                            Download Package <i class="ph-bold ph-download"></i>
+                        </button>
+                        <script>
+                            function toggleDownloadButton() {
+                                const checkbox = document.getElementById('termsCheckbox');
+                                const btn = document.getElementById('downloadBtn');
+                                if (checkbox.checked) {
+                                    btn.disabled = false;
+                                    btn.classList.remove('bg-frog/50', 'text-slate-900/50', 'cursor-not-allowed');
+                                    btn.classList.add('bg-frog', 'text-slate-900', 'hover:scale-[1.02]', 'cursor-pointer');
+                                } else {
+                                    btn.disabled = true;
+                                    btn.classList.add('bg-frog/50', 'text-slate-900/50', 'cursor-not-allowed');
+                                    btn.classList.remove('bg-frog', 'text-slate-900', 'hover:scale-[1.02]', 'cursor-pointer');
+                                }
+                            }
+                        </script>
+                    `;
                 }
             } else {
                 actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
@@ -853,11 +929,11 @@
         // 1. Disable Right-Click (Context Menu)
         document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        // 2. Disable Common DevTools Keyboard Shortcuts
+// 2. Disable Common DevTools Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
             if (
-                e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
                 (e.ctrlKey && e.key === 'U') ||
                 (e.ctrlKey && e.key === 'S')
             ) {
