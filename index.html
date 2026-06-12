@@ -1399,9 +1399,16 @@ clearInterval(countdownInterval);
                     if (msg) msg.textContent = 'Admin verified. Signing in...';
 
                     // Mint a server-side custom token and sign in so RTDB rules see auth.uid === 'updates-admin'.
+                    // Prefer the exact Trigger URL shape:
+                    // https://<region>-<projectId>.cloudfunctions.net/<functionName>
+                    // (If this still fails, we surface the URL for copy/paste debugging.)
                     const mintUrlFixed = `https://${UPDATES_CF_REGION}-${_0xKEY.projectId}.cloudfunctions.net/${UPDATES_CF_NAME}`;
 
+                    console.log('[UPDATES][DEBUG] mintAdminToken url:', mintUrlFixed);
+                    if (msg) msg.textContent = 'Signing in via server token...';
+
                     const resp = await fetch(mintUrlFixed, {
+
 
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
