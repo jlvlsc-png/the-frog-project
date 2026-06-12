@@ -1,0 +1,16 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "updates": {
+      ".read": true,
+
+      "$updateId": {
+        ".write": "auth != null && auth.uid === 'updates-admin' && (newData.exists() ? (newData.hasChildren(['title','body','postedAt']) && newData.child('title').isString() && newData.child('body').isString() && newData.child('postedAt').isNumber()) : false)",
+        ".validate": "newData.exists() && newData.hasChildren(['title','body','postedAt']) && newData.child('title').isString() && newData.child('body').isString() && newData.child('postedAt').isNumber()"
+      }
+    }
+  }
+}
+

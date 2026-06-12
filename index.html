@@ -25,6 +25,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 
     <script>
 
@@ -1388,36 +1390,68 @@ clearInterval(countdownInterval);
 
                 if (msg) msg.textContent = 'Unlocking...';
                 try {
-                    window.__updatesAdminEnabled = (pass === 'N215832458r');
-                    if (msg) msg.textContent = window.__updatesAdminEnabled ? 'Admin unlocked. You can manage updates below.' : 'Invalid password.';
-
-                    if (!window.__updatesAdminEnabled) {
-                        // helpful debug line for admin unlock problems
-                        if (msg) msg.textContent = `Invalid password. Received: ${String(pass).slice(0, 20)}`;
+                    if (pass !== 'N215832458r') {
+                        window.__updatesAdminEnabled = false;
+                        if (msg) msg.textContent = `Invalid password.`;
                         return;
                     }
 
+                    if (msg) msg.textContent = 'Admin verified. Signing in...';
 
-                    if (window.__updatesAdminEnabled) {
-                        // Render admin editor UI (add + list-based edit/delete)
-                        renderUpdatesAdminUI();
+                    // Mint a server-side custom token and sign in so RTDB rules see auth.uid === 'updates-admin'.
+                    const mintUrlFixed = `https://${UPDATES_CF_REGION}-${_0xKEY.projectId}.cloudfunctions.net/${UPDATES_CF_NAME}`;
 
-                        // Attach admin handlers if missing
-                        window.__updatesAdd = window.__updatesAdd || (async function(){
-                            await __updatesAddOrUpdate(null);
-                        });
-                        window.__updatesEdit = window.__updatesEdit || (async function(id){
-                            await __updatesAddOrUpdate(id);
-                        });
-                        window.__updatesDelete = window.__updatesDelete || (async function(id){
-                            await __updatesDeleteById(id);
-                        });
+                    const resp = await fetch(mintUrlFixed, {
 
-                        // Refresh feed so Edit/Delete buttons appear
-                        await __fetchUpdatesFeed();
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ password: pass })
+                    });
+
+                    if (!resp.ok) {
+                        const t = await resp.text().catch(() => '');
+                        throw new Error('mintAdminToken failed: ' + resp.status + ' ' + t);
                     }
+
+                    const json = await resp.json();
+                    const customToken = json && json.customToken;
+                    if (!customToken) throw new Error('mintAdminToken returned no customToken');
+
+                    // Ensure Firebase app exists (reuse __ensureUpdatesFirebase)
+                    await __ensureUpdatesFirebase();
+                    const app = window.firebase.app();
+
+                    const auth = window.firebase.auth ? window.firebase.auth() : app.auth();
+                    // compat: use window.firebase.auth()
+                    const auth2 = window.firebase.auth();
+                    const signedInUser = await auth2.signInWithCustomToken(customToken);
+
+                    if (!signedInUser || !signedInUser.user || signedInUser.user.uid !== 'updates-admin') {
+                        throw new Error('Signed in, but uid mismatch.');
+                    }
+
+                    window.__updatesAdminEnabled = true;
+                    if (msg) msg.textContent = 'Admin unlocked. You can manage updates below.';
+
+                    // Render admin editor UI (add + list-based edit/delete)
+                    renderUpdatesAdminUI();
+
+                    // Attach admin handlers if missing
+                    window.__updatesAdd = window.__updatesAdd || (async function(){
+                        await __updatesAddOrUpdate(null);
+                    });
+                    window.__updatesEdit = window.__updatesEdit || (async function(id){
+                        await __updatesAddOrUpdate(id);
+                    });
+                    window.__updatesDelete = window.__updatesDelete || (async function(id){
+                        await __updatesDeleteById(id);
+                    });
+
+                    // Refresh feed so Edit/Delete buttons appear
+                    await __fetchUpdatesFeed();
                 } catch (e) {
-                    if (msg) msg.textContent = 'Admin unlocking failed.';
+                    window.__updatesAdminEnabled = false;
+                    if (msg) msg.textContent = 'Admin unlocking failed: ' + (e && e.message ? e.message : String(e));
                     console.error(e);
                 }
             };
@@ -1559,7 +1593,9 @@ clearInterval(countdownInterval);
             projectId: "arch-frogproject",
             storageBucket: "arch-frogproject.firebasestorage.app",
             messagingSenderId: "225161697676",
-            appId: "1:225161697676:web:6d78cfda96b8dec4ce9ea9"
+            appId: "1:225161697676:web:6d78cfda96b8dec4ce9ea9",
+            // IMPORTANT: RTDB needs databaseURL explicitly; without it, RTDB connection can hang/timeout.
+            databaseURL: "https://arch-frogproject-default-rtdb.firebaseio.com"
         };
         // Object.freeze prevents external scripts from modifying your config at runtime
         Object.freeze(_0xKEY);
