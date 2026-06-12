@@ -1210,6 +1210,13 @@ right to a refund or chargeback once a transaction is processed.
                     window.__updatesAdminEnabled = (pass === 'N215832458r');
                     if (msg) msg.textContent = window.__updatesAdminEnabled ? 'Admin unlocked. You can manage updates below.' : 'Invalid password.';
 
+                    if (!window.__updatesAdminEnabled) {
+                        // helpful debug line for admin unlock problems
+                        if (msg) msg.textContent = `Invalid password. Received: ${String(pass).slice(0, 20)}`;
+                        return;
+                    }
+
+
                     if (window.__updatesAdminEnabled) {
                         // Render admin editor UI (add + list-based edit/delete)
                         renderUpdatesAdminUI();
