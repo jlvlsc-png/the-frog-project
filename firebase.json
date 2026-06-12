@@ -1,10 +1,13 @@
 {
+  "functions": {
+    "source": "functions"
+  },
   "hosting": {
-    "site": "arch-frogproject", 
+    "site": "arch-frogproject",
     "public": ".",
     "ignore": [
       "firebase.json",
-      "**/.*", 
+      "**/.*",
       "**/node_modules/**"
     ],
     "headers": [
@@ -12,7 +15,7 @@
         "source": "**/*.@(jpg|jpeg|gif|png|webp)",
         "headers": [
           {
-            "key": "Cache-Control", 
+            "key": "Cache-Control",
             "value": "max-age=31536000"
           }
         ]

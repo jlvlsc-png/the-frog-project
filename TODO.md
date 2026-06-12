@@ -7,5 +7,7 @@
 - [x] Ensure countdown/download logic respects the new gating modal.
 - [x] Update UI: download button proceeds only after T&C accept.
 - [ ] Quick test: open site, open SPACE FROG modal, attempt download, validate gating behavior.
+- [ ] Quick test: open site, click UPDATES, verify updates load read-only (admin editing disabled).
+
 
 

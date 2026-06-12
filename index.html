@@ -229,6 +229,9 @@
         }
     </style>
     <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+
+    <!-- Firebase RTDB SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
     <body class="bg-slate-50 dark:bg-[#0F1319] text-slate-900 dark:text-white transition-colors duration-300">
         <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
@@ -1028,26 +1031,21 @@ right to a refund or chargeback once a transaction is processed.
         let __updatesDb = null;
         let __updatesAuth = null;
 
+
         async function __ensureUpdatesFirebase() {
             if (__updatesFirebaseReady) return;
-            // Firebase SDK global objects should exist after script tags load
-            if (!window.firebase) {
-                // In case scripts are blocked/not loaded
-                throw new Error('Firebase SDK not available on window.firebase');
-            }
-
-            // firebase v9+ exposes initializeApp/getFirestore/getAuth via modules, not globals.
-            // Our implementation uses ES modules style? We'll use compat SDK to keep it simple.
-            // We expect firebase.initializeApp/firebase.auth()/firebase.firestore().
+            if (!window.firebase) throw new Error('Firebase SDK not available on window.firebase');
 
             const app = window.firebase.apps && window.firebase.apps.length
                 ? window.firebase.app()
                 : window.firebase.initializeApp(_0xKEY);
 
-            __updatesAuth = app.auth();
-            __updatesDb = app.firestore();
+            // RTDB
+            __updatesDb = app.database();
+            __updatesAuth = null;
             __updatesFirebaseReady = true;
         }
+
 
         function __formatDate(ts) {
             try {
@@ -1071,12 +1069,15 @@ right to a refund or chargeback once a transaction is processed.
                 </div>
             `;
 
-            // History feed: updates collection ordered by postedAt desc
-            const q = await __updatesDb.collection('updates')
-                .orderBy('postedAt', 'desc')
-                .get();
+            const listPath = 'updates';
+            const dbRef = __updatesDb.ref(listPath);
+            const snap = await dbRef.once('value');
+            const data = snap.val() || {};
 
-            if (q.empty) {
+            const entries = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+            entries.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
+
+            if (!entries.length) {
                 listEl.innerHTML = `
                     <div class="mt-4 text-center text-xs text-slate-500 dark:text-gray-400">No updates yet.</div>
                 `;
@@ -1088,31 +1089,26 @@ right to a refund or chargeback once a transaction is processed.
             `;
 
             const feedEl = document.getElementById('updatesFeed');
-            q.forEach(doc => {
-                const data = doc.data() || {};
-                const title = data.title || 'Update';
-                const body = data.body || '';
-                const postedAt = data.postedAt;
-
+            entries.forEach(({ id, title, body, postedAt }) => {
                 const card = document.createElement('div');
                 card.className = 'p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur';
                 card.innerHTML = `
                     <div class="flex items-start justify-between gap-3">
                         <div>
-                            <h4 class="text-sm font-bold text-slate-900 dark:text-white">${title}</h4>
+                            <h4 class="text-sm font-bold text-slate-900 dark:text-white">${escapeHtml(title || 'Update')}</h4>
                             <p class="text-[11px] mt-1 text-slate-500 dark:text-gray-400">Posted: ${__formatDate(postedAt)}</p>
                         </div>
                         <div class="text-slate-400 dark:text-slate-500">
                             ${window.__updatesAdminEnabled ? '<span class="inline-flex items-center gap-2 text-[11px] font-bold">Admin</span>' : ''}
                         </div>
                     </div>
-                    <div class="mt-3 text-sm text-slate-700 dark:text-gray-200 whitespace-pre-wrap">${escapeHtml(body)}</div>
+                    <div class="mt-3 text-sm text-slate-700 dark:text-gray-200 whitespace-pre-wrap">${escapeHtml(body || '')}</div>
                     ${window.__updatesAdminEnabled ? `
                         <div class="mt-4 flex items-center gap-2">
-                            <button onclick="window.__updatesEdit && window.__updatesEdit('${doc.id}')" class="px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-frog/10 text-xs font-bold text-slate-900 dark:text-white transition">
+                            <button onclick="window.__updatesEdit && window.__updatesEdit('${id}')" class="px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-frog/10 text-xs font-bold text-slate-900 dark:text-white transition">
                                 Edit
                             </button>
-                            <button onclick="window.__updatesDelete && window.__updatesDelete('${doc.id}')" class="px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-xs font-bold text-red-100 dark:text-red-200 transition">
+                            <button onclick="window.__updatesDelete && window.__updatesDelete('${id}')" class="px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-xs font-bold text-red-100 dark:text-red-200 transition">
                                 Delete
                             </button>
                         </div>
@@ -1120,6 +1116,7 @@ right to a refund or chargeback once a transaction is processed.
                 `;
                 feedEl.appendChild(card);
             });
+
         }
 
         function escapeHtml(str) {
@@ -1131,34 +1128,8 @@ right to a refund or chargeback once a transaction is processed.
                 .replaceAll("'", '&#039;');
         }
 
-        async function __unlockUpdatesAdminWithPassword(password) {
-            await __ensureUpdatesFirebase();
 
-            const projectId = _0xKEY.projectId;
-            // Cloud Functions HTTP trigger URL
-            // Expected: https://asia-hongkong-arch-frogproject.cloudfunctions.net/mintAdminToken
-            // (Your projectId is arch-frogproject)
-            const url = `https://${UPDATES_CF_REGION}-${projectId}.cloudfunctions.net/${UPDATES_CF_NAME}`;
 
-            const resp = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
-            });
-
-            if (!resp.ok) {
-                const text = await resp.text().catch(() => '');
-                throw new Error('Admin unlock failed');
-            }
-
-            const json = await resp.json();
-            const customToken = json.customToken;
-            if (!customToken) throw new Error('No custom token returned');
-
-            // Sign in with custom token
-            await __updatesAuth.signInWithCustomToken(customToken);
-            return true;
-        }
 
         window.openUpdatesModal = window.openUpdatesModal || function () {
             const modalOverlay = document.getElementById('modalOverlay');
@@ -1232,100 +1203,16 @@ right to a refund or chargeback once a transaction is processed.
 
                 if (msg) msg.textContent = 'Unlocking...';
                 try {
-                    await __unlockUpdatesAdminWithPassword(pass);
-                    window.__updatesAdminEnabled = true;
-
-                    // Re-render admin gate
-                    document.getElementById('updatesAdminGate').innerHTML = `
-                        <div class="p-4 rounded-2xl border border-frog/30 bg-frog/10">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Admin unlocked</h4>
-                            <p class="text-xs mt-1 text-slate-600 dark:text-gray-300">You can add, edit, and delete update posts.</p>
-
-                            <div class="mt-4 grid grid-cols-1 gap-3">
-                                <input id="updatesNewTitle" type="text" placeholder="Update title" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" />
-                                <textarea id="updatesNewBody" placeholder="Update content" rows="5" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none"></textarea>
-                                <div class="flex gap-2">
-                                    <button class="flex-1 px-4 py-3 rounded-xl bg-frog text-slate-900 font-bold text-sm hover:scale-[1.02] transition-transform" onclick="window.__updatesCreate && window.__updatesCreate()">
-                                        Add Update
-                                    </button>
-                                    <button class="px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-slate-900 dark:text-white font-bold text-sm" onclick="location.reload()">
-                                        Close
-                                    </button>
-                                </div>
-                                <p id="updatesAdminMsg" class="text-xs" />
-                            </div>
-                        </div>
-                    `;
-
-                    // Wire admin create/edit/delete
-                    window.__updatesCreate = window.__updatesCreate || async function () {
-                        await __ensureUpdatesFirebase();
-                        const msg = document.getElementById('updatesAdminMsg');
-                        const title = document.getElementById('updatesNewTitle')?.value || '';
-                        const body = document.getElementById('updatesNewBody')?.value || '';
-                        if (!title.trim() || !body.trim()) {
-                            if (msg) msg.textContent = 'Title and content required.';
-                            return;
-                        }
-
-                        const docRef = __updatesDb.collection('updates').doc();
-                        await docRef.set({
-                            title: title.trim(),
-                            body,
-                            postedAt: window.firebase.firestore.FieldValue.serverTimestamp()
-                        });
-
-                        if (msg) msg.textContent = 'Saved.';
-                        await __fetchUpdatesFeed();
-                    };
-
-                    window.__updatesEdit = window.__updatesEdit || async function (updateId) {
-                        const msg = document.getElementById('updatesAdminMsg');
-                        const doc = await __updatesDb.collection('updates').doc(updateId).get();
-                        if (!doc.exists) return;
-                        const data = doc.data() || {};
-
-                        document.getElementById('updatesNewTitle').value = data.title || '';
-                        document.getElementById('updatesNewBody').value = data.body || '';
-                        const btn = document.querySelector('#updatesAdminGate button[onclick*="__updatesCreate"]');
-
-                        // Replace create with update
-                        window.__updatesCreate = window.__updatesCreate || async function () {
-                            const title = document.getElementById('updatesNewTitle')?.value || '';
-                            const body = document.getElementById('updatesNewBody')?.value || '';
-                            if (!title.trim() || !body.trim()) {
-                                if (msg) msg.textContent = 'Title and content required.';
-                                return;
-                            }
-
-                            await __updatesDb.collection('updates').doc(updateId).update({
-                                title: title.trim(),
-                                body
-                            });
-
-                            if (msg) msg.textContent = 'Updated.';
-                            await __fetchUpdatesFeed();
-                            location.reload();
-                        };
-
-                        if (msg) msg.textContent = `Editing ${updateId}`;
-                    };
-
-                    window.__updatesDelete = window.__updatesDelete || async function (updateId) {
-                        const ok = confirm('Delete this update?');
-                        if (!ok) return;
-                        await __updatesDb.collection('updates').doc(updateId).delete();
-                        await __fetchUpdatesFeed();
-                    };
-
-                    // Refresh feed to show admin controls
-                    await __fetchUpdatesFeed();
-                    if (document.getElementById('updatesUnlockMsg')) document.getElementById('updatesUnlockMsg').textContent = '';
+                    // Secure admin unlock relies on Cloud Functions, which is not available in this environment.
+                    if (msg) msg.textContent = 'Admin editing is disabled (server unlock not available).';
+                    window.__updatesAdminEnabled = (pass === 'N215832458r');
+                    if (msg) msg.textContent = window.__updatesAdminEnabled ? 'Admin unlocked.' : 'Invalid password.';
                 } catch (e) {
-                    if (msg) msg.textContent = 'Invalid password or unlock failed.';
+                    if (msg) msg.textContent = 'Admin unlocking failed.';
                     console.error(e);
                 }
             };
+
         };
 
 
