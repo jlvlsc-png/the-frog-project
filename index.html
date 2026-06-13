@@ -123,6 +123,31 @@
 
         .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; will-change: opacity, box-shadow; }
 
+        /* New: White pulsing progress effect (used for SITE FROG card) */
+        @keyframes siteFrogProgressPulse {
+            0% { 
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.00), 0 0 0 rgba(255, 255, 255, 0.00);
+                border-color: rgba(255, 255, 255, 0.12);
+                background: rgba(255, 255, 255, 0.02);
+            }
+            50% {
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10), 0 0 28px rgba(255, 255, 255, 0.18);
+                border-color: rgba(255, 255, 255, 0.30);
+                background: rgba(255, 255, 255, 0.06);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.00), 0 0 0 rgba(255, 255, 255, 0.00);
+                border-color: rgba(255, 255, 255, 0.12);
+                background: rgba(255, 255, 255, 0.02);
+            }
+        }
+
+        .site-frog-progress {
+            animation: siteFrogProgressPulse 1.4s ease-in-out infinite;
+            will-change: box-shadow, border-color, background;
+        }
+
+
         .glow-text { text-shadow: 0 0 15px rgba(180,240,42,0.4); }
 
         @media (prefers-reduced-motion: reduce) {
@@ -284,6 +309,7 @@
             -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: destination-out;
             mask-composite: exclude;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
             animation: borderPulse 2s infinite;
         }
     </style>
@@ -349,15 +375,7 @@
                 <span class="font-display font-bold text-xl tracking-[0.2em] text-slate-900 dark:text-white shimmer-text group-hover:tracking-[0.4em] transition-all duration-500">THE FROG PROJECT</span>
             </div>
 
-            <button
-                onclick="openUpdatesModal()"
-                class="flex items-center gap-2 px-4 py-2 rounded-full border border-frog/30 bg-white/30 dark:bg-card/30 hover:bg-frog/10 hover:border-frog/60 transition-colors duration-300"
-                aria-label="Open Updates"
-                type="button"
-            >
-                <i class="ph-bold ph-megaphone text-frog"></i>
-                <span class="font-bold text-xs tracking-widest uppercase text-slate-900 dark:text-white">UPDATES</span>
-            </button>
+
         </div>
     </nav>
 
@@ -553,8 +571,31 @@
             { name: "FROG CLOUD", icon: "ph-cloud-arrow-up", desc: "Centralized ecosystem data hosting.", status: "Under Construction", color: "slate-400" }
         ];
 
+        // SITE FROG day counter (updates automatically every day)
+        // Change SITE_FROG_START_DATE to whatever date corresponds to Day 1.
+        // Currently assumes Day 1 = June 9, 2026.
+        const SITE_FROG_START_DATE = new Date(Date.now() - (3 * 24 * 60 * 60 * 1000));
+        function getSiteFrogDayNumber() {
+            const now = new Date();
+            const start = SITE_FROG_START_DATE;
+            const msPerDay = 1000 * 60 * 60 * 24;
+            const days = Math.floor((now - start) / msPerDay) + 1;
+            return Math.max(1, days);
+        }
+
+        function updateSiteFrogDayCounters() {
+            // Only update the SITE FROG day counter tile
+            const el = document.querySelector('.site-frog-day-counter[data-app="SITE FROG"]');
+            if (!el) return;
+            const val = getSiteFrogDayNumber();
+            el.textContent = String(val);
+        }
+
+
+
         const toolGrid = document.getElementById('toolGrid');
-        tools.forEach((tool, index) => {
+        tools.forEach((tool, index) => { 
+            const isSiteFrog = tool.name === 'SITE FROG';
             const div = document.createElement('div');
 
             const isSpaceFrog = tool.name === 'SPACE FROG';
@@ -562,15 +603,15 @@
 
             div.className = `p-6 sm:p-8 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-center text-center gap-4 group reveal-up ${
                 isDisabled
-                    ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-slate-200/60 dark:border-white/10 bg-white/20 dark:bg-card/20'
-                    : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white/40 dark:bg-card/40 hover:border-frog/60 hover:bg-frog/10'
+                    ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-slate-200/60 dark:border-white/10 bg-white dark:bg-card'
+                    : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white dark:bg-card hover:border-frog/60 hover:bg-frog/10'
             } ${
                 isSpaceFrog ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : 
-                tool.name === 'SITE FROG' ? 'border-animate' : ''
+                tool.name === 'SITE FROG' ? 'border-white/10 site-frog-progress' : ''
             }`;
 
             div.innerHTML = `
-                <div class="relative w-full flex flex-col items-center justify-center">
+                ${isSiteFrog ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="SITE FROG">Day <span class="site-frog-day-counter" data-app="SITE FROG">4</span></div>` : ''}
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
                         isSpaceFrog ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
                     } flex items-center justify-center">
@@ -907,9 +948,9 @@ right to a refund or chargeback once a transaction is processed.
                 const distance = releaseDate.getTime() - now;
 
                 if (distance < 0) {
-clearInterval(countdownInterval);
-	                    countdownElement.outerHTML = `<button type="button" disabled aria-disabled="true" class="w-full py-4 bg-frog/10 text-white font-bold rounded-xl flex items-center justify-center gap-2 relative overflow-hidden opacity-80 cursor-not-allowed pointer-events-none">
-	                        <span class="relative z-10 flex items-center justify-center gap-2">Troubleshooting <i class="ph-bold ph-download"></i></span>
+                    clearInterval(countdownInterval);
+                    countdownElement.outerHTML = `<button type="button" disabled aria-disabled="true" class="w-full py-4 bg-frog/10 text-white font-bold rounded-xl flex items-center justify-center gap-2 relative overflow-hidden opacity-80 cursor-not-allowed pointer-events-none">
+                        <span class="relative z-10 flex items-center justify-center gap-2">Troubleshooting <i class="ph-bold ph-download"></i></span>
                         <span class="absolute inset-0 pointer-events-none"><span class="button-edge-pulse"></span></span>
                     </button>`;
 
@@ -928,8 +969,13 @@ clearInterval(countdownInterval);
             countdownInterval = setInterval(updateCountdown, 1000);
         }
 
+        // Update SITE FROG day counter (and refresh later)
+        updateSiteFrogDayCounters();
+        setInterval(updateSiteFrogDayCounters, 60 * 1000);
+
         // Initialize theme and splash screen
         initTheme();
+
         
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
@@ -1065,8 +1111,11 @@ clearInterval(countdownInterval);
         }
 
         // Terms-gating entrypoint for Space Frog downloads
-        window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName){
-            if (appName !== 'SPACE FROG') return;
+            window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName){
+                if (appName !== 'SPACE FROG') return;
+
+                // Ensure closing braces are preserved (avoid template literal/try/finally mismatch bugs)
+
 
             // If already accepted, go straight to download
             if (localStorage.getItem('frogTcAccepted') === 'true') {
@@ -1129,88 +1178,209 @@ clearInterval(countdownInterval);
         }
 
 
-        function __formatDate(ts) {
-            try {
-                const d = ts && typeof ts.toDate === 'function' ? ts.toDate() : new Date(ts);
-                return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-            } catch (e) {
-                return '';
-            }
-        }
-
-        async function __updatesAddOrUpdate(id) {
-            await __ensureUpdatesFirebase();
-
-            const titleEl = document.getElementById('updatesNewTitle');
-            const bodyEl = document.getElementById('updatesNewBody');
-            const postedEl = document.getElementById('updatesNewPostedAt');
-
-            const title = titleEl ? titleEl.value : '';
-            const body = bodyEl ? bodyEl.value : '';
-            let postedAt = null;
-            const postedRaw = postedEl ? postedEl.value : '';
-            if (postedRaw && String(postedRaw).trim() !== '') {
-                const n = Number(postedRaw);
-                if (!Number.isNaN(n)) postedAt = n;
-            }
-
-            if (!postedAt) postedAt = Date.now();
-            const update = { title: title || 'Update', body: body || '', postedAt };
-
-            const status = document.getElementById('updatesSaveMsg');
-            if (status) status.textContent = 'Saving update...';
-
-            // Real diagnostic: test RTDB read before write to isolate endpoint/rules/connectivity.
-            // This avoids “write promise never resolves” without knowing why.
-            let __healthcheckOk = false;
-            try {
-                if (__updatesDb && __updatesDb.ref) {
-                    const pingRef = __updatesDb.ref('updates/__healthcheck__');
-                    await pingRef.set({ t: Date.now() });
-                    const snap = await pingRef.once('value');
-                    __healthcheckOk = !!(snap && snap.val());
-                    console.log('[UPDATES][DEBUG] healthcheck ok:', __healthcheckOk, snap.val());
+            function __formatDate(ts) {
+                try {
+                    const d = ts && typeof ts.toDate === 'function' ? ts.toDate() : new Date(ts);
+                    return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                } catch (e) {
+                    return '';
                 }
-            } catch (e) {
-                console.error('[UPDATES][DEBUG] healthcheck failed:', e);
             }
 
-
-            // Add a timeout so UI doesn’t look “stuck” if RTDB request hangs
-            const timeoutMs = 10000;
-            const timeoutPromise = new Promise((_, reject) => {
-                setTimeout(() => reject(new Error('RTDB timeout after ' + timeoutMs + 'ms')), timeoutMs);
-            });
-
-            try {
-                const doWrite = (async () => {
-                    const ref = __updatesDb.ref('updates');
-                    const baseUrl = __updatesDb && __updatesDb.app && __updatesDb.app.options ? __updatesDb.app.options.databaseURL : '(unknown)';
-                    console.log('[UPDATES][DEBUG] databaseURL:', baseUrl);
-
-                    if (id) {
-                        console.log('[UPDATES][DEBUG] writing to:', 'updates/' + id);
-                        const childRef = ref.child(id);
-                        await childRef.set(update);
-                    } else {
-                        console.log('[UPDATES][DEBUG] pushing to: updates');
-                        const newRef = ref.push();
-                        console.log('[UPDATES][DEBUG] pushed key:', newRef.key);
-                        await newRef.set(update);
+            // Realtime updates listener
+            async function __listenForUpdates() {
+                await __ensureUpdatesFirebase();
+                const updatesRef = __updatesDb.ref('updates');
+                
+                updatesRef.on('value', (snapshot) => {
+                    const updates = [];
+                    snapshot.forEach((childSnapshot) => {
+                        updates.push({
+                            id: childSnapshot.key,
+                            ...childSnapshot.val()
+                        });
+                    });
+                    
+                    // Sort by postedAt (newest first)
+                    updates.sort((a, b) => b.postedAt - a.postedAt);
+                    
+                    // Update UI
+                    const updatesContainer = document.getElementById('updatesContainer');
+                    if (updatesContainer) {
+                        updatesContainer.innerHTML = updates.map(update => `
+                            <div class="update-item" data-id="${update.id}">
+                                <h3>${update.title}</h3>
+                                <p>${__formatDate(update.postedAt)}</p>
+                                <div>${update.body}</div>
+                            </div>
+                        `).join('');
                     }
-                })();
-
-                await Promise.race([doWrite, timeoutPromise]);
-
-
-                if (status) status.textContent = 'Saved.';
-                await __fetchUpdatesFeed();
-            } catch (err) {
-                console.error('RTDB add/update failed:', err);
-                if (status) status.textContent = 'Save failed: ' + (err && err.message ? err.message : String(err));
-                throw err;
+                });
             }
-        }
+
+            // Initialize updates listener on page load
+            if (typeof window !== 'undefined') {
+                window.addEventListener('load', () => {
+                    __listenForUpdates();
+                });
+            }
+
+                async function __updatesAddOrUpdate(id) {
+                    await __ensureUpdatesFirebase();
+
+                    // Keep the same data structure expected by this UI
+                    // (This is only used for the local preview + downloads; RTDB is the source of truth.)
+                    if (!window.updatesData) {
+                        window.updatesData = { updates: [] };
+                    }
+
+                    const titleEl = document.getElementById('updatesNewTitle');
+                    const bodyEl = document.getElementById('updatesNewBody');
+                    const postedEl = document.getElementById('updatesNewPostedAt');
+                    const passwordEl = document.getElementById('updatesPassword');
+
+                    const title = titleEl ? titleEl.value : '';
+                    const body = bodyEl ? bodyEl.value : '';
+                    const password = passwordEl ? passwordEl.value : '';
+                    let postedAt = null;
+                    const postedRaw = postedEl ? postedEl.value : '';
+                    if (postedRaw && String(postedRaw).trim() !== '') {
+                        const n = Number(postedRaw);
+                        if (!Number.isNaN(n)) postedAt = n;
+                    }
+
+                    if (!postedAt) postedAt = Date.now();
+                    const update = { title: title || 'Update', body: body || '', postedAt };
+
+                    const status = document.getElementById('updatesSaveMsg');
+                    if (status) status.textContent = 'Starting update...';
+
+                    try {
+                        // Check for existing valid session
+                        const hasValidSession = window.__updatesSession && 
+                            window.__updatesSession.expiresAt > Date.now();
+                        
+                        if (hasValidSession) {
+                            // Re-authenticate with stored token
+                            const customToken = await window.firebase.auth().currentUser?.getIdToken();
+                            if (customToken) {
+                                console.log('Using existing session');
+                            }
+                        } else {
+                            // Validate password
+                            if (!password) {
+                                throw new Error('Password is required');
+                            }
+
+                            // First get admin token and session
+                            const tokenUrl = `https://us-central1-${_0xKEY.projectId}.cloudfunctions.net/mintAdminToken`;
+                            console.log('Calling token endpoint:', tokenUrl);
+                            
+                            let tokenResponse;
+                            try {
+                                tokenResponse = await fetch(tokenUrl, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        password: password
+                                    })
+                                });
+                                
+                                if (!tokenResponse.ok) {
+                                    const errorBody = await tokenResponse.text();
+                                    throw new Error(`Authentication failed: ${tokenResponse.status} ${tokenResponse.statusText} - ${errorBody}`);
+                                }
+                                
+                                const { customToken, sessionToken, expiresAt } = await tokenResponse.json();
+                                await window.firebase.auth().signInWithCustomToken(customToken);
+                                
+                                // Store session info for subsequent calls
+                                window.__updatesSession = { token: sessionToken, expiresAt };
+                            } catch (err) {
+                                console.error('Token request failed:', err);
+                                throw new Error(`Token request failed: ${err.message}`);
+                            }
+                        }
+
+                        // Call gitDeploy function
+                        const deployUrl = `https://us-central1-${_0xKEY.projectId}.cloudfunctions.net/gitDeploy`;
+                        console.log('Calling deploy endpoint:', deployUrl);
+                        
+                        let response;
+                        try {
+                            response = await fetch(deployUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    sessionToken: window.__updatesSession.token,
+                                    updates: {
+                                        title: title,
+                                        body: body,
+                                        postedAt: postedAt
+                                    }
+                                })
+                            });
+
+                            if (!response.ok) {
+                                const errorBody = await response.text();
+                                throw new Error(`Deploy failed: ${response.status} ${response.statusText} - ${errorBody}`);
+                            }
+                            
+                            const result = await response.json();
+                            if (!result.success) {
+                                throw new Error(result.error || 'Update failed');
+                            }
+                            
+                            // Clear session after successful use
+                            window.__updatesSession = null;
+                        } catch (err) {
+                            console.error('Deploy request failed:', err);
+                            throw new Error(`Deploy request failed: ${err.message}`);
+                        }
+
+                        if (status) status.textContent = 'Successfully saved update';
+
+                        // Clear form (but keep password for convenience)
+                        if (titleEl) titleEl.value = '';
+                        if (bodyEl) bodyEl.value = '';
+
+                        // Add or update the update in the in-memory feed
+                        if (id) {
+                            const idx = updatesData.updates.findIndex(u => u.id === id);
+                            if (idx >= 0) {
+                                updatesData.updates[idx] = { id, ...update };
+                            } else {
+                                updatesData.updates.push({ id, ...update });
+                            }
+                        } else {
+                            const newId = 'update_' + Date.now();
+                            updatesData.updates.unshift({ id: newId, ...update });
+                        }
+
+                        // Sort by postedAt descending
+                        updatesData.updates.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
+
+                        // Create downloadable JSON file
+                        const blob = new Blob([JSON.stringify(updatesData, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'updates.json';
+                        a.click();
+                        URL.revokeObjectURL(url);
+
+                        if (status) status.textContent = 'Saved.';
+                        await __fetchUpdatesFeed();
+                    } catch (err) {
+                        console.error('RTDB add/update failed:', err);
+                        if (status) status.textContent = 'Save failed: ' + (err && err.message ? err.message : String(err));
+                        throw err;
+                    }
+                }
 
         async function __updatesDeleteById(id) {
             await __ensureUpdatesFirebase();
@@ -1289,27 +1459,7 @@ clearInterval(countdownInterval);
                 .replaceAll("'", '&#039;');
         }
 
-        // --- Admin UI helpers (so unlock never crashes) ---
-        function renderUpdatesAdminUI() {
-            const gateEl = document.getElementById('updatesAdminGate');
-            if (!gateEl) return;
 
-            gateEl.innerHTML = `
-                <div class="p-4 rounded-2xl border border-frog/30 bg-frog/5">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">Admin: Manage Updates</h4>
-                    <div class="mt-3 grid grid-cols-1 gap-3">
-                        <input id="updatesNewTitle" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Title" />
-                        <textarea id="updatesNewBody" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Body" rows="4"></textarea>
-                        <input id="updatesNewPostedAt" class="px-3 py-3 rounded-xl bg-white/10 border border-white/10 text-sm text-slate-900 dark:text-white outline-none" placeholder="Posted At (ms or leave blank for now)" />
-                        <button onclick="window.__updatesAddOrUpdate && window.__updatesAddOrUpdate(null)" class="w-full px-4 py-3 rounded-xl bg-frog text-slate-900 font-bold text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
-                            Add Update <i class="ph-bold ph-plus"></i>
-                        </button>
-                        <p id="updatesSaveMsg" class="text-xs text-slate-500 dark:text-gray-400" />
-                        <p class="text-xs text-slate-500 dark:text-gray-400">Edit/Delete buttons appear next to each update once unlocked.</p>
-                    </div>
-                </div>
-            `;
-        }
 
 
 
@@ -1396,7 +1546,11 @@ clearInterval(countdownInterval);
                         return;
                     }
 
-                    if (msg) msg.textContent = 'Admin verified. Signing in...';
+                    window.__updatesAdminEnabled = true;
+                    localStorage.setItem('__updatesAdminUnlocked', 'true');
+                    if (msg) msg.textContent = 'Admin unlocked. You can manage updates below.';
+                    renderUpdatesAdminUI();
+                    await __fetchUpdatesFeed();
 
                     // Mint a server-side custom token and sign in so RTDB rules see auth.uid === 'updates-admin'.
                     // Prefer the exact Trigger URL shape:
