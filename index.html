@@ -651,30 +651,23 @@
             const tool = tools[index];
             let actionHtml = '';
             if (tool.name === 'SPACE FROG') {
-                const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000');
-                const now = new Date();
-                if (now < releaseDate) {
-                    actionHtml = `<div id="countdownTimer" class="p-4 mb-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center text-lg font-bold">
-                                    Release in: --d --h --m --s
-                                </div>`;
-                } else {
-                    actionHtml = `<button type="button" disabled aria-disabled="true" class="w-full py-4 bg-frog/10 text-slate-900 font-bold rounded-xl flex items-center justify-center gap-2 relative overflow-hidden opacity-80 cursor-not-allowed pointer-events-none">
-                                <span class="relative z-10 flex items-center justify-center gap-2">
-                                    Troubleshooting <i class="ph-bold ph-download"></i>
-                                </span>
-                                <span class="absolute inset-0 pointer-events-none">
-                                    <span class="button-edge-pulse"></span>
-                                </span>
-                            </button>`;
-                }
+                actionHtml = `
+                    <div class="w-full py-6 px-6 bg-slate-100 dark:bg-white/10 border border-slate-300 dark:border-white/20 rounded-2xl flex items-center justify-center gap-4 text-slate-800 dark:text-slate-100 font-display font-bold text-lg select-none cursor-not-allowed relative overflow-hidden shadow-inner">
+                        <div class="absolute inset-0 bg-frog/10 animate-pulse pointer-events-none"></div>
+                        <div class="relative z-10 flex items-center gap-4">
+                            <i class="ph-bold ph-gear-six animate-spin text-2xl text-frog-dark dark:text-frog"></i>
+                            <span class="tracking-widest uppercase">System Troubleshooting</span>
+                        </div>
+                    </div>
+                `;
             } else {
-                actionHtml = `<div class="p-4 rounded-xl border border-white/5 bg-white/5 text-slate-500 italic text-center flex items-center justify-center gap-3">
-                                <i class="ph-bold ph-wrench"></i>
-                                <i class="ph-bold ph-gear animate-spin"></i>
-                                <span>Under Construction</span>
-                                <i class="ph-bold ph-hammer"></i>
-                                <i class="ph-bold ph-gear animate-spin" style="animation-direction: reverse;"></i>
-                               </div>`;
+                actionHtml = `
+                    <div class="p-5 rounded-xl border border-white/10 bg-white/5 text-slate-500 font-bold text-center flex items-center justify-center gap-3 opacity-60 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white/5 animate-pulse pointer-events-none"></div>
+                        <i class="ph-bold ph-gear-six animate-spin"></i>
+                        <span class="uppercase tracking-[0.2em] text-xs">Troubleshooting Mode</span>
+                    </div>
+                `;
             }
 
             modalContent.innerHTML = `
@@ -833,17 +826,8 @@ right to a refund or chargeback once a transaction is processed.
 
             // Now that the modal content is in the DOM, start the countdown if applicable
             if (tool.name === 'SPACE FROG') {
-                const releaseDate = new Date('June 12, 2026 00:00:00 GMT-0000');
-                startCountdown(releaseDate, tool.name);
-
-                // Immediately gate download behind Terms & Conditions
-                // (If release is in the future, the countdown will still render, but download remains gated.)
-                if (window.__frogTcDownloadGatePending) {
-                    // no-op
-                } else {
-                    window.__frogTcDownloadGatePending = true;
-                }
-                // When user clicks "Download Package" we will open the T&C modal first.
+                // No countdown UI for SPACE FROG troubleshoot button (removed for readability).
+                window.__frogTcDownloadGatePending = true;
             }
         }
 
@@ -947,13 +931,10 @@ right to a refund or chargeback once a transaction is processed.
                 const now = new Date().getTime();
                 const distance = releaseDate.getTime() - now;
 
+                // SPACE FROG countdown removed for readability; keep function resilient if called elsewhere.
                 if (distance < 0) {
                     clearInterval(countdownInterval);
-                    countdownElement.outerHTML = `<button type="button" disabled aria-disabled="true" class="w-full py-4 bg-frog/10 text-white font-bold rounded-xl flex items-center justify-center gap-2 relative overflow-hidden opacity-80 cursor-not-allowed pointer-events-none">
-                        <span class="relative z-10 flex items-center justify-center gap-2">Troubleshooting <i class="ph-bold ph-download"></i></span>
-                        <span class="absolute inset-0 pointer-events-none"><span class="button-edge-pulse"></span></span>
-                    </button>`;
-
+                    countdownElement.textContent = 'Troubleshooting Ready';
                     return;
                 }
 
