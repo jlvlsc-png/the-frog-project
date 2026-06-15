@@ -1,8 +1,6 @@
 {
   "functions": {
-    "source": "functions",
-    "runtime": "nodejs16",
-    "region": "asia-hongkong"
+    "source": "functions"
   },
   "hosting": {
     "site": "arch-frogproject",

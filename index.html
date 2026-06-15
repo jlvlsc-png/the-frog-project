@@ -661,14 +661,15 @@
 
 
 
-                        <a id="spaceFrogDownloadBtn"
-                           href="${downloadLink}"
+                        <button
+                           id="spaceFrogDownloadBtn"
+                           type="button"
                            onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');"
-                           class="w-full py-4 mt-4 rounded-2xl bg-frog text-slate-900 font-extrabold flex items-center justify-center gap-3 hover:opacity-95 transition-opacity relative z-10"
-                           rel="noopener" target="_blank">
+                           class="w-full py-4 mt-4 rounded-2xl bg-frog text-slate-900 font-extrabold flex items-center justify-center gap-3 hover:opacity-95 transition-opacity relative z-10">
                             <i class="ph-bold ph-download"></i>
                             <span class="font-display">Download</span>
-                        </a>
+                        </button>
+
 
                         <p class="hidden">Terms &amp; Conditions must be accepted before download.</p>
 
@@ -836,6 +837,32 @@ right to a refund or chargeback once a transaction is processed.
             if (window.__frogTcDownloadGatePending) {
                 // noop; gating handled in actionHtml handlers
             }
+
+            // Ensure SPACE FROG download always triggers a direct file download
+            // (no opening the release page). Keep it same-tab.
+            window.__frogSpaceFrogDownloadExe = window.__frogSpaceFrogDownloadExe || function () {
+                const downloadUrl = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
+
+                // Best-effort: programmatic click on an <a> without navigating UI.
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.rel = 'noopener noreferrer';
+                a.download = 'Space.Frog-Setup-1.0.0.exe';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                // Fallback: same-tab navigation only if browser blocks download="...".
+                // (We keep it same tab; it still downloads an .exe.)
+                // Do NOT open a new tab/site; keep same-tab download.
+                setTimeout(() => {
+                    try {
+                        window.location.href = downloadUrl;
+                    } catch (_) {}
+                }, 1500);
+            };
+
 
             modalOverlay.classList.add('active');
 
@@ -1115,19 +1142,29 @@ right to a refund or chargeback once a transaction is processed.
 
             // If already accepted, go straight to download
             if (localStorage.getItem('frogTcAccepted') === 'true') {
-                window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
+                if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
+                    window.__frogSpaceFrogDownloadExe();
+                } else {
+                    window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                }
                 closeModal();
                 return;
             }
+
 
             // Open T&C modal first
             if (typeof openFrogTcModalOnly === 'function') {
                 openFrogTcModalOnly({
                     onAgree: () => {
-                        window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
+                        if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
+                            window.__frogSpaceFrogDownloadExe();
+                        } else {
+                            window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                        }
                     },
                     onDecline: () => {}
                 });
+
             } else {
                 window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
                 closeModal();
@@ -1729,10 +1766,15 @@ right to a refund or chargeback once a transaction is processed.
             title.innerText = `Downloading ${appName}...`;
             toast.classList.remove('translate-y-20', 'opacity-0');
             
-            // Trigger actual download for SPACE FROG
+                // Trigger actual download for SPACE FROG (same-tab)
             if (appName === 'SPACE FROG') {
-                window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
+                if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
+                    window.__frogSpaceFrogDownloadExe();
+                } else {
+                    window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
+                }
             }
+
 
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
