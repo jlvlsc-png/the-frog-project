@@ -562,7 +562,7 @@
         // Tool Rail Data
         const tools = [
             { name: "BUILDSYNC", icon: "ph-package", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
-            { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "UNDER MAINTENANCE", color: "frog" },
+            { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "Available now", color: "frog" },
             { name: "SITE FROG", icon: "ph-map-trifold", desc: "Smart Site analysis & automated earthworks data.", status: "WORK IN PROGRESS", color: "slate-400" },
             { name: "3D FROG", icon: "ph-cube", desc: "Lightweight 2D/3D modeling bridging tools.", status: "Under Construction", color: "slate-400" },
             { name: "SPEC FROG", icon: "ph-article", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
@@ -651,16 +651,31 @@
             const tool = tools[index];
             let actionHtml = '';
             if (tool.name === 'SPACE FROG') {
+                const downloadLink = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
+
+                console.log('[DEBUG][SPACE FROG MODAL] openToolModal actionHtml');
+
                 actionHtml = `
-                    <div class="w-full py-6 px-6 bg-slate-100 dark:bg-white/10 border border-slate-300 dark:border-white/20 rounded-2xl flex items-center justify-center gap-4 text-slate-800 dark:text-slate-100 font-display font-bold text-lg select-none cursor-not-allowed relative overflow-hidden shadow-inner">
-                        <div class="absolute inset-0 bg-frog/10 animate-pulse pointer-events-none"></div>
-                        <div class="relative z-10 flex items-center gap-4">
-                            <i class="ph-bold ph-gear-six animate-spin text-2xl text-frog-dark dark:text-frog"></i>
-                            <span class="tracking-widest uppercase">System Troubleshooting</span>
-                        </div>
+                    <div class="w-full py-6 px-6 bg-transparent border border-transparent rounded-2xl flex flex-col items-center justify-center gap-4 text-slate-800 dark:text-slate-100 font-display font-bold select-none relative">
+
+
+
+
+                        <a id="spaceFrogDownloadBtn"
+                           href="${downloadLink}"
+                           onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');"
+                           class="w-full py-4 mt-4 rounded-2xl bg-frog text-slate-900 font-extrabold flex items-center justify-center gap-3 hover:opacity-95 transition-opacity relative z-10"
+                           rel="noopener" target="_blank">
+                            <i class="ph-bold ph-download"></i>
+                            <span class="font-display">Download</span>
+                        </a>
+
+                        <p class="hidden">Terms &amp; Conditions must be accepted before download.</p>
+
                     </div>
                 `;
             } else {
+
                 actionHtml = `
                     <div class="p-5 rounded-xl border border-white/10 bg-white/5 text-slate-500 font-bold text-center flex items-center justify-center gap-3 opacity-60 relative overflow-hidden">
                         <div class="absolute inset-0 bg-white/5 animate-pulse pointer-events-none"></div>
