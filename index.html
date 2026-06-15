@@ -572,16 +572,26 @@
         ];
 
         // SITE FROG day counter (updates automatically every day)
-        // Change SITE_FROG_START_DATE to whatever date corresponds to Day 1.
-        // Currently assumes Day 1 = June 9, 2026.
-        const SITE_FROG_START_DATE = new Date(Date.now() - (3 * 24 * 60 * 60 * 1000));
+        // Day 1 is fixed to June 9, 2026.
+        // Uses local-time midnight boundaries so it changes at 12:00 AM daily on the user's device.
+        const SITE_FROG_DAY1_LOCAL = new Date('2026-06-09T00:00:00');
+
         function getSiteFrogDayNumber() {
             const now = new Date();
-            const start = SITE_FROG_START_DATE;
             const msPerDay = 1000 * 60 * 60 * 24;
-            const days = Math.floor((now - start) / msPerDay) + 1;
+
+            // Anchor both values to local midnight to avoid “stuck”/off-by-one due to current time of day.
+            const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const startMidnight = new Date(
+                SITE_FROG_DAY1_LOCAL.getFullYear(),
+                SITE_FROG_DAY1_LOCAL.getMonth(),
+                SITE_FROG_DAY1_LOCAL.getDate()
+            );
+
+            const days = Math.floor((nowMidnight - startMidnight) / msPerDay) + 1;
             return Math.max(1, days);
         }
+
 
         function updateSiteFrogDayCounters() {
             // Only update the SITE FROG day counter tile
