@@ -621,7 +621,7 @@
             }`;
 
             div.innerHTML = `
-                ${isSiteFrog ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="SITE FROG">Day <span class="site-frog-day-counter" data-app="SITE FROG">4</span></div>` : ''}
+                ${isSiteFrog ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="SITE FROG">Day <span class="site-frog-day-counter" data-app="SITE FROG">${getSiteFrogDayNumber()}</span></div>` : ''}
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
                         isSpaceFrog ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
                     } flex items-center justify-center">
