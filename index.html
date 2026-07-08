@@ -624,40 +624,41 @@
 
         const toolGrid = document.getElementById('toolGrid');
         tools.forEach((tool, index) => { 
-            const isSiteFrog = tool.name === 'SITE FROG';
             const isSpecFrog = tool.name === 'SPEC FROG';
-            const isAppWithCounter = isSiteFrog || isSpecFrog;
+            const isAppWithCounter = isSpecFrog; // Removed SITE FROG from counter
             const div = document.createElement('div');
 
             const isSpaceFrog = tool.name === 'SPACE FROG';
-            const isDisabled = !(isSpaceFrog || isSiteFrog);
+            const isSiteFrog = tool.name === 'SITE FROG';
+            const isActiveTool = isSpaceFrog || isSiteFrog;
+            const isDisabled = !isActiveTool;
 
             div.className = `p-6 sm:p-8 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-center text-center gap-4 group reveal-up ${
                 isDisabled
                     ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-slate-200/60 dark:border-white/10 bg-white dark:bg-card'
                     : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white dark:bg-card hover:border-frog/60 hover:bg-frog/10'
             } ${
-                isSpaceFrog ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : 
+                isActiveTool ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : 
                 isAppWithCounter ? 'border-white/10 site-frog-progress' : ''
             }`;
 
             div.innerHTML = `
-                ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}">Day <span class="site-frog-day-counter" data-app="${tool.name}">${isSiteFrog ? getSiteFrogDayNumber() : getSpecFrogDayNumber()}</span></div>` : ''}
+                ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}">Day <span class="site-frog-day-counter" data-app="${tool.name}">${getSpecFrogDayNumber()}</span></div>` : ''}
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
-                        isSpaceFrog ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
+                        isActiveTool ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
                     } flex items-center justify-center">
                         <i class="ph-bold ${tool.icon} text-2xl sm:text-3xl ${
-                            isSpaceFrog ? 'text-frog' : 'text-slate-400'
+                            isActiveTool ? 'text-frog' : 'text-slate-400'
                         } transition-transform group-hover:scale-110"></i>
                     </div>
 
 
                     <h4 class="mt-3 font-display font-bold text-[13px] sm:text-sm uppercase tracking-widest ${
-                        isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
+                        isActiveTool ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
                     }">${tool.name}</h4>
 
-                    <div class="mt-2 text-[11px] uppercase tracking-widest font-bold ${isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">
-                            ${(isSpaceFrog
+                    <div class="mt-2 text-[11px] uppercase tracking-widest font-bold ${isActiveTool ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">
+                            ${(isActiveTool
                                 ? ''
                                 : isAppWithCounter 
                                 ? '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> WORK IN PROGRESS</span>'
