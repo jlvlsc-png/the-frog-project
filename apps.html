@@ -671,6 +671,7 @@
 
             const isActiveTool = tool.name === 'SPACE FROG' || tool.name === 'SITE FROG';
             const appVersion = isActiveTool ? '1.0.0' : null;
+            const fileSize = tool.name === 'SPACE FROG' ? '1.24 GB' : '~150 MB';
 
             // Feature chips per app
             let featureChips = '';
@@ -782,7 +783,7 @@
                                 </div>
                                 <div class="modal-platform-badge">
                                     <i class="ph-bold ph-hard-drive" style="font-size:14px;color:rgba(255,255,255,0.4);"></i>
-                                    <span>~150 MB</span>
+                                    <span>${fileSize}</span>
                                 </div>
                                 <div class="modal-platform-badge">
                                     <i class="ph-bold ph-cpu" style="font-size:14px;color:rgba(255,255,255,0.4);"></i>
