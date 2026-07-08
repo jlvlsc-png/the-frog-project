@@ -440,10 +440,13 @@
                 ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-0.5 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[9px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}"><span class="site-frog-day-counter" data-app="${tool.name}">${getSpecFrogDayNumber()}</span></div>` : ''}
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl border ${
                     isActiveTool ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
-                } flex items-center justify-center">
-                    <i class="ph-bold ${tool.icon} text-xl sm:text-2xl ${
+                } flex items-center justify-center overflow-hidden">
+                    ${isSpaceFrog
+                        ? `<img src="./Space Frog.png" alt="Space Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
+                        : `<i class="ph-bold ${tool.icon} text-xl sm:text-2xl ${
                         isActiveTool ? 'text-frog' : 'text-slate-400'
-                    } transition-transform group-hover:scale-110"></i>
+                    } transition-transform group-hover:scale-110"></i>`
+                    }
                 </div>
 
                 <h4 class="mt-2 font-display font-bold text-[11px] sm:text-[13px] uppercase tracking-widest ${
@@ -507,7 +510,7 @@
                 <div class="relative z-10">
                 <div class="flex items-start justify-between gap-4 mb-6">
                     <div class="flex items-center gap-6">
-                        <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
+                        <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl overflow-hidden">${tool.name === 'SPACE FROG' ? `<img src="./Space Frog.png" alt="Space Frog" class="w-full h-full object-cover rounded-2xl" />` : `<i class="ph-bold ${tool.icon}"></i>`}</div>
                         <div>
                             <h2 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h2>
                             <span class="text-xs font-bold text-frog uppercase tracking-widest">${tool.status}</span>
