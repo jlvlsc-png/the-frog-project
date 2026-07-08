@@ -443,6 +443,8 @@
                 } flex items-center justify-center overflow-hidden">
                     ${isSpaceFrog
                         ? `<img src="./Space Frog.png" alt="Space Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
+                        : isSiteFrog
+                        ? `<img src="./Site Frog.png" alt="Site Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
                         : `<i class="ph-bold ${tool.icon} text-xl sm:text-2xl ${
                         isActiveTool ? 'text-frog' : 'text-slate-400'
                     } transition-transform group-hover:scale-110"></i>`
@@ -510,7 +512,7 @@
                 <div class="relative z-10">
                 <div class="flex items-start justify-between gap-4 mb-6">
                     <div class="flex items-center gap-6">
-                        <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl overflow-hidden">${tool.name === 'SPACE FROG' ? `<img src="./Space Frog.png" alt="Space Frog" class="w-full h-full object-cover rounded-2xl" />` : `<i class="ph-bold ${tool.icon}"></i>`}</div>
+                        <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl overflow-hidden">${tool.name === 'SPACE FROG' ? `<img src="./Space Frog.png" alt="Space Frog" class="w-full h-full object-cover rounded-2xl" />` : tool.name === 'SITE FROG' ? `<img src="./Site Frog.png" alt="Site Frog" class="w-full h-full object-cover rounded-2xl" />` : `<i class="ph-bold ${tool.icon}"></i>`}</div>
                         <div>
                             <h2 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h2>
                             <span class="text-xs font-bold text-frog uppercase tracking-widest">${tool.status}</span>
