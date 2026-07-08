@@ -575,7 +575,7 @@
         // Day 1 is fixed to June 9, 2026 so that today matches the expected Day 7.
         // Uses local-time midnight boundaries so it changes at 12:00 AM daily on the user's device.
         const SITE_FROG_DAY1_LOCAL = new Date('2026-06-10T00:00:00');
-        const SPEC_FROG_DAY1_LOCAL = new Date('2026-07-10T00:00:00');
+        const SPEC_FROG_DAY1_LOCAL = new Date('2026-07-16T00:00:00');
 
 
 
@@ -606,8 +606,11 @@
                 SPEC_FROG_DAY1_LOCAL.getDate()
             );
 
-            const days = Math.floor((nowMidnight - startMidnight) / msPerDay);
-            return days; // No Math.max(1, days) because we want it to show negative days
+            const days = Math.floor((nowMidnight - startMidnight) / msPerDay) + 1; // +1 so that July 16 is Day 1
+            if (days < 1) {
+                return 'Dev Starts July 16';
+            }
+            return 'Day ' + days;
         }
 
 
@@ -643,7 +646,7 @@
             }`;
 
             div.innerHTML = `
-                ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}">Day <span class="site-frog-day-counter" data-app="${tool.name}">${getSpecFrogDayNumber()}</span></div>` : ''}
+                ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}"><span class="site-frog-day-counter" data-app="${tool.name}">${getSpecFrogDayNumber()}</span></div>` : ''}
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
                         isActiveTool ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
                     } flex items-center justify-center">
