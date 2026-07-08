@@ -410,7 +410,7 @@
                         <span class="block text-xl font-bold text-frog">Zero</span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Redundancy</span>
                     </div>
-                    <div class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30 backdrop-blur-md cursor-pointer hover:bg-frog/20 transition-all group" onclick="window.location.href='#ecosystem'">
+                    <div class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30 backdrop-blur-md cursor-pointer hover:bg-frog/20 transition-all group" onclick="window.location.href='./apps.html'">
                         <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-app-window"></i></span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Apps</span>
                     </div>
@@ -423,28 +423,13 @@
 
     </section>
 
-    <!-- The Ecosystem (Apps) Section (Snappable) -->
-    <section id="ecosystem" class="relative min-h-screen flex flex-col justify-center items-center bg-slate-100/70 dark:bg-[#0a0d11]/70 backdrop-blur-2xl border-t border-slate-200/50 dark:border-white/5 overflow-x-hidden">
-        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
-            
-            <div class="text-center mb-8">
-                <h2 class="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-frog-dark dark:text-frog neon-title neon-pulse animate-[neonPulse_4s_ease-in-out_infinite] reveal-up">8-TOOL ECOSYSTEM</h2>
-            </div>
-
-            <!-- Compact Tool Grid (Pop-up Triggers) -->
-            <div id="toolGrid" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
-                <!-- Populated by JS -->
-            </div>
-            
-            <!-- Footer (Embedded in Ecosystem to save screen space) -->
-            <div class="mt-auto pt-6 w-full text-center opacity-40 hover:opacity-100 transition-opacity">
-                <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500 dark:text-gray-500">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
-            </div>
-        </div>
-    </section>
-
     </div> <!-- End Main Content Wrapper -->
     </div> <!-- End Transition Wrapper -->
+
+    <!-- Footer -->
+    <div class="fixed bottom-0 left-0 w-full z-10 pb-3 text-center pointer-events-none">
+        <p class="text-[10px] uppercase tracking-[0.4em] text-slate-400/50 dark:text-gray-600/50">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
+    </div>
 
     <!-- Modal Overlay System -->
     <div id="modalOverlay" class="fixed inset-0 z-[200] items-center justify-center bg-black/90 backdrop-blur-lg px-4">
@@ -559,380 +544,9 @@
         }
         animateBg();
 
-        // Tool Rail Data
-        const tools = [
-            { name: "BUILDSYNC", icon: "ph-package", desc: "Construction submittal & package automation.", status: "Under Construction", color: "slate-400" },
-            { name: "SPACE FROG", icon: "ph-bounding-box", desc: "Smart space programming & adjacency logic.", status: "Available now", color: "frog" },
-            { name: "SITE FROG", icon: "ph-map-trifold", desc: "Smart Site analysis & automated earthworks data.", status: "WORK IN PROGRESS", color: "slate-400" },
-            { name: "3D FROG", icon: "ph-cube", desc: "Lightweight 2D/3D modeling bridging tools.", status: "Under Construction", color: "slate-400" },
-            { name: "SPEC FROG", icon: "ph-article", desc: "Automated material specifications and computation.", status: "Under Construction", color: "slate-400" },
-            { name: "FROG REVIEW", icon: "ph-book-open", desc: "Smart Board Exam mastery for future staff.", status: "Under Construction", color: "slate-400" },
-            { name: "FROG ADMIN", icon: "ph-identification-card", desc: "Student & Project management toolset.", status: "Under Construction", color: "slate-400" },
-            { name: "FROG CLOUD", icon: "ph-cloud-arrow-up", desc: "Centralized ecosystem data hosting.", status: "Under Construction", color: "slate-400" }
-        ];
-
-        // SITE FROG day counter (updates automatically every day)
-        // Day 1 is fixed to June 9, 2026 so that today matches the expected Day 7.
-        // Uses local-time midnight boundaries so it changes at 12:00 AM daily on the user's device.
-        const SITE_FROG_DAY1_LOCAL = new Date('2026-06-10T00:00:00');
-        const SPEC_FROG_DAY1_LOCAL = new Date('2026-07-16T00:00:00');
-
-
-
-        function getSiteFrogDayNumber() {
-            const now = new Date();
-            const msPerDay = 1000 * 60 * 60 * 24;
-
-            // Anchor both values to local midnight to avoid “stuck”/off-by-one due to current time of day.
-            const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const startMidnight = new Date(
-                SITE_FROG_DAY1_LOCAL.getFullYear(),
-                SITE_FROG_DAY1_LOCAL.getMonth(),
-                SITE_FROG_DAY1_LOCAL.getDate()
-            );
-
-            const days = Math.floor((nowMidnight - startMidnight) / msPerDay) + 1;
-            return Math.max(1, days);
-        }
-
-        function getSpecFrogDayNumber() {
-            const now = new Date();
-            const msPerDay = 1000 * 60 * 60 * 24;
-
-            const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const startMidnight = new Date(
-                SPEC_FROG_DAY1_LOCAL.getFullYear(),
-                SPEC_FROG_DAY1_LOCAL.getMonth(),
-                SPEC_FROG_DAY1_LOCAL.getDate()
-            );
-
-            const days = Math.floor((nowMidnight - startMidnight) / msPerDay) + 1; // +1 so that July 16 is Day 1
-            if (days < 1) {
-                return 'Dev Starts July 16';
-            }
-            return 'Day ' + days;
-        }
-
-
-        function updateSiteFrogDayCounters() {
-            // Only update the SITE FROG and SPEC FROG day counter tiles
-            const siteEl = document.querySelector('.site-frog-day-counter[data-app="SITE FROG"]');
-            if (siteEl) siteEl.textContent = String(getSiteFrogDayNumber());
-
-            const specEl = document.querySelector('.site-frog-day-counter[data-app="SPEC FROG"]');
-            if (specEl) specEl.textContent = String(getSpecFrogDayNumber());
-        }
-
-
-
-        const toolGrid = document.getElementById('toolGrid');
-        tools.forEach((tool, index) => { 
-            const isSpecFrog = tool.name === 'SPEC FROG';
-            const isAppWithCounter = isSpecFrog; // Removed SITE FROG from counter
-            const div = document.createElement('div');
-
-            const isSpaceFrog = tool.name === 'SPACE FROG';
-            const isSiteFrog = tool.name === 'SITE FROG';
-            const isActiveTool = isSpaceFrog || isSiteFrog;
-            const isDisabled = !isActiveTool;
-
-            div.className = `p-6 sm:p-8 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-center text-center gap-4 group reveal-up ${
-                isDisabled
-                    ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-slate-200/60 dark:border-white/10 bg-white dark:bg-card'
-                    : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white dark:bg-card hover:border-frog/60 hover:bg-frog/10'
-            } ${
-                isActiveTool ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : 
-                isAppWithCounter ? 'border-white/10 site-frog-progress' : ''
-            }`;
-
-            div.innerHTML = `
-                ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}"><span class="site-frog-day-counter" data-app="${tool.name}">${getSpecFrogDayNumber()}</span></div>` : ''}
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
-                        isActiveTool ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
-                    } flex items-center justify-center">
-                        <i class="ph-bold ${tool.icon} text-2xl sm:text-3xl ${
-                            isActiveTool ? 'text-frog' : 'text-slate-400'
-                        } transition-transform group-hover:scale-110"></i>
-                    </div>
-
-
-                    <h4 class="mt-3 font-display font-bold text-[13px] sm:text-sm uppercase tracking-widest ${
-                        isActiveTool ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
-                    }">${tool.name}</h4>
-
-                    <div class="mt-2 text-[11px] uppercase tracking-widest font-bold ${isActiveTool ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">
-                            ${(isActiveTool
-                                ? ''
-                                : isAppWithCounter 
-                                ? '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> WORK IN PROGRESS</span>'
-                                : '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> Under Construction</span>'
-                            )}
-                    </div>
-                </div>
-            `;
-
-            if (!isDisabled) {
-                div.onclick = () => openToolModal(index);
-            }
-
-            toolGrid.appendChild(div);
-        });
-
-        // Modal Control Logic
+        // Modal Control Logic (Creator modal only on landing page)
         const modalOverlay = document.getElementById('modalOverlay');
         const modalContent = document.getElementById('modalContent');
-
-        function openToolModal(index) {
-            const tool = tools[index];
-            let actionHtml = '';
-            if (tool.name === 'SPACE FROG' || tool.name === 'SITE FROG') {
-                const downloadLink = tool.name === 'SPACE FROG'
-                    ? 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe'
-                    : 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe';
-
-                console.log(`[DEBUG][${tool.name} MODAL] openToolModal actionHtml`);
-
-                actionHtml = `
-                    <div class="w-full py-6 px-6 bg-transparent border border-transparent rounded-2xl flex flex-col items-center justify-center gap-4 text-slate-800 dark:text-slate-100 font-display font-bold select-none relative">
-
-
-
-
-                        <button
-                           id="${tool.name === 'SPACE FROG' ? 'spaceFrogDownloadBtn' : 'siteFrogDownloadBtn'}"
-                           type="button"
-                           onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('${tool.name}');"
-                           class="w-full py-4 mt-4 rounded-2xl bg-frog text-slate-900 font-extrabold flex items-center justify-center gap-3 hover:opacity-95 transition-opacity relative z-10">
-                            <i class="ph-bold ph-download"></i>
-                            <span class="font-display">Download</span>
-                        </button>
-
-
-                        <p class="hidden">Terms &amp; Conditions must be accepted before download.</p>
-
-                    </div>
-                `;
-            } else {
-
-                actionHtml = `
-                    <div class="p-5 rounded-xl border border-white/10 bg-white/5 text-slate-500 font-bold text-center flex items-center justify-center gap-3 opacity-60 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-white/5 animate-pulse pointer-events-none"></div>
-                        <i class="ph-bold ph-gear-six animate-spin"></i>
-                        <span class="uppercase tracking-[0.2em] text-xs">Troubleshooting Mode</span>
-                    </div>
-                `;
-            }
-
-            modalContent.innerHTML = `
-                <div class="relative z-10">
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="flex items-center gap-6">
-                        <div class="w-20 h-20 rounded-2xl bg-frog/20 flex items-center justify-center text-frog text-4xl"><i class="ph-bold ${tool.icon}"></i></div>
-                        <div>
-                            <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white uppercase glow-text">${tool.name}</h3>
-                            <span class="text-xs font-bold text-frog uppercase tracking-widest" id="toolStatus">${tool.status}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-10">${tool.desc}</p>
-                ${actionHtml}
-                </div>
-            `;
-
-            // Inject T&C text (customized per app)
-            let tcText = `THE FROG PROJECT (8 SMART TOOLS • 1 UNIFIED HUB)
-"Work Smarter, Leap Further."
-EFFECTIVE DATE: June 2026 | FOUNDER & DEVELOPER: John Lloyd N. Velasco
-DOMAIN: arch-frogproject.web.app 
-IMPORTANT NOTICE: PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY. BY
-ACCESSING arch-frogproject.web.app, OR BY DOWNLOADING, INSTALLING, OR USING ANY
-APPLICATION WITHIN "THE FROG PROJECT" ECOSYSTEM, YOU EXPLICITLY AGREE TO BE
-BOUND BY THESE TERMS. IF YOU DO NOT AGREE, DO NOT ACCESS OR USE THE PLATFORM.
-
-1. THE ECOSYSTEM & "FORCE MULTIPLIER" PHILOSOPHY
-The Frog Project is a unified hub containing 8 smart tools engineered to address the tedious
-workflows that plague the modern architecture and construction industries. The software is
-designed to act as a "force multiplier" for architects, builders, and allied professionals. By
-automating complex processes and handling the heavy lifting to ensure accuracy and speed, the
-platform allows professionals to focus on pure design. However, the pursuit of "Zero
-Redundancy" does not negate the User's professional and legal responsibilities.
-
-2. ACCEPTANCE OF TERMS & ELECTRONIC AGREEMENT
-Pursuant to the Electronic Commerce Act of 2000 (Republic Act No. 8792), the act of accessing the
-web application or downloading the tools constitutes a legally binding electronic agreement
-between you (the "User") and the Founder & Developer (John Lloyd N. Velasco). No physical
-signature is required to formalize this contract.
-
-3. EARLY PHASE SOFTWARE NATURE (SAAS)
-The Frog Project is a newly launched Software as a Service (SaaS) suite. You acknowledge that
-the software is in its early phases of deployment and may contain undiscovered bugs,
-limitations, or incomplete features. The Developer reserves the right to modify, update, or
-discontinue features at any time without prior notice.
-
-4. PROFESSIONAL DISCLAIMER & MANDATORY VERIFICATION
-While the algorithms and automated calculation tools within The Frog Project have been
-rigorously tested to align with Philippine structural and architectural codes, the applications act
-strictly as supplementary productivity tools. They are not replacements for professional
-judgment, manual computation, or certified engineering analysis.
-
-National & Safety Codes: `;
-            if (tool.name === 'SITE FROG') {
-                tcText += `Automated site analysis, earthworks estimations, and outputs relating to The National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be independently verified by the User.`;
-            } else {
-                tcText += `Automated spatial computations and outputs relating to The National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be independently verified by the User.`;
-            }
-
-            tcText += `
-
-Local Government (LGU) Ordinances: Users must manually confirm all outputs, zonings,
-and spatial limitations with their respective Local Government Units (LGUs). Local
-ordinances supersede general code interpretations as stipulated under the Local Government
-Code of 1991 (Republic Act No. 7160).
-
-LIABILITY SHIELD: The Developer assumes absolutely NO RESPONSIBILITY for rejected
-building permits, structural failures, financial losses, or legal disputes arising from unverified
-reliance on the software's automated output. The professional architect, engineer, or designer
-of record retains full, sole, and exclusive liability for their submitted plans.
-
-5. INTELLECTUAL PROPERTY & STRICT ANTI-PIRACY
-All source code, UI/UX designs, HTML/JavaScript algorithms, databases, structural assets, and
-hybrid verification mechanisms within The Frog Project ecosystem are the exclusive intellectual
-property of the Founder & Developer, protected under the Intellectual Property Code of the
-Philippines (Republic Act No. 8293). Users are granted a limited, non-transferable, and revocable
-license for standard use.
-
-Prohibited Actions: You strictly agree NOT to:
-Reverse engineer, decompile, disassemble, or extract the source code of any Frog Project app
-or web component.
-
-Pirate, distribute, crack, or attempt to bypass the platform's login or hybrid verification
-systems.
-
-`;
-            if (tool.name === 'SITE FROG') {
-                tcText += `Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for site analysis computations, zoning automation, or any other ecosystem features.`;
-            } else {
-                tcText += `Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for NBCP space computations, zoning automation, or any other ecosystem features.`;
-            }
-
-            tcText += `
-
-Violations of these terms constitute a criminal offense and will be aggressively prosecuted
-under the Cybercrime Prevention Act of 2012 (Republic Act No. 10175), carrying severe financial
-penalties and potential imprisonment.
-
-6. DISCLAIMER OF WARRANTIES ("AS IS" BASIS)
-In accordance with applicable provisions of the Civil Code of the Philippines, the applications
-and the unified web hub are provided "AS IS" and "AS AVAILABLE." The Developer explicitly
-disclaims all warranties, express or implied, including but not limited to the implied warranties
-of merchantability, fitness for a particular purpose, and non-infringement.
-
-7. LIMITATION OF LIABILITY & INDEMNIFICATION
-To the maximum extent permitted by law, the Developer shall not be liable for any direct,
-indirect, incidental, consequential, or punitive damages arising from the use or inability to use
-the platform. You agree to indemnify, defend, and hold harmless the Developer from any claims,
-damages, liabilities, and expenses arising from your violation of these Terms or infringement of
-third-party rights.
-
-8. SUBSCRIPTION TIERS, FEES, AND ACCESS EXPIRATION
-A. Free vs. Pro Tiers (Feature Gating)
-The Frog Project offers both free features and paid subscription tiers ("Pro Features"). The
-Developer reserves the sole right to modify, restrict, add, or reassign features between the Free
-and Pro tiers at any time without prior notice.
-
-B. Manual Renewal and Access Termination
-No Auto-Renewal: The SaaS does not employ an automatic renewal or recurring billing
-system. It is the User’s sole responsibility to manually renew their subscription to maintain
-uninterrupted access to Pro Features.
-
-Immediate Expiration: Upon the expiration of a subscription cycle, access to Pro Features,
-premium automation tools, and advanced modules will be immediately revoked or
-downgraded to the Free tier.
-
-C. Data Handling and Gating Upon Expiration
-In the event of subscription expiration or account downgrade:
-Saved configurations, automated spatial computations, or projects may become locked,
-restricted, or limited to a "Read-Only" status.
-The Developer shall not be held liable for the User’s inability to access, edit, modify, or export
-data after a subscription has expired.
-The Developer assumes no liability for any project delays, missed deadlines, or financial
-losses resulting from the immediate gating of features upon subscription expiration.
-
-D. No Refunds / Finality of Payment
-In accordance with the Consumer Act of the Philippines (Republic Act No. 7394) and standard
-digital goods regulations, all payments made for premium access or subscriptions within The
-Frog Project ecosystem are strictly non-refundable. Because digital service delivery and
-computational output are consumed immediately upon access, the User explicitly waives any
-right to a refund or chargeback once a transaction is processed.
-`;
-
-            window.__frogTcText = tcText;
-
-            // Provide a modal function only once
-            window.openFrogTermsModal = window.openFrogTermsModal || function (opts = {}) {
-                return openFrogTcModalOnly(opts);
-            };
-
-            // For Space Frog and Site Frog, download flow will be gated by T&C modal.
-            if (window.__frogTcDownloadGatePending) {
-                // noop; gating handled in actionHtml handlers
-            }
-
-            // Ensure SPACE FROG download always triggers a direct file download
-            // (no opening the release page). Keep it same-tab.
-            window.__frogSpaceFrogDownloadExe = window.__frogSpaceFrogDownloadExe || function () {
-                const downloadUrl = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
-
-                // Best-effort: programmatic click on an <a> without navigating UI.
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.rel = 'noopener noreferrer';
-                a.download = 'Space.Frog-Setup-1.0.0.exe';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-
-                // Fallback: same-tab navigation only if browser blocks download="...".
-                // (We keep it same tab; it still downloads an .exe.)
-                // Do NOT open a new tab/site; keep same-tab download.
-                setTimeout(() => {
-                    try {
-                        window.location.href = downloadUrl;
-                    } catch (_) {}
-                }, 1500);
-            };
-
-            // Add SITE FROG download handler
-            window.__frogSiteFrogDownloadExe = window.__frogSiteFrogDownloadExe || function () {
-                const downloadUrl = 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe';
-
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.rel = 'noopener noreferrer';
-                a.download = 'Site.Frog_1.0.0_x64-setup.exe';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-
-                setTimeout(() => {
-                    try {
-                        window.location.href = downloadUrl;
-                    } catch (_) {}
-                }, 1500);
-            };
-
-
-            modalOverlay.classList.add('active');
-
-            // Now that the modal content is in the DOM, start the countdown if applicable
-            if (tool.name === 'SPACE FROG' || tool.name === 'SITE FROG') {
-                // No countdown UI for SPACE FROG troubleshoot button (removed for readability).
-                window.__frogTcDownloadGatePending = true;
-            }
-        }
 
         function openDevModal() {
             modalContent.innerHTML = `
@@ -1022,43 +636,7 @@ right to a refund or chargeback once a transaction is processed.
             });
         });
 
-        function startCountdown(releaseDate, appName) {
-            const countdownElement = document.getElementById('countdownTimer');
-            if (!countdownElement) return;
 
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-            }
-
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = releaseDate.getTime() - now;
-
-                // SPACE FROG countdown removed for readability; keep function resilient if called elsewhere.
-                if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.textContent = 'Troubleshooting Ready';
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElement.innerHTML = `Release in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }
-
-            updateCountdown();
-            countdownInterval = setInterval(updateCountdown, 1000);
-        }
-
-        // Update SITE FROG day counter (and refresh later)
-        updateSiteFrogDayCounters();
-        setInterval(updateSiteFrogDayCounters, 60 * 1000);
-
-        // Initialize theme and splash screen
-        initTheme();
 
         
         window.addEventListener('load', () => {
@@ -1804,6 +1382,9 @@ right to a refund or chargeback once a transaction is processed.
                 }, 400); // Wait for fade out to finish
             }, 600); // Wait for scale transition to finish
         }
+
+        // Initialize theme and splash screen
+        initTheme();
 
         // Intersection Observer for Scroll Animations
         const observerOptions = {
