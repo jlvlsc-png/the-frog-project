@@ -550,29 +550,54 @@
 
         function openDevModal() {
             modalContent.innerHTML = `
-                <div class="relative z-10">
-                    <div class="flex flex-col items-center text-center px-4 py-6">
-                        <div class="relative mb-4">
-                            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-frog shadow-xl relative z-10">
-                                <img src="./profile.jpg" class="w-full h-full object-cover">
+                <div class="relative z-10 pb-4">
+                    <!-- Premium Background accent -->
+                    <div class="absolute top-0 left-0 w-full h-40 sm:h-52 bg-gradient-to-b from-frog/10 via-frog/5 to-transparent rounded-t-3xl -z-10"></div>
+                    
+                    <div class="flex flex-col items-center text-center px-2 sm:px-6">
+                        <!-- Profile Image Container -->
+                        <div class="relative mb-6 mt-2 group">
+                            <!-- Outer animated glow -->
+                            <div class="absolute -inset-2 bg-gradient-to-r from-frog to-green-400 rounded-full blur-lg opacity-40 group-hover:opacity-70 transition duration-500 group-hover:scale-110"></div>
+                            
+                            <!-- Image wrapper -->
+                            <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-white/10 dark:border-white/5 shadow-2xl relative z-10 transform group-hover:scale-105 transition duration-500 bg-black/20">
+                                <img src="./profile.jpg" alt="John Lloyd N. Velasco" class="w-full h-full object-cover">
                             </div>
-                            <div class="absolute inset-0 rounded-full border border-frog animate-ping opacity-20"></div>
+                            
+                            <!-- Pulse ring -->
+                            <div class="absolute inset-0 rounded-full border-2 border-frog animate-ping opacity-30 z-20 pointer-events-none"></div>
                         </div>
-                        <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="text-xl font-display font-bold text-slate-900 dark:text-white mb-1 uppercase glow-text hover:text-frog transition-colors duration-300">
-                            <h3>John Lloyd N. Velasco</h3>
+                        
+                        <!-- Name & Title -->
+                        <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" onclick="playClickSound()" class="group relative inline-flex flex-col items-center mb-3">
+                            <h3 class="text-2xl sm:text-4xl font-display font-black text-slate-900 dark:text-white uppercase tracking-tight glow-text group-hover:text-frog transition-colors duration-300">
+                                John Lloyd N. Velasco
+                            </h3>
+                            <!-- Animated Underline -->
+                            <span class="w-12 h-1 bg-frog rounded-full mt-2 group-hover:w-full transition-all duration-500"></span>
                         </a>
-                        <p class="text-frog text-xs font-bold tracking-widest uppercase mb-4">Founder & Developer</p>
-                        <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed mb-4 max-w-md">
-                            Engineer of the Frog Project ecosystem. The goal is simple: Engineering smart tools that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
+                        
+                        <!-- Role Badge -->
+                        <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-frog/10 border border-frog/20 shadow-inner mb-6 backdrop-blur-sm">
+                            <span class="w-2 h-2 rounded-full bg-frog animate-pulse mr-2 shadow-[0_0_8px_rgba(var(--color-frog),0.8)]"></span>
+                            <span class="text-frog text-xs sm:text-sm font-bold tracking-widest uppercase">Founder & Developer</span>
+                        </div>
+                        
+                        <!-- Bio -->
+                        <p class="text-sm sm:text-base text-slate-600 dark:text-gray-300 leading-relaxed mb-8 max-w-lg">
+                            Engineer of the Frog Project ecosystem. The goal is simple: Engineering <span class="text-frog font-semibold">smart tools</span> that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
                         </p>
-                        <div class="grid grid-cols-2 gap-2 w-full max-w-xs">
-                            <div class="p-2 bg-white/5 rounded-xl border border-white/5">
-                                <span class="block text-xl font-bold text-frog">8</span>
-                                <span class="text-[10px] uppercase opacity-50">Smart Tools</span>
+                        
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+                            <div class="relative overflow-hidden p-5 sm:p-6 bg-white/40 dark:bg-white/5 rounded-2xl border border-white/20 dark:border-white/10 shadow-xl group hover:border-frog/50 transition-all duration-300 hover:-translate-y-1 backdrop-blur-md">
+                                <span class="block text-4xl sm:text-5xl font-black bg-gradient-to-br from-frog to-green-500 bg-clip-text text-transparent mb-2 drop-shadow-sm group-hover:scale-110 transition-transform duration-300">8</span>
+                                <span class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-400 uppercase tracking-widest">Smart Tools</span>
                             </div>
-                            <div class="p-2 bg-white/5 rounded-xl border border-white/5">
-                                <span class="block text-xl font-bold text-frog">1</span>
-                                <span class="text-[10px] uppercase opacity-50">Unified Hub</span>
+                            <div class="relative overflow-hidden p-5 sm:p-6 bg-white/40 dark:bg-white/5 rounded-2xl border border-white/20 dark:border-white/10 shadow-xl group hover:border-frog/50 transition-all duration-300 hover:-translate-y-1 backdrop-blur-md">
+                                <span class="block text-4xl sm:text-5xl font-black bg-gradient-to-br from-frog to-green-500 bg-clip-text text-transparent mb-2 drop-shadow-sm group-hover:scale-110 transition-transform duration-300">1</span>
+                                <span class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-400 uppercase tracking-widest">Unified Hub</span>
                             </div>
                         </div>
                     </div>
