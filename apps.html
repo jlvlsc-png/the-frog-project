@@ -656,7 +656,17 @@
                             <span>Download for Windows</span>
                             <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
                         </button>
-                        <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.05em;">By downloading, you agree to our Terms & Conditions</p>
+                        <button
+                           type="button"
+                           class="modal-download-btn"
+                           style="margin-top: 8px; opacity: 0.5; cursor: not-allowed; filter: grayscale(100%);"
+                           disabled>
+                            <i class="ph-bold ph-download-simple" style="font-size:1.2rem;"></i>
+                            <span>Download for Android</span>
+                            <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
+                            <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;margin-left:auto;">COMING SOON</span>
+                        </button>
+                        <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.05em;margin-top:12px;">By downloading, you agree to our Terms & Conditions</p>
                     </div>
                 `;
             } else {
@@ -693,19 +703,7 @@
                 `;
             }
 
-            // Stat boxes per app
-            let statBoxes = '';
-            if (tool.name === 'SPACE FROG') {
-                statBoxes = `
-                    <div class="modal-stat-box"><div class="stat-val">v1.0.0</div><div class="stat-lbl">Version</div></div>
-                    <div class="modal-stat-box"><div class="stat-val">2026</div><div class="stat-lbl">Released</div></div>
-                `;
-            } else if (tool.name === 'SITE FROG') {
-                statBoxes = `
-                    <div class="modal-stat-box"><div class="stat-val">v1.0.0</div><div class="stat-lbl">Version</div></div>
-                    <div class="modal-stat-box"><div class="stat-val">2026</div><div class="stat-lbl">Released</div></div>
-                `;
-            }
+            // Stat boxes removed per app
 
             const iconHtml = tool.name === 'SPACE FROG'
                 ? `<img src="./Space Frog.png" alt="Space Frog" style="width:100%;height:100%;object-fit:cover;border-radius:1rem;" />`
@@ -760,10 +758,6 @@
                     <div style="padding:1.25rem 2rem 2rem 2rem;display:flex;flex-direction:column;gap:1.25rem;">
 
                         ${isActiveTool ? `
-                        <!-- Stat Row -->
-                        <div style="display:flex;gap:8px;">
-                            ${statBoxes}
-                        </div>
 
                         <!-- Feature Chips -->
                         <div>
