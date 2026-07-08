@@ -575,6 +575,7 @@
         // Day 1 is fixed to June 9, 2026 so that today matches the expected Day 7.
         // Uses local-time midnight boundaries so it changes at 12:00 AM daily on the user's device.
         const SITE_FROG_DAY1_LOCAL = new Date('2026-06-10T00:00:00');
+        const SPEC_FROG_DAY1_LOCAL = new Date('2026-07-10T00:00:00');
 
 
 
@@ -594,13 +595,29 @@
             return Math.max(1, days);
         }
 
+        function getSpecFrogDayNumber() {
+            const now = new Date();
+            const msPerDay = 1000 * 60 * 60 * 24;
+
+            const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const startMidnight = new Date(
+                SPEC_FROG_DAY1_LOCAL.getFullYear(),
+                SPEC_FROG_DAY1_LOCAL.getMonth(),
+                SPEC_FROG_DAY1_LOCAL.getDate()
+            );
+
+            const days = Math.floor((nowMidnight - startMidnight) / msPerDay);
+            return days; // No Math.max(1, days) because we want it to show negative days
+        }
+
 
         function updateSiteFrogDayCounters() {
-            // Only update the SITE FROG day counter tile
-            const el = document.querySelector('.site-frog-day-counter[data-app="SITE FROG"]');
-            if (!el) return;
-            const val = getSiteFrogDayNumber();
-            el.textContent = String(val);
+            // Only update the SITE FROG and SPEC FROG day counter tiles
+            const siteEl = document.querySelector('.site-frog-day-counter[data-app="SITE FROG"]');
+            if (siteEl) siteEl.textContent = String(getSiteFrogDayNumber());
+
+            const specEl = document.querySelector('.site-frog-day-counter[data-app="SPEC FROG"]');
+            if (specEl) specEl.textContent = String(getSpecFrogDayNumber());
         }
 
 
@@ -608,6 +625,8 @@
         const toolGrid = document.getElementById('toolGrid');
         tools.forEach((tool, index) => { 
             const isSiteFrog = tool.name === 'SITE FROG';
+            const isSpecFrog = tool.name === 'SPEC FROG';
+            const isAppWithCounter = isSiteFrog || isSpecFrog;
             const div = document.createElement('div');
 
             const isSpaceFrog = tool.name === 'SPACE FROG';
@@ -619,11 +638,11 @@
                     : 'cursor-pointer border-slate-200/70 dark:border-white/10 bg-white dark:bg-card hover:border-frog/60 hover:bg-frog/10'
             } ${
                 isSpaceFrog ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' : 
-                tool.name === 'SITE FROG' ? 'border-white/10 site-frog-progress' : ''
+                isAppWithCounter ? 'border-white/10 site-frog-progress' : ''
             }`;
 
             div.innerHTML = `
-                ${isSiteFrog ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="SITE FROG">Day <span class="site-frog-day-counter" data-app="SITE FROG">${getSiteFrogDayNumber()}</span></div>` : ''}
+                ${isAppWithCounter ? `<div class="absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 px-2 py-1 rounded-br-xl rounded-tl-xl bg-white/10 border border-white/20 text-white/90 backdrop-blur text-[10px] font-bold tracking-widest" style="box-shadow: 0 0 18px rgba(255,255,255,0.12);" data-app="${tool.name}">Day <span class="site-frog-day-counter" data-app="${tool.name}">${isSiteFrog ? getSiteFrogDayNumber() : getSpecFrogDayNumber()}</span></div>` : ''}
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${
                         isSpaceFrog ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
                     } flex items-center justify-center">
@@ -640,7 +659,7 @@
                     <div class="mt-2 text-[11px] uppercase tracking-widest font-bold ${isSpaceFrog ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}">
                             ${(isSpaceFrog
                                 ? ''
-                                : tool.name === 'SITE FROG' 
+                                : isAppWithCounter 
                                 ? '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> WORK IN PROGRESS</span>'
                                 : '<span class="inline-flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500 dark:text-slate-400 animate-spin" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4" /><path d="M12 18v4" /><path d="M4.93 4.93l2.83 2.83" /><path d="M16.24 16.24l2.83 2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M4.93 19.07l2.83-2.83" /><path d="M16.24 7.76l2.83-2.83" /><circle cx="12" cy="12" r="4" /></svg> Under Construction</span>'
                             )}
