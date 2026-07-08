@@ -692,25 +692,19 @@
         function checkAndShowUpdates() {
             if (websiteUpdates.length === 0) return;
             
-            // Check if there are any "new" updates (<= 14 days old)
+            // Show/hide the navbar bell badge for new updates
             const hasNewUpdates = websiteUpdates.some(update => isUpdateNew(update.date));
             const badge = document.getElementById('updateBadge');
-            
             if (hasNewUpdates) {
                 badge.classList.remove('hidden');
             } else {
                 badge.classList.add('hidden');
             }
 
-            const newestUpdate = websiteUpdates[0];
-            const lastSeenUpdate = localStorage.getItem('lastSeenUpdate');
-
-            // If the user hasn't seen the newest update, show it
-            if (lastSeenUpdate !== newestUpdate.date) {
-                setTimeout(() => {
-                    openUpdatesModal();
-                }, 500); // Slight delay after splash screen
-            }
+            // Always show the updates modal on every visit
+            setTimeout(() => {
+                openUpdatesModal();
+            }, 500);
         }
 
         function openUpdatesModal() {
