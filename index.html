@@ -630,7 +630,7 @@
             const div = document.createElement('div');
 
             const isSpaceFrog = tool.name === 'SPACE FROG';
-            const isDisabled = !isSpaceFrog;
+            const isDisabled = !(isSpaceFrog || isSiteFrog);
 
             div.className = `p-6 sm:p-8 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-center text-center gap-4 group reveal-up ${
                 isDisabled
@@ -681,10 +681,12 @@
         function openToolModal(index) {
             const tool = tools[index];
             let actionHtml = '';
-            if (tool.name === 'SPACE FROG') {
-                const downloadLink = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
+            if (tool.name === 'SPACE FROG' || tool.name === 'SITE FROG') {
+                const downloadLink = tool.name === 'SPACE FROG'
+                    ? 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe'
+                    : 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe';
 
-                console.log('[DEBUG][SPACE FROG MODAL] openToolModal actionHtml');
+                console.log(`[DEBUG][${tool.name} MODAL] openToolModal actionHtml`);
 
                 actionHtml = `
                     <div class="w-full py-6 px-6 bg-transparent border border-transparent rounded-2xl flex flex-col items-center justify-center gap-4 text-slate-800 dark:text-slate-100 font-display font-bold select-none relative">
@@ -693,9 +695,9 @@
 
 
                         <button
-                           id="spaceFrogDownloadBtn"
+                           id="${tool.name === 'SPACE FROG' ? 'spaceFrogDownloadBtn' : 'siteFrogDownloadBtn'}"
                            type="button"
-                           onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('SPACE FROG');"
+                           onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('${tool.name}');"
                            class="w-full py-4 mt-4 rounded-2xl bg-frog text-slate-900 font-extrabold flex items-center justify-center gap-3 hover:opacity-95 transition-opacity relative z-10">
                             <i class="ph-bold ph-download"></i>
                             <span class="font-display">Download</span>
@@ -734,15 +736,8 @@
                 </div>
             `;
 
-            // Inject T&C text once (for all Space Frog actions)
-            if (!window.__frogTcTextInjected) {
-                window.__frogTcTextInjected = true;
-
-                // Make sure modal has the latest text even if user opened it before
-                window.__frogTcText = window.__frogTcText || '';
-
-                // PDF copied content
-                window.__frogTcText = `THE FROG PROJECT (8 SMART TOOLS • 1 UNIFIED HUB)
+            // Inject T&C text (customized per app)
+            let tcText = `THE FROG PROJECT (8 SMART TOOLS • 1 UNIFIED HUB)
 "Work Smarter, Leap Further."
 EFFECTIVE DATE: June 2026 | FOUNDER & DEVELOPER: John Lloyd N. Velasco
 DOMAIN: arch-frogproject.web.app 
@@ -777,10 +772,14 @@ rigorously tested to align with Philippine structural and architectural codes, t
 strictly as supplementary productivity tools. They are not replacements for professional
 judgment, manual computation, or certified engineering analysis.
 
-National & Safety Codes: Automated spatial computations and outputs relating to The
-National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas
-Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be
-independently verified by the User.
+National & Safety Codes: `;
+            if (tool.name === 'SITE FROG') {
+                tcText += `Automated site analysis, earthworks estimations, and outputs relating to The National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be independently verified by the User.`;
+            } else {
+                tcText += `Automated spatial computations and outputs relating to The National Building Code of the Philippines (P.D. 1096) Rule 7 & 8, the Accessibility Law (Batas Pambansa Blg. 344), and the Fire Code of the Philippines (Republic Act No. 9514) must be independently verified by the User.`;
+            }
+
+            tcText += `
 
 Local Government (LGU) Ordinances: Users must manually confirm all outputs, zonings,
 and spatial limitations with their respective Local Government Units (LGUs). Local
@@ -806,8 +805,14 @@ or web component.
 Pirate, distribute, crack, or attempt to bypass the platform's login or hybrid verification
 systems.
 
-Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for NBCP
-space computations, zoning automation, or any other ecosystem features.
+`;
+            if (tool.name === 'SITE FROG') {
+                tcText += `Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for site analysis computations, zoning automation, or any other ecosystem features.`;
+            } else {
+                tcText += `Copy, scrape, or mimic the proprietary HTML/JavaScript code algorithms used for NBCP space computations, zoning automation, or any other ecosystem features.`;
+            }
+
+            tcText += `
 
 Violations of these terms constitute a criminal offense and will be aggressively prosecuted
 under the Cybercrime Prevention Act of 2012 (Republic Act No. 10175), carrying severe financial
@@ -858,13 +863,14 @@ computational output are consumed immediately upon access, the User explicitly w
 right to a refund or chargeback once a transaction is processed.
 `;
 
-                // Provide a modal function only once
-                window.openFrogTermsModal = window.openFrogTermsModal || function (opts = {}) {
-                    return openFrogTcModalOnly(opts);
-                };
-            }
+            window.__frogTcText = tcText;
 
-            // For Space Frog, download flow will be gated by T&C modal.
+            // Provide a modal function only once
+            window.openFrogTermsModal = window.openFrogTermsModal || function (opts = {}) {
+                return openFrogTcModalOnly(opts);
+            };
+
+            // For Space Frog and Site Frog, download flow will be gated by T&C modal.
             if (window.__frogTcDownloadGatePending) {
                 // noop; gating handled in actionHtml handlers
             }
@@ -894,11 +900,31 @@ right to a refund or chargeback once a transaction is processed.
                 }, 1500);
             };
 
+            // Add SITE FROG download handler
+            window.__frogSiteFrogDownloadExe = window.__frogSiteFrogDownloadExe || function () {
+                const downloadUrl = 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe';
+
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.rel = 'noopener noreferrer';
+                a.download = 'Site.Frog_1.0.0_x64-setup.exe';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                setTimeout(() => {
+                    try {
+                        window.location.href = downloadUrl;
+                    } catch (_) {}
+                }, 1500);
+            };
+
 
             modalOverlay.classList.add('active');
 
             // Now that the modal content is in the DOM, start the countdown if applicable
-            if (tool.name === 'SPACE FROG') {
+            if (tool.name === 'SPACE FROG' || tool.name === 'SITE FROG') {
                 // No countdown UI for SPACE FROG troubleshoot button (removed for readability).
                 window.__frogTcDownloadGatePending = true;
             }
@@ -1166,17 +1192,25 @@ right to a refund or chargeback once a transaction is processed.
 
         // Terms-gating entrypoint for Space Frog downloads
             window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName){
-                if (appName !== 'SPACE FROG') return;
+                if (appName !== 'SPACE FROG' && appName !== 'SITE FROG') return;
 
                 // Ensure closing braces are preserved (avoid template literal/try/finally mismatch bugs)
 
 
             // If already accepted, go straight to download
             if (localStorage.getItem('frogTcAccepted') === 'true') {
-                if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
-                    window.__frogSpaceFrogDownloadExe();
+                if (appName === 'SITE FROG') {
+                    if (typeof window.__frogSiteFrogDownloadExe === 'function') {
+                        window.__frogSiteFrogDownloadExe();
+                    } else {
+                        window.location.href = 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe';
+                    }
                 } else {
-                    window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                    if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
+                        window.__frogSpaceFrogDownloadExe();
+                    } else {
+                        window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                    }
                 }
                 closeModal();
                 return;
@@ -1187,17 +1221,28 @@ right to a refund or chargeback once a transaction is processed.
             if (typeof openFrogTcModalOnly === 'function') {
                 openFrogTcModalOnly({
                     onAgree: () => {
-                        if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
-                            window.__frogSpaceFrogDownloadExe();
+                        if (appName === 'SITE FROG') {
+                            if (typeof window.__frogSiteFrogDownloadExe === 'function') {
+                                window.__frogSiteFrogDownloadExe();
+                            } else {
+                                window.location.href = 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe';
+                            }
                         } else {
-                            window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                            if (typeof window.__frogSpaceFrogDownloadExe === 'function') {
+                                window.__frogSpaceFrogDownloadExe();
+                            } else {
+                                window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                            }
                         }
                     },
                     onDecline: () => {}
                 });
 
             } else {
-                window.open('https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe', '_blank');
+                const dlUrl = appName === 'SITE FROG'
+                    ? 'https://github.com/jlvlsc-png/Site-frog/releases/download/v1.0/Site.Frog_1.0.0_x64-setup.exe'
+                    : 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe';
+                window.open(dlUrl, '_blank');
                 closeModal();
             }
         };
