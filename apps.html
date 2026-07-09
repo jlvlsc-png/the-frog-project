@@ -77,10 +77,10 @@
         }
 
         /* Modal UI Styles */
-        #modalOverlay { display: flex; visibility: hidden; opacity: 0; transition: all 0.3s ease; padding: 0; }
+        #modalOverlay { display: flex; visibility: hidden; opacity: 0; transition: visibility 0.3s, opacity 0.3s ease; padding: 0; }
         #modalOverlay.active { visibility: visible; opacity: 1; }
-        .modal-box { transform: scale(0.9) translateY(20px); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 2.5rem; overflow: hidden; }
-        #modalOverlay.active .modal-box { transform: scale(1) translateY(0); }
+        .modal-box { transform: scale(0.9) translateY(20px) translateZ(0); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; border-radius: 2.5rem; overflow: hidden; }
+        #modalOverlay.active .modal-box { transform: scale(1) translateY(0) translateZ(0); }
 
         /* Premium Modal Styles */
         .modal-hero-banner {
@@ -391,7 +391,7 @@
 
     <!-- Fixed Background Logo -->
     <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center mix-blend-overlay dark:mix-blend-screen">
-        <img src="./logo.png" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.15]" loading="lazy" />
+        <img src="./logo.webp" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.15]" loading="lazy" />
     </div>
 
     <!-- Sticky Navigation -->
@@ -602,9 +602,9 @@
                     isActiveTool ? 'border-frog/30 bg-frog/10' : 'border-white/10 bg-white/5'
                 } flex items-center justify-center overflow-hidden">
                     ${isSpaceFrog
-                        ? `<img src="./Space Frog.png" alt="Space Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
+                        ? `<img src="./Space Frog.webp" alt="Space Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
                         : isSiteFrog
-                        ? `<img src="./Site Frog.png" alt="Site Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
+                        ? `<img src="./Site Frog.webp" alt="Site Frog" class="w-full h-full object-cover rounded-2xl transition-transform group-hover:scale-110" />`
                         : `<i class="ph-bold ${tool.icon} text-xl sm:text-2xl ${
                         isActiveTool ? 'text-frog' : 'text-gray-400'
                     } transition-transform group-hover:scale-110"></i>`
@@ -711,9 +711,9 @@
             // Stat boxes removed per app
 
             const iconHtml = tool.name === 'SPACE FROG'
-                ? `<img src="./Space Frog.png" alt="Space Frog" style="width:100%;height:100%;object-fit:cover;border-radius:1rem;" />`
+                ? `<img src="./Space Frog.webp" alt="Space Frog" style="width:100%;height:100%;object-fit:cover;border-radius:1rem;" />`
                 : tool.name === 'SITE FROG'
-                ? `<img src="./Site Frog.png" alt="Site Frog" style="width:100%;height:100%;object-fit:cover;border-radius:1rem;" />`
+                ? `<img src="./Site Frog.webp" alt="Site Frog" style="width:100%;height:100%;object-fit:cover;border-radius:1rem;" />`
                 : `<i class="ph-bold ${tool.icon}" style="font-size:2rem;color:#B4F02A;"></i>`;
 
             modalContent.innerHTML = `
