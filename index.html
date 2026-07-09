@@ -793,7 +793,7 @@
             const splash = document.getElementById('splash-screen');
             const wrapper = document.getElementById('main-content-wrapper');
             
-            // Animation (1s) + Hold (2s) + Buffer (0.5s)
+            // Animation (1s) + Hold (1s) + Buffer (0.5s)
             setTimeout(() => {
                 splash.classList.add('opacity-0');
                 wrapper.classList.remove('opacity-0', 'scale-105');
@@ -802,7 +802,7 @@
                     splash.remove();
                     checkAndShowUpdates(); // Check for updates after splash screen finishes
                 }, 1000);
-            }, 3500);
+            }, 2000);
         });
 
         // Initialize theme based on preference
