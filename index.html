@@ -345,7 +345,7 @@
     <!-- Fixed Background Logo -->
     <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center  dark:">
 
-        <img src="./logo.png" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.15]" loading="lazy" />
+        <img src="./logo.webp" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.15]" loading="lazy" />
 
     </div>
 
@@ -554,7 +554,7 @@
                             
                             <!-- Image wrapper -->
                             <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-white/10 dark:border-white/5 shadow-2xl relative z-10 transform group-hover:scale-105 transition duration-500 bg-black/20">
-                                <img src="./profile.jpg" alt="John Lloyd N. Velasco" class="w-full h-full object-cover">
+                                <img src="./profile.webp" alt="John Lloyd N. Velasco" class="w-full h-full object-cover">
                             </div>
                             
                             <!-- Pulse ring -->
@@ -1473,22 +1473,6 @@
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
             }
-        }
-        
-        );
-
-            // Switch theme right when ripple covers the screen, then fade out ripple
-            setTimeout(() => {
-                html.classList.toggle('dark');
-                
-                // Fade out ripple to reveal updated UI seamlessly
-                ripple.style.transition = 'opacity 0.4s ease';
-                ripple.style.opacity = '0';
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 400); // Wait for fade out to finish
-            }, 600); // Wait for scale transition to finish
         }
 
         // Initialize theme and splash screen
