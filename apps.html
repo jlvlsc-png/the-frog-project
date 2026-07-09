@@ -409,7 +409,7 @@
             <!-- Right: Back + Theme -->
             <div class="flex items-center gap-3">
                 <a href="./index.html"
-                   class="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/50 bg-white/5 text-gray-300 text-sm font-medium hover:border-frog/40 hover:text-frog transition-all duration-200 back-btn">
+                   class="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm font-medium hover:border-frog/40 hover:text-frog transition-all duration-200 back-btn">
                     <i class="ph-bold ph-arrow-left text-base back-arrow"></i>
                     <span class="hidden sm:inline">Back to Home</span>
                 </a>
@@ -448,7 +448,7 @@
 
     <!-- Modal Overlay System -->
     <div id="modalOverlay" class="fixed inset-0 z-[200] items-center justify-center bg-black/90  px-4">
-        <div class="modal-box bg-white/90 bg-card/90  w-full max-w-2xl rounded-[2.5rem] overflow-hidden relative border border-white/10 shadow-2xl">
+        <div class="modal-box bg-card/90  w-full max-w-2xl rounded-[2.5rem] overflow-hidden relative border border-white/10 shadow-2xl">
             <!-- Modal Background Animations -->
             <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-50 dark:opacity-70">
                 <div class="absolute -top-[30%] -left-[30%] w-[80%] h-[80%] bg-frog/15 rounded-full blur-[120px] animate-modal-blob"></div>
@@ -468,7 +468,7 @@
     </div>
 
     <!-- Download Toast -->
-    <div id="downloadToast" class="fixed bottom-6 right-6 bg-white bg-card border border-frog/30 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
+    <div id="downloadToast" class="fixed bottom-6 right-6 bg-card border border-frog/30 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
         <div class="w-10 h-10 rounded-full bg-frog/20 bg-frog/10 flex items-center justify-center text-frog-dark text-frog">
             <i class="ph-bold ph-check text-xl"></i>
         </div>
@@ -589,8 +589,8 @@
             const div = document.createElement('div');
             div.className = `relative p-3 sm:p-5 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-center text-center gap-2 group reveal-up ${
                 isDisabled
-                    ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-white/10 bg-white bg-card'
-                    : 'cursor-pointer border-white/10 bg-white bg-card hover:border-frog/60 hover:bg-frog/10'
+                    ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none border-white/10 bg-card'
+                    : 'cursor-pointer border-white/10 bg-card hover:border-frog/60 hover:bg-frog/10'
             } ${
                 isActiveTool ? 'tool-card-active animate-[neonPulse_3s_ease-in-out_infinite]' :
                 isAppWithCounter ? 'border-white/10 site-frog-progress' : ''
@@ -996,7 +996,7 @@ right to a refund or chargeback once a transaction is processed.
                             <pre class="whitespace-pre-wrap text-[12px] leading-relaxed text-gray-300 p-6">${window.__frogTcText || ''}</pre>
                         </div>
                         <div class="mt-1 flex flex-col sm:flex-row gap-3 items-stretch">
-                            <button id="tcDeclineBtn" onclick="if (typeof window.__frogTcDeclined === 'function') window.__frogTcDeclined(); closeModal();" class="flex-1 py-4 bg-white/20 bg-card/20 border border-white/10 text-white font-bold rounded-xl hover:bg-white/30 transition-transform">
+                            <button id="tcDeclineBtn" onclick="if (typeof window.__frogTcDeclined === 'function') window.__frogTcDeclined(); closeModal();" class="flex-1 py-4 bg-card/20 border border-white/10 text-white font-bold rounded-xl hover:bg-white/30 transition-transform">
                                 Decline
                             </button>
                             <button id="tcAgreeBtn" disabled onclick="window.__frogTcAgreed && window.__frogTcAgreed();" class="flex-1 py-4 relative overflow-hidden bg-frog/10 text-white font-bold rounded-xl transition-transform disabled:opacity-100 disabled:cursor-not-allowed">

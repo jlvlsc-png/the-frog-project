@@ -390,11 +390,11 @@
                 
                 <!-- Stat Cluster -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div class="p-3 sm:p-4 rounded-2xl bg-white/50 bg-white/5 border border-white/10 ">
+                    <div class="p-3 sm:p-4 rounded-2xl bg-white/5 border border-white/10 ">
                         <span class="block text-xl font-bold text-frog">8+</span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Smart Apps</span>
                     </div>
-                    <div class="p-3 sm:p-4 rounded-2xl bg-white/50 bg-white/5 border border-white/10 ">
+                    <div class="p-3 sm:p-4 rounded-2xl bg-white/5 border border-white/10 ">
                         <span class="block text-xl font-bold text-frog">Zero</span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Redundancy</span>
                     </div>
@@ -421,7 +421,7 @@
 
     <!-- Modal Overlay System -->
     <div id="modalOverlay" class="fixed inset-0 z-[200] items-center justify-center bg-black/90  px-4">
-        <div class="modal-box bg-white/90 bg-card/90  w-full max-w-2xl rounded-[2.5rem] overflow-hidden relative border border-white/10 shadow-2xl">
+        <div class="modal-box bg-card/90  w-full max-w-2xl rounded-[2.5rem] overflow-hidden relative border border-white/10 shadow-2xl">
             <!-- Modal Background Animations -->
             <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-50 dark:opacity-70">
                 <div class="absolute -top-[30%] -left-[30%] w-[80%] h-[80%] bg-frog/15 rounded-full blur-[120px] animate-modal-blob"></div>
@@ -441,7 +441,7 @@
     </div>
 
     <!-- Notification Modal (Hidden by default) -->
-    <div id="downloadToast" class="fixed bottom-6 right-6 bg-white bg-card border border-frog/30 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
+    <div id="downloadToast" class="fixed bottom-6 right-6 bg-card border border-frog/30 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-4">
         <div class="w-10 h-10 rounded-full bg-frog/20 bg-frog/10 flex items-center justify-center text-frog-dark text-frog">
             <i class="ph-bold ph-check text-xl"></i>
         </div>
@@ -845,7 +845,7 @@
                         </div>
 
                         <div class="mt-1 flex flex-col sm:flex-row gap-3 items-stretch">
-                            <button id="tcDeclineBtn" onclick="if (typeof window.__frogTcDeclined === 'function') window.__frogTcDeclined(); closeModal();" class="flex-1 py-4 bg-white/20 bg-card/20 border border-white/10 text-white font-bold rounded-xl hover:bg-white/30 transition-transform">
+                            <button id="tcDeclineBtn" onclick="if (typeof window.__frogTcDeclined === 'function') window.__frogTcDeclined(); closeModal();" class="flex-1 py-4 bg-card/20 border border-white/10 text-white font-bold rounded-xl hover:bg-white/30 transition-transform">
                                 Decline
                             </button>
 
