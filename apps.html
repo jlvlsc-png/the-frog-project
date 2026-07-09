@@ -372,7 +372,17 @@
 
         /* Back button hover */
         .back-btn:hover .back-arrow { transform: translateX(-4px); }
-        .back-arrow { transition: transform 0.2s ease; }
+        /* === DARK MODE ENFORCEMENT - DO NOT REMOVE === */
+        body { background: #0F1319 !important; color: #fff !important; }
+        #toolGrid > div { background: #161B22 !important; }
+        #toolGrid > div:not(.tool-card-active):hover { background: rgba(180,240,42,0.08) !important; }
+        .modal-box, #modalContent, #modalContent > div { background: #161B22 !important; }
+        .modal-hero-banner { background: linear-gradient(135deg, #0F1319 0%, #161B22 100%) !important; }
+        #navbar { background: rgba(15,19,25,0.92) !important; }
+        #downloadToast { background: #161B22 !important; }
+        .back-btn { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #d1d5db !important; border-radius: 0.75rem !important; }
+        .back-btn:hover { border-color: rgba(180,240,42,0.4) !important; color: #B4F02A !important; background: rgba(180,240,42,0.05) !important; }
+        /* ================================================ */
     </style>
 </head>
 <body class="bg-[#0F1319] text-white transition-colors duration-300">
@@ -409,7 +419,7 @@
             <!-- Right: Back + Theme -->
             <div class="flex items-center gap-3">
                 <a href="./index.html"
-                   class="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm font-medium hover:border-frog/40 hover:text-frog transition-all duration-200 back-btn">
+                   class="back-btn flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-200">
                     <i class="ph-bold ph-arrow-left text-base back-arrow"></i>
                     <span class="hidden sm:inline">Back to Home</span>
                 </a>
