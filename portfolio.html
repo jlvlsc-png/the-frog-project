@@ -169,24 +169,23 @@
                 <!-- Right: Gallery -->
                 <div class="w-full lg:w-8/12">
                     <section>
-                        <div class="flex items-center justify-between gap-4 mb-4">
-                            <h3 class="font-display font-bold text-2xl text-white neon-title">Gallery</h3>
-                            <span id="galleryCounter" class="text-xs uppercase tracking-[0.25em] text-gray-500">1 / 20</span>
-                        </div>
+                        <h3 class="font-display font-bold text-2xl text-white neon-title mb-4">Gallery</h3>
 
-                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
+                        <div class="rounded-xl border border-white/5 overflow-hidden">
                             <div class="relative">
-                                <div id="gallerySlides" class="p-2 sm:p-3"></div>
+                                <div id="gallerySlides" class="p-0"></div>
 
-                                <button id="galleryPrevBtn" type="button" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-all duration-200">
-                                    <i class="ph-bold ph-caret-left text-xl text-frog"></i>
+                                <button id="galleryPrevBtn" type="button" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center transition-all duration-200">
+                                    <i class="ph-bold ph-caret-left text-lg text-frog"></i>
                                 </button>
-                                <button id="galleryNextBtn" type="button" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-all duration-200">
-                                    <i class="ph-bold ph-caret-right text-xl text-frog"></i>
+                                <button id="galleryNextBtn" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center transition-all duration-200">
+                                    <i class="ph-bold ph-caret-right text-lg text-frog"></i>
                                 </button>
 
-                                <div class="flex items-center justify-center pb-5">
-                                    <div id="galleryDots" class="flex items-center gap-2"></div>
+                                <div id="galleryCounter" class="absolute top-3 left-3 z-10 text-[11px] uppercase tracking-[0.2em] text-white/90 bg-black/50 px-2 py-1 rounded-md">1 / 20</div>
+
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10">
+                                    <div id="galleryDots" class="flex items-center gap-1.5"></div>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +298,7 @@
         const article = document.createElement('article');
         article.className = 'gallery-slide' + (i > 1 ? ' hidden' : '');
         article.dataset.index = i - 1;
-        article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/5">' +
+        article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden">' +
             '<img src="' + IMG_FOLDER + i + '.webp" alt="Portfolio image ' + i + '" class="w-full h-full object-cover" loading="lazy">' +
         '</div>';
         slidesWrap.appendChild(article);
@@ -322,7 +321,7 @@
         });
         const dotButtons = Array.from(dotsEl.querySelectorAll('button'));
         dotButtons.forEach((btn, i) => {
-            btn.classList.toggle('bg-white/20', i !== currentIndex);
+            btn.classList.toggle('bg-white/30', i !== currentIndex);
             btn.classList.toggle('bg-frog', i === currentIndex);
         });
         const counterEl = document.getElementById('galleryCounter');
@@ -340,7 +339,7 @@
         const dotBtn = document.createElement('button');
         dotBtn.type = 'button';
         dotBtn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-        dotBtn.className = 'w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-frog/60 transition-colors';
+        dotBtn.className = 'w-2 h-2 rounded-full bg-white/30 hover:bg-frog/60 transition-colors';
         dotBtn.addEventListener('click', () => setSlide(i));
         dotsEl.appendChild(dotBtn);
     });
