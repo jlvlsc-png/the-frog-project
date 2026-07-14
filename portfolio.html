@@ -325,8 +325,8 @@
         let captionHtml = '';
         if (cap) {
             captionHtml = '<div class="absolute bottom-10 left-3 max-w-[75%]">' +
-                '<h4 class="text-sm font-bold text-white drop-shadow-lg">' + cap.title + '</h4>' +
-                '<p class="text-[11px] text-white/80 drop-shadow leading-tight mt-0.5">' + cap.desc + '</p>' +
+                '<h4 class="text-sm font-bold text-white" style="text-shadow:0 2px 10px rgba(0,0,0,0.9)">' + cap.title + '</h4>' +
+                '<p class="text-[11px] text-white/85 leading-tight mt-0.5" style="text-shadow:0 2px 8px rgba(0,0,0,0.85)">' + cap.desc + '</p>' +
             '</div>';
         }
         article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden relative">' +
