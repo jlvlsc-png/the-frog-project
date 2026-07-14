@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <script>
+        // Maintenance mode toggle (code-only). Default: ON.
+        const MAINTENANCE_MODE = false;
+        if (MAINTENANCE_MODE) {
+            window.location.replace('./maintenance.html');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio – John Lloyd N. Velasco</title>
+    <meta name="description" content="Portfolio page for John Lloyd N. Velasco – Founder & Developer of The Frog Project.">
+
+    <!-- Security & Privacy Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://www.gstatic.com https://assets.mixkit.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://unpkg.com https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://firebaseinstallations.googleapis.com https://*.firebaseio.com https://*.googleapis.com;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/index.css">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        frog: {
+                            DEFAULT: '#B4F02A',
+                            dark: '#8EBE1F',
+                            light: '#C9F458'
+                        },
+                        bg: '#0F1319',
+                        card: '#161B22',
+                        cardHover: '#1C222B'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fall': 'fall 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fall: {
+                            '0%': { transform: 'translateY(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+        @keyframes neonPulse {
+            0% { filter: drop-shadow(0 0 6px rgba(180,240,42,0.20)); opacity: 0.85; }
+            50% { filter: drop-shadow(0 0 14px rgba(180,240,42,0.45)); opacity: 1; }
+            100% { filter: drop-shadow(0 0 6px rgba(180,240,42,0.20)); opacity: 0.85; }
+        }
+        .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; will-change: opacity, box-shadow; }
+        .glow-text { text-shadow: 0 0 15px rgba(180,240,42,0.4); }
+        .page-enter { animation: pageFadeIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards; opacity: 0; transform: translateY(16px); }
+        @keyframes pageFadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B4F02A; border-radius: 10px; }
+        * { user-select: none; -webkit-user-select: none; }
+    </style>
+</head>
+<body class="bg-[#0F1319] text-white transition-colors duration-300">
+    <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
+
+    <!-- Background blobs -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 0s; animation-duration: 8s;"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s; animation-duration: 10s;"></div>
+        <div class="absolute top-[20%] right-[5%] w-[20%] h-[20%] bg-frog/5 rounded-full blur-[80px] animate-pulse" style="animation-delay: 4s; animation-duration: 7s;"></div>
+        <div class="absolute bottom-[10%] left-[15%] w-[25%] h-[25%] bg-blue-500/5 rounded-full blur-[100px] animate-pulse" style="animation-delay: 6s; animation-duration: 9s;"></div>
+        <div class="absolute inset-0 neon-grid opacity-50"></div>
+        <div class="absolute inset-0 neon-sweep opacity-60"></div>
+    </div>
+
+    <!-- Fixed Background Logo -->
+    <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center">
+        <img src="./logo.webp" alt="" class="w-[90vw] md:w-[60vw] max-w-4xl object-contain opacity-[0.15]" loading="lazy" />
+    </div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-bg/80 border-b border-white/5 nav-animate overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+            <div class="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-frog/10 to-transparent -skew-x-12 animate-[sweep_8s_linear_infinite]"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center transition-all duration-300" id="navContainer">
+            <a href="./index.html" class="flex items-center gap-2 group select-none">
+                <i class="ph-fill ph-frog text-3xl text-frog-dark text-frog group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-frog-bounce"></i>
+                <span class="font-display font-bold text-xl tracking-[0.2em] text-white shimmer-text group-hover:tracking-[0.4em] transition-all duration-500">THE FROG PROJECT</span>
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="./index.html"
+                   class="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 text-sm font-medium hover:border-frog/40 hover:text-frog transition-all duration-200">
+                    <i class="ph-bold ph-arrow-left text-base"></i>
+                    <span class="hidden sm:inline">Back to Home</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="relative z-10 flex flex-col justify-center min-h-screen pt-24 pb-10">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 page-enter">
+            <div class="text-center mb-10 reveal-up">
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-frog-dark text-frog neon-pulse mb-3">
+                    John Lloyd N. Velasco
+                </h1>
+                <p class="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                    Founder & Developer of The Frog Project ecosystem.
+                </p>
+
+                <!-- Social link -->
+                <div class="mt-6 flex items-center justify-center">
+                    <a
+                        href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group inline-flex flex-col items-center mb-3"
+                        aria-label="John Lloyd N. Velasco on Facebook"
+                    >
+                        <span class="w-12 h-12 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mb-3">
+                            <i class="ph-bold ph-facebook-logo text-2xl text-frog"></i>
+                        </span>
+                        <h2 class="text-xl font-display font-black text-white uppercase tracking-tight glow-text group-hover:text-frog transition-colors duration-300">
+                            Visit Facebook Profile
+                        </h2>
+                        <span class="w-12 h-1 bg-frog rounded-full mt-2 group-hover:w-full transition-all duration-500"></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Gallery (images to be attached later) -->
+            <section class="mb-10">
+                <div class="flex items-center justify-between gap-4 mb-4">
+                    <h3 class="font-display font-bold text-2xl text-white neon-title">Gallery</h3>
+                    <span class="text-xs uppercase tracking-[0.25em] text-gray-500">Coming soon</span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <!-- Placeholder cards -->
+                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
+                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
+                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
+                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
+                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
+                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
+                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-xs text-gray-500 text-center">
+                    Send the images later; this grid will be wired to your final asset URLs.
+                </div>
+            </section>
+
+            <footer class="w-full text-center opacity-40 hover:opacity-100 transition-opacity">
+                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-500">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        // Theme toggle helper (keeps existing behavior if theme was set previously)
+        (function initTheme() {
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) html.classList.toggle('dark', savedTheme === 'dark');
+            else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        })();
+
+        // Lightweight particle background
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        const mouse = { x: null, y: null, radius: 150 };
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 2;
+            }
+            update() {
+                if (mouse.x === null || mouse.y === null) return;
+                let dx = mouse.x - this.x, dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    this.x -= dx * force * 0.6;
+                    this.y -= dy * force * 0.6;
+                }
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#B4F02A';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            ctx.strokeStyle = 'rgba(180, 240, 42, 0.1)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Security
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
