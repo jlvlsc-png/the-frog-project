@@ -134,72 +134,62 @@
                     Founder & Developer of The Frog Project ecosystem.
                 </p>
 
-                <!-- Founder snapshot -->
                 <p class="mt-4 text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto leading-relaxed">
                     BS-Architecture student at <span class="text-white font-semibold">Isabela State University – Ilagan Campus</span>, building tools that help architects and builders work faster and smarter.
                 </p>
 
-                <!-- Social link -->
-                <div class="mt-6 flex items-center justify-center">
-                    <a
-                        href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="group inline-flex flex-col items-center mb-3"
-                        aria-label="John Lloyd N. Velasco on Facebook"
-                    >
-                        <span class="w-12 h-12 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mb-3">
-                            <i class="ph-bold ph-facebook-logo text-2xl text-frog"></i>
-                        </span>
-                        <h2 class="text-xl font-display font-black text-white uppercase tracking-tight glow-text group-hover:text-frog transition-colors duration-300">
-                            Visit Facebook Profile
-                        </h2>
-                        <span class="w-12 h-1 bg-frog rounded-full mt-2 group-hover:w-full transition-all duration-500"></span>
+                <!-- Contact strip -->
+                <div class="mt-6 flex items-center justify-center gap-5 text-xs text-gray-400">
+                    <a href="mailto:jlvlsc@proton.me" class="flex items-center gap-2 hover:text-frog transition-colors" aria-label="Email jlvlsc@proton.me">
+                        <i class="ph-bold ph-envelope text-base text-frog"></i>
+                        <span>jlvlsc@proton.me</span>
+                    </a>
+                    <span class="text-white/10">|</span>
+                    <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-frog transition-colors" aria-label="John Lloyd N. Velasco on Facebook">
+                        <i class="ph-bold ph-facebook-logo text-base text-frog"></i>
+                        <span>Facebook</span>
                     </a>
                 </div>
             </div>
 
-            <!-- Gallery (slideshow style) -->
+            <!-- Gallery -->
             <section class="mb-10">
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <h3 class="font-display font-bold text-2xl text-white neon-title">Gallery</h3>
-                    <span class="text-xs uppercase tracking-[0.25em] text-gray-500">Image 1 - 20</span>
+                    <span id="galleryCounter" class="text-xs uppercase tracking-[0.25em] text-gray-500">1 / 20</span>
                 </div>
 
                 <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
-                    <!-- Slides -->
                     <div class="relative">
                         <div id="gallerySlides" class="p-4 sm:p-6"></div>
 
-                        <!-- Controls -->
-                        <div class="px-4 sm:px-6 pb-5">
-                            <div class="flex items-center justify-between gap-3 mt-4">
-                                <button id="galleryPrevBtn" type="button" class="px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm font-bold flex items-center gap-2">
-                                    <i class="ph-bold ph-arrow-left text-frog"></i>
-                                    Prev
-                                </button>
+                        <button id="galleryPrevBtn" type="button" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-all duration-200">
+                            <i class="ph-bold ph-caret-left text-xl text-frog"></i>
+                        </button>
+                        <button id="galleryNextBtn" type="button" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-all duration-200">
+                            <i class="ph-bold ph-caret-right text-xl text-frog"></i>
+                        </button>
 
-                                <div class="flex items-center gap-2" aria-label="Gallery progress">
-                                    <div id="galleryDots" class="flex items-center gap-2"></div>
-                                </div>
-
-                                <button id="galleryNextBtn" type="button" class="px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm font-bold flex items-center gap-2">
-                                    Next
-                                    <i class="ph-bold ph-arrow-right text-frog"></i>
-                                </button>
-                            </div>
-
-                            <div class="mt-3 text-[11px] text-gray-500 text-center">
-                                Use the arrows or dots to navigate through 20 portfolio images.
-
-                            </div>
+                        <div class="flex items-center justify-center pb-5">
+                            <div id="galleryDots" class="flex items-center gap-2"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <footer class="w-full text-center opacity-40 hover:opacity-100 transition-opacity">
-                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-500">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
+            <footer class="w-full text-center">
+                <div class="flex items-center justify-center gap-4 mb-3 text-xs text-gray-500">
+                    <a href="mailto:jlvlsc@proton.me" class="flex items-center gap-1.5 hover:text-frog transition-colors">
+                        <i class="ph-bold ph-envelope text-frog"></i>
+                        jlvlsc@proton.me
+                    </a>
+                    <span class="text-white/10">|</span>
+                    <a href="https://web.facebook.com/O0000000000000000000000000000000000000000000000001/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-frog transition-colors" aria-label="Facebook">
+                        <i class="ph-bold ph-facebook-logo text-frog"></i>
+                        Facebook
+                    </a>
+                </div>
+                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-500 opacity-40 hover:opacity-100 transition-opacity">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
             </footer>
         </div>
     </main>
@@ -317,6 +307,8 @@
             btn.classList.toggle('bg-white/20', i !== currentIndex);
             btn.classList.toggle('bg-frog', i === currentIndex);
         });
+        const counterEl = document.getElementById('galleryCounter');
+        if (counterEl) counterEl.textContent = (currentIndex + 1) + ' / ' + TOTAL;
         resetAutoAdvance();
     }
 
