@@ -1,13 +1,8 @@
-# TODO
-
-- [ ] Add Terms & Conditions agreement modal (popup) before enabling download for SPACE FROG.
-- [ ] Render PDF terms text (copy contents) inside modal with scroll area.
-- [ ] Require user to scroll to the bottom; only then enable Agree button.
-- [ ] Implement Agree => proceed with existing download flow; Decline => close modal / abort download.
-- [x] Ensure countdown/download logic respects the new gating modal.
-- [x] Update UI: download button proceeds only after T&C accept.
-- [ ] Quick test: open site, open SPACE FROG modal, attempt download, validate gating behavior.
-- [ ] Quick test: open site, click UPDATES, verify updates load read-only (admin editing disabled).
-
-
-
+- [ ] Update `portfolio.html`:
+  - [ ] Insert “Founder snapshot” description under the existing “Founder & Developer” area
+  - [ ] Replace current “Gallery” placeholder grid with a 10-slide carousel labeled “Image 1” .. “Image 10”
+  - [ ] Add slide titles + short descriptions under each image label
+  - [ ] Add carousel controls (Prev/Next + dots)
+- [ ] After UI changes:
+  - [ ] Push changes to GitHub
+  - [ ] Deploy/update on Firebase

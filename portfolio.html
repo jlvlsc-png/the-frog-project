@@ -134,6 +134,11 @@
                     Founder & Developer of The Frog Project ecosystem.
                 </p>
 
+                <!-- Founder snapshot -->
+                <p class="mt-4 text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                    BS-Architecture student at <span class="text-white font-semibold">Isabela State University – Ilagan Campus</span>, building tools that help architects and builders work faster and smarter.
+                </p>
+
                 <!-- Social link -->
                 <div class="mt-6 flex items-center justify-center">
                     <a
@@ -154,55 +159,311 @@
                 </div>
             </div>
 
-            <!-- Gallery (images to be attached later) -->
+            <!-- Gallery (slideshow style) -->
             <section class="mb-10">
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <h3 class="font-display font-bold text-2xl text-white neon-title">Gallery</h3>
-                    <span class="text-xs uppercase tracking-[0.25em] text-gray-500">Coming soon</span>
+                    <span class="text-xs uppercase tracking-[0.25em] text-gray-500">Image 1 - 10</span>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <!-- Placeholder cards -->
-                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
-                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
-                        </div>
-                    </div>
-                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
-                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
-                        </div>
-                    </div>
-                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
-                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
-                        </div>
-                    </div>
-                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
-                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
-                        </div>
-                    </div>
-                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
-                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
-                        </div>
-                    </div>
-                    <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[4/3] flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="ph-bold ph-image text-3xl text-frog/80"></i>
-                            <p class="text-xs text-gray-400 mt-2">Image slot</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
+                    <!-- Slides -->
+                    <div class="relative">
+                        <div id="gallerySlides" class="p-4 sm:p-6">
+                            <!-- Slide 1 -->
+                            <article class="gallery-slide" data-index="0" data-active="true">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">1</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Project Spotlight</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            A quick preview card—swap in your real image later.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/20 bg-frog/10">
+                                            <span class="w-2 h-2 rounded-full bg-frog animate-pulse"></span>
+                                            <span class="text-xs font-bold text-frog tracking-widest uppercase">Featured</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
 
-                <div class="mt-4 text-xs text-gray-500 text-center">
-                    Send the images later; this grid will be wired to your final asset URLs.
+                            <!-- Slide 2 -->
+                            <article class="gallery-slide hidden" data-index="1">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">2</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Design Snapshot</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Caption-style details that stay readable on mobile.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                                            <i class="ph-bold ph-sparkle text-frog"></i>
+                                            <span class="text-xs font-bold text-gray-200 tracking-widest uppercase">Neon Accent</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 3 -->
+                            <article class="gallery-slide hidden" data-index="2">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">3</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Founder Work</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Story-first slide layout with short, scannable descriptions.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/20 bg-frog/10">
+                                            <i class="ph-bold ph-wrench text-frog"></i>
+                                            <span class="text-xs font-bold text-frog tracking-widest uppercase">Built</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 4 -->
+                            <article class="gallery-slide hidden" data-index="3">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">4</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Architecture Mood</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Keep typography and spacing consistent across your gallery.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                                            <i class="ph-bold ph-house text-frog"></i>
+                                            <span class="text-xs font-bold text-gray-200 tracking-widest uppercase">Space</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 5 -->
+                            <article class="gallery-slide hidden" data-index="4">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">5</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Workflow</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Great for process images—sketches, iterations, and progress updates.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/20 bg-frog/10">
+                                            <i class="ph-bold ph-diagram text-frog"></i>
+                                            <span class="text-xs font-bold text-frog tracking-widest uppercase">Flow</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 6 -->
+                            <article class="gallery-slide hidden" data-index="5">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">6</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">UI Craft</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Showcase your design thinking with clean, minimal captions.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                                            <i class="ph-bold ph-palette text-frog"></i>
+                                            <span class="text-xs font-bold text-gray-200 tracking-widest uppercase">Style</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 7 -->
+                            <article class="gallery-slide hidden" data-index="6">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">7</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">App Screens</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Put screenshots here—this layout keeps titles readable.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/20 bg-frog/10">
+                                            <i class="ph-bold ph-monitor text-frog"></i>
+                                            <span class="text-xs font-bold text-frog tracking-widest uppercase">Digital</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 8 -->
+                            <article class="gallery-slide hidden" data-index="7">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">8</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Team Moments</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            A photo-friendly slide style with consistent spacing.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                                            <i class="ph-bold ph-users text-frog"></i>
+                                            <span class="text-xs font-bold text-gray-200 tracking-widest uppercase">Collab</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 9 -->
+                            <article class="gallery-slide hidden" data-index="8">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">9</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Milestones</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            Quick milestones with short descriptions that feel effortless to read.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-frog/20 bg-frog/10">
+                                            <i class="ph-bold ph-flag text-frog"></i>
+                                            <span class="text-xs font-bold text-frog tracking-widest uppercase">Win</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Slide 10 -->
+                            <article class="gallery-slide hidden" data-index="9">
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <div class="rounded-3xl border border-white/10 bg-white/5 overflow-hidden aspect-[16/10] flex items-center justify-center">
+                                            <div class="text-center">
+                                                <div class="w-14 h-14 rounded-2xl border border-frog/30 bg-frog/10 flex items-center justify-center mx-auto mb-3">
+                                                    <i class="ph-bold ph-image text-2xl text-frog"></i>
+                                                </div>
+                                                <p class="font-display font-black text-4xl text-white">10</p>
+                                                <p class="text-xs text-gray-400 mt-2">Image</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:col-span-5">
+                                        <h4 class="font-display font-bold text-xl text-white neon-title">Final Showcase</h4>
+                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                            The wrap-up slide—swap in your best image when ready.
+                                        </p>
+                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                                            <i class="ph-bold ph-star text-frog"></i>
+                                            <span class="text-xs font-bold text-gray-200 tracking-widest uppercase">Highlight</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="px-4 sm:px-6 pb-5">
+                            <div class="flex items-center justify-between gap-3 mt-4">
+                                <button id="galleryPrevBtn" type="button" class="px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm font-bold flex items-center gap-2">
+                                    <i class="ph-bold ph-arrow-left text-frog"></i>
+                                    Prev
+                                </button>
+
+                                <div class="flex items-center gap-2" aria-label="Gallery progress">
+                                    <div id="galleryDots" class="flex items-center gap-2"></div>
+                                </div>
+
+                                <button id="galleryNextBtn" type="button" class="px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm font-bold flex items-center gap-2">
+                                    Next
+                                    <i class="ph-bold ph-arrow-right text-frog"></i>
+                                </button>
+                            </div>
+
+                            <div class="mt-3 text-[11px] text-gray-500 text-center">
+                                Swap in your real images later—these labels are placeholders for Image 1 to Image 10.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -285,6 +546,57 @@
             requestAnimationFrame(animateBg);
         }
         animateBg();
+
+        // Gallery Carousel Logic (Image 1 - 10)
+        (function initGalleryCarousel() {
+            const slidesWrap = document.getElementById('gallerySlides');
+            if (!slidesWrap) return;
+
+            const slides = Array.from(slidesWrap.querySelectorAll('.gallery-slide'));
+            const prevBtn = document.getElementById('galleryPrevBtn');
+            const nextBtn = document.getElementById('galleryNextBtn');
+            const dotsEl = document.getElementById('galleryDots');
+
+            if (!slides.length || !prevBtn || !nextBtn || !dotsEl) return;
+
+            let currentIndex = 0;
+
+            function setSlide(index) {
+                currentIndex = (index + slides.length) % slides.length;
+
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('hidden', i !== currentIndex);
+                });
+
+                const dotButtons = Array.from(dotsEl.querySelectorAll('button'));
+                dotButtons.forEach((btn, i) => {
+                    if (i === currentIndex) {
+                        btn.classList.remove('bg-white/20');
+                        btn.classList.add('bg-frog');
+                    } else {
+                        btn.classList.remove('bg-frog');
+                        btn.classList.add('bg-white/20');
+                    }
+                });
+            }
+
+            // Build dots
+            dotsEl.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dotBtn = document.createElement('button');
+                dotBtn.type = 'button';
+                dotBtn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                dotBtn.className = 'w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-frog/60 transition-colors';
+                dotBtn.addEventListener('click', () => setSlide(i));
+                dotsEl.appendChild(dotBtn);
+            });
+
+            // Apply initial state after dots exist
+            setSlide(currentIndex);
+
+            prevBtn.addEventListener('click', () => setSlide(currentIndex - 1));
+            nextBtn.addEventListener('click', () => setSlide(currentIndex + 1));
+        })();
 
         // Security
         document.addEventListener('contextmenu', (e) => e.preventDefault());
