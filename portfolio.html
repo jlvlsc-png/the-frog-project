@@ -145,7 +145,7 @@
                         </div>
                     </div>
 
-                    <p class="mt-4 text-xs sm:text-sm text-gray-500 max-w-md leading-relaxed text-center sm:text-left lg:text-center xl:text-left">
+                    <p class="mt-4 text-xs sm:text-sm text-gray-400 max-w-md leading-relaxed text-center sm:text-left lg:text-center xl:text-left">
                         BS-Architecture student at <span class="text-white font-semibold">Isabela State University – Ilagan Campus</span>. I build simple, lightweight web tools to help students and professionals automate tedious building code computations and draft smarter.
                     </p>
 
@@ -169,6 +169,13 @@
                         </div>
                     </div>
 
+                    <div class="mt-5 text-center sm:text-left lg:text-center xl:text-left">
+                        <a href="./index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-frog text-bg font-bold text-sm hover:bg-frog-light transition-all duration-200 shadow-lg shadow-frog/30">
+                            <i class="ph-bold ph-rocket-launch text-base"></i>
+                            Launch The Frog Project
+                        </a>
+                    </div>
+
                     <div class="hidden lg:block mt-auto pt-8">
                         <p class="text-[10px] uppercase tracking-[0.4em] text-gray-500 opacity-40">©2026 THE FROG PROJECT • John Lloyd N. Velasco</p>
                     </div>
@@ -177,9 +184,16 @@
                 <!-- Right: Gallery -->
                 <div class="w-full lg:w-8/12">
                     <section>
-                        <h3 class="font-display font-bold text-2xl text-white neon-title mb-4">Gallery</h3>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-display font-bold text-2xl text-white neon-title">Gallery</h3>
+                            <button id="gridToggleBtn" type="button" class="w-9 h-9 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:border-frog/40 transition-all duration-200" aria-label="Toggle grid view">
+                                <i id="gridToggleIcon" class="ph-bold ph-grid-four text-lg text-gray-400"></i>
+                            </button>
+                        </div>
 
-                        <div class="rounded-xl border border-white/5 overflow-hidden">
+                        <div id="galleryGrid" class="hidden grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4"></div>
+
+                        <div class="rounded-xl border border-white/5 overflow-hidden" id="galleryCarousel">
                             <div class="relative">
                                 <div id="gallerySlides" class="p-0"></div>
 
@@ -307,26 +321,26 @@
     const IMG_FOLDER = './portfolio images/';
 
     const captions = [
-        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium' },
-        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium' },
-        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
-        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)' },
-        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)' },
-        { title: 'Dining Area', desc: 'Lighting control and practice' },
-        { title: 'Dining Area', desc: 'Lighting control and practice' },
-        { title: 'Tridacna Cove', desc: 'Aerial view of the island resort located at West Nalaut Island' },
-        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center' },
-        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center' },
-        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center' },
-        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela' },
-        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela' },
-        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela' },
-        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering' },
-        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering' }
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + Enscape' },
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + Enscape' },
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + Enscape' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
+        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)', software: 'SketchUp + Enscape' },
+        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)', software: 'SketchUp + Enscape' },
+        { title: 'Dining Area', desc: 'Lighting control and practice', software: 'SketchUp + Enscape' },
+        { title: 'Dining Area', desc: 'Lighting control and practice', software: 'SketchUp + Enscape' },
+        { title: 'Tridacna Cove', desc: 'Aerial view of the island resort located at West Nalaut Island', software: 'SketchUp + UE' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + Enscape' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + Enscape' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + Enscape' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + Enscape' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + Enscape' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + Enscape' },
+        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering', software: 'SketchUp + Enscape' },
+        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering', software: 'SketchUp + Enscape' }
     ];
 
     slidesWrap.innerHTML = '';
@@ -340,6 +354,7 @@
             captionHtml = '<div class="absolute bottom-10 left-3 max-w-[75%]">' +
                 '<h4 class="text-sm font-bold text-white" style="text-shadow:0 2px 10px rgba(0,0,0,0.9)">' + cap.title + '</h4>' +
                 '<p class="text-[11px] text-white/85 leading-tight mt-0.5" style="text-shadow:0 2px 8px rgba(0,0,0,0.85)">' + cap.desc + '</p>' +
+                (cap.software ? '<span class="inline-block mt-1.5 text-[10px] text-frog bg-frog/15 px-1.5 py-0.5 rounded" style="text-shadow:0 1px 4px rgba(0,0,0,0.8)">' + cap.software + '</span>' : '') +
             '</div>';
         }
         article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden relative">' +
@@ -394,6 +409,41 @@
     prevBtn.addEventListener('click', () => setSlide(currentIndex - 1));
     nextBtn.addEventListener('click', () => setSlide(currentIndex + 1));
 })();
+
+    // Grid View Toggle
+    const gridToggleBtn = document.getElementById('gridToggleBtn');
+    const gridToggleIcon = document.getElementById('gridToggleIcon');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryCarousel = document.getElementById('galleryCarousel');
+    let isGridView = false;
+
+    if (gridToggleBtn && galleryGrid && galleryCarousel) {
+        for (let i = 1; i <= TOTAL; i++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'group relative aspect-[4/3] rounded-lg overflow-hidden border border-white/5 hover:border-frog/40 transition-all duration-200';
+            btn.innerHTML = '<img src="' + IMG_FOLDER + i + '.webp" alt="Thumbnail ' + i + '" class="w-full h-full object-cover" loading="lazy">' +
+                '<div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-200 flex items-center justify-center">' +
+                    '<span class="text-white/0 group-hover:text-white/90 text-xs font-bold transition-all duration-200">' + i + '</span>' +
+                '</div>';
+            btn.addEventListener('click', () => {
+                if (isGridView) toggleView();
+                setSlide(i - 1);
+            });
+            galleryGrid.appendChild(btn);
+        }
+
+        function toggleView() {
+            isGridView = !isGridView;
+            galleryGrid.classList.toggle('hidden', !isGridView);
+            galleryCarousel.classList.toggle('hidden', isGridView);
+            gridToggleIcon.className = isGridView
+                ? 'ph-bold ph-slideshow text-lg text-frog'
+                : 'ph-bold ph-grid-four text-lg text-gray-400';
+        }
+
+        gridToggleBtn.addEventListener('click', toggleView);
+    }
 
         // Security
         document.addEventListener('contextmenu', (e) => e.preventDefault());
