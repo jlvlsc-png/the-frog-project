@@ -293,13 +293,45 @@
     const TOTAL = 20;
     const IMG_FOLDER = './portfolio images/';
 
+    const captions = [
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium' },
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium' },
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE' },
+        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)' },
+        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)' },
+        { title: 'Dining Area', desc: 'Lighting control and practice' },
+        { title: 'Dining Area', desc: 'Lighting control and practice' },
+        { title: 'Tridacna Cove', desc: 'Aerial view of the island resort located at West Nalaut Island' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela' },
+        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering' },
+        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering' }
+    ];
+
     slidesWrap.innerHTML = '';
     for (let i = 1; i <= TOTAL; i++) {
         const article = document.createElement('article');
         article.className = 'gallery-slide' + (i > 1 ? ' hidden' : '');
         article.dataset.index = i - 1;
-        article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden">' +
+        const cap = captions[i - 1];
+        let captionHtml = '';
+        if (cap) {
+            captionHtml = '<div class="absolute bottom-10 left-3 max-w-[75%]">' +
+                '<h4 class="text-sm font-bold text-white drop-shadow-lg">' + cap.title + '</h4>' +
+                '<p class="text-[11px] text-white/80 drop-shadow leading-tight mt-0.5">' + cap.desc + '</p>' +
+            '</div>';
+        }
+        article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden relative">' +
             '<img src="' + IMG_FOLDER + i + '.webp" alt="Portfolio image ' + i + '" class="w-full h-full object-cover" loading="lazy">' +
+            captionHtml +
         '</div>';
         slidesWrap.appendChild(article);
     }
