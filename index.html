@@ -413,10 +413,10 @@
                         <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-app-window"></i></span>
                         <span class="text-[10px] uppercase tracking-widest opacity-60">Apps</span>
                     </div>
-                    <div class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30  cursor-pointer hover:bg-frog/20 transition-all group" onclick="openDevModal()">
-                        <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-user-focus"></i></span>
-                        <span class="text-[10px] uppercase tracking-widest opacity-60">Creator</span>
-                    </div>
+                    <a href="./portfolio.html" class="p-3 sm:p-4 rounded-2xl bg-frog/10 border border-frog/30  cursor-pointer hover:bg-frog/20 transition-all group block">
+                        <span class="block text-xl font-bold text-frog group-hover:scale-110 transition-transform"><i class="ph-bold ph-identification-card"></i></span>
+                        <span class="text-[10px] uppercase tracking-widest opacity-60">About</span>
+                    </a>
                 </div>
             </div>
 
@@ -547,53 +547,6 @@
         const modalOverlay = document.getElementById('modalOverlay');
         const modalContent = document.getElementById('modalContent');
 
-        function openDevModal() {
-            modalContent.innerHTML = `
-                <div class="relative z-10 pb-4">
-                    <!-- Premium Background accent -->
-                    <div class="absolute top-0 left-0 w-full h-40 sm:h-52 bg-gradient-to-b from-frog/10 via-frog/5 to-transparent rounded-t-3xl -z-10"></div>
-                    
-                    <div class="flex flex-col items-center text-center px-2 sm:px-6">
-                        <!-- Profile Image Container -->
-                        <div class="relative mb-6 mt-2 group">
-                            <!-- Outer animated glow -->
-                            <div class="absolute -inset-2 bg-gradient-to-r from-frog to-green-400 rounded-full blur-lg opacity-40 group-hover:opacity-70 transition duration-500 group-hover:scale-110"></div>
-                            
-                            <!-- Image wrapper -->
-                            <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-white/10 dark:border-white/5 shadow-2xl relative z-10 transform group-hover:scale-105 transition duration-500 bg-black/20">
-                                <img src="./profile.webp" alt="John Lloyd N. Velasco" class="w-full h-full object-cover">
-                            </div>
-                            
-                            <!-- Pulse ring -->
-                            <div class="absolute inset-0 rounded-full border-2 border-frog animate-ping opacity-30 z-20 pointer-events-none"></div>
-                        </div>
-                        
-                        <!-- Name & Title -->
-                        <a href="./portfolio.html" rel="noopener noreferrer" onclick="playClickSound()" class="group relative inline-flex flex-col items-center mb-3">
-                            <h3 class="text-2xl sm:text-4xl font-display font-black text-white uppercase tracking-tight glow-text group-hover:text-frog transition-colors duration-300">
-                                John Lloyd N. Velasco
-                            </h3>
-                            <!-- Animated Underline -->
-                            <span class="w-12 h-1 bg-frog rounded-full mt-2 group-hover:w-full transition-all duration-500"></span>
-                        </a>
-                        
-                        <!-- Role Badge -->
-                        <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-frog/10 border border-frog/20 shadow-inner mb-6 ">
-                            <span class="w-2 h-2 rounded-full bg-frog animate-pulse mr-2 shadow-[0_0_8px_rgba(var(--color-frog),0.8)]"></span>
-                            <span class="text-frog text-xs sm:text-sm font-bold tracking-widest uppercase">Founder & Developer</span>
-                        </div>
-                        
-                        <!-- Bio -->
-                        <p class="text-sm sm:text-base text-gray-300 leading-relaxed mb-8 max-w-lg">
-                            Engineer of the Frog Project ecosystem. The goal is simple: Engineering <span class="text-frog font-semibold">smart tools</span> that act as a force multiplier for architects and builders. Let software handle the heavy lifting, ensuring accuracy and speed, so professionals can focus on pure design.
-                        </p>
-                    </div>
-                </div>
-            `;
-            modalOverlay.classList.add('active');
-        }
-
-        // closeModal() remains below
         function closeModal() {
             modalOverlay.classList.remove('active');
             // Clear countdown interval when modal is closed
