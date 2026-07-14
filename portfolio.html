@@ -119,6 +119,11 @@
                     <i class="ph-bold ph-arrow-left text-base"></i>
                     <span class="hidden sm:inline">Back to Home</span>
                 </a>
+                <a href="./index.html"
+                   class="flex items-center gap-2 px-5 py-2 rounded-xl bg-frog text-bg font-bold text-sm hover:bg-frog-light transition-all duration-200 shadow-lg shadow-frog/30">
+                    <i class="ph-bold ph-grid-four text-base"></i>
+                    <span class="hidden sm:inline">Browse Apps</span>
+                </a>
             </div>
         </div>
     </nav>
@@ -167,13 +172,6 @@
                                 <span>Instagram</span>
                             </a>
                         </div>
-                    </div>
-
-                    <div class="mt-5 text-center sm:text-left lg:text-center xl:text-left">
-                        <a href="./index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-frog text-bg font-bold text-sm hover:bg-frog-light transition-all duration-200 shadow-lg shadow-frog/30">
-                            <i class="ph-bold ph-rocket-launch text-base"></i>
-                            Launch The Frog Project
-                        </a>
                     </div>
 
                     <div class="hidden lg:block mt-auto pt-8">
@@ -321,26 +319,26 @@
     const IMG_FOLDER = './portfolio images/';
 
     const captions = [
-        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + Enscape' },
-        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + Enscape' },
-        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + Enscape' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
-        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE' },
-        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)', software: 'SketchUp + Enscape' },
-        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)', software: 'SketchUp + Enscape' },
-        { title: 'Dining Area', desc: 'Lighting control and practice', software: 'SketchUp + Enscape' },
-        { title: 'Dining Area', desc: 'Lighting control and practice', software: 'SketchUp + Enscape' },
-        { title: 'Tridacna Cove', desc: 'Aerial view of the island resort located at West Nalaut Island', software: 'SketchUp + UE' },
-        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + Enscape' },
-        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + Enscape' },
-        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + Enscape' },
-        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + Enscape' },
-        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + Enscape' },
-        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + Enscape' },
-        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering', software: 'SketchUp + Enscape' },
-        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering', software: 'SketchUp + Enscape' }
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + UE + Enscape' },
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + UE + Enscape' },
+        { title: 'University Park', desc: 'Located in front of ISU-I gymnasium', software: 'SketchUp + UE + Enscape' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE + Enscape' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE + Enscape' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE + Enscape' },
+        { title: 'Community Park', desc: 'A manually drawn design plate digitized in SketchUp + UE', software: 'SketchUp + UE + Enscape' },
+        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)', software: 'SketchUp + UE + Enscape' },
+        { title: 'Balay Pag-Ong', desc: 'Design competition for a small temporary shelter (3rd place)', software: 'SketchUp + UE + Enscape' },
+        { title: 'Dining Area', desc: 'Lighting control and practice', software: 'SketchUp + UE + Enscape' },
+        { title: 'Dining Area', desc: 'Lighting control and practice', software: 'SketchUp + UE + Enscape' },
+        { title: 'Tridacna Cove', desc: 'Aerial view of the island resort located at West Nalaut Island', software: 'SketchUp + UE + Enscape' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + UE + Enscape' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + UE + Enscape' },
+        { title: 'Atrium', desc: 'Atrium design for the Diagnostic Center', software: 'SketchUp + UE + Enscape' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + UE + Enscape' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + UE + Enscape' },
+        { title: 'Dream Architects', desc: 'An architectural firm building located at Cauayan City, Isabela', software: 'SketchUp + UE + Enscape' },
+        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering', software: 'SketchUp + UE + Enscape' },
+        { title: 'Swimming Pool', desc: 'A texture and detail control practice in rendering', software: 'SketchUp + UE + Enscape' }
     ];
 
     slidesWrap.innerHTML = '';
@@ -408,9 +406,7 @@
 
     prevBtn.addEventListener('click', () => setSlide(currentIndex - 1));
     nextBtn.addEventListener('click', () => setSlide(currentIndex + 1));
-})();
 
-    // Grid View Toggle
     const gridToggleBtn = document.getElementById('gridToggleBtn');
     const gridToggleIcon = document.getElementById('gridToggleIcon');
     const galleryGrid = document.getElementById('galleryGrid');
@@ -440,10 +436,16 @@
             gridToggleIcon.className = isGridView
                 ? 'ph-bold ph-slideshow text-lg text-frog'
                 : 'ph-bold ph-grid-four text-lg text-gray-400';
+            if (isGridView) {
+                if (autoTimer) clearInterval(autoTimer);
+            } else {
+                resetAutoAdvance();
+            }
         }
 
         gridToggleBtn.addEventListener('click', toggleView);
     }
+})();
 
         // Security
         document.addEventListener('contextmenu', (e) => e.preventDefault());
