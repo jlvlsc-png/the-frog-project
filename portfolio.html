@@ -299,7 +299,7 @@
         const article = document.createElement('article');
         article.className = 'gallery-slide' + (i > 1 ? ' hidden' : '');
         article.dataset.index = i - 1;
-        article.innerHTML = '<div class="aspect-[4/3] flex items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/5">' +
+        article.innerHTML = '<div class="aspect-[16/10] flex items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/5">' +
             '<img src="' + IMG_FOLDER + i + '.webp" alt="Portfolio image ' + i + '" class="w-full h-full object-cover" loading="lazy">' +
         '</div>';
         slidesWrap.appendChild(article);
