@@ -687,7 +687,7 @@
             }
 
             const isActiveTool = tool.name === 'SPACE FROG' || tool.name === 'SITE FROG';
-            const appVersion = isActiveTool ? '1.0.0' : null;
+            const appVersion = tool.name === 'SITE FROG' ? '1.0.7' : isActiveTool ? '1.0.0' : null;
             const fileSize = tool.name === 'SPACE FROG' ? '1.24 GB' : '460 MB';
 
             // Feature chips per app
