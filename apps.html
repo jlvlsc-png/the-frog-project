@@ -687,8 +687,8 @@
             }
 
             const isActiveTool = tool.name === 'SPACE FROG' || tool.name === 'SITE FROG';
-            const appVersion = tool.name === 'SITE FROG' ? '1.0.7' : isActiveTool ? '1.0.0' : null;
-            const fileSize = tool.name === 'SPACE FROG' ? '1.24 GB' : '460 MB';
+            const appVersion = tool.name === 'SITE FROG' ? '1.0.7' : tool.name === 'SPACE FROG' ? '1.1.0' : null;
+            const fileSize = tool.name === 'SPACE FROG' ? '92 MB' : '460 MB';
 
             // Feature chips per app
             let featureChips = '';
@@ -941,10 +941,10 @@ right to a refund or chargeback once a transaction is processed.
 
             // Download handlers
             window.__frogSpaceFrogDownloadExe = window.__frogSpaceFrogDownloadExe || function() {
-                const downloadUrl = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-1.0.0.exe';
+                const downloadUrl = 'https://github.com/jlvlsc-png/Space-Frog-App/releases/download/v1.1.0/Space.Frog-Setup-1.1.0.exe';
                 const a = document.createElement('a');
                 a.href = downloadUrl; a.rel = 'noopener noreferrer';
-                a.download = 'Space.Frog-Setup-1.0.0.exe';
+                a.download = 'Space.Frog-Setup-1.1.0.exe';
                 a.style.display = 'none';
                 document.body.appendChild(a); a.click(); a.remove();
                 setTimeout(() => { try { window.location.href = downloadUrl; } catch(_) {} }, 1500);
@@ -1056,7 +1056,7 @@ right to a refund or chargeback once a transaction is processed.
                 if (appName === 'SITE FROG') {
                     window.__frogSiteFrogDownloadExe ? window.__frogSiteFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/site-frog/releases/download/v.1.0.6/Site.Frog_1.0.7_x64-setup.exe');
                 } else {
-                    window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe');
+                    window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc-png/Space-Frog-App/releases/download/v1.1.0/Space.Frog-Setup-1.1.0.exe');
                 }
                 closeModal(); return;
             }
@@ -1067,7 +1067,7 @@ right to a refund or chargeback once a transaction is processed.
                         if (appName === 'SITE FROG') {
                             window.__frogSiteFrogDownloadExe ? window.__frogSiteFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/site-frog/releases/download/v.1.0.6/Site.Frog_1.0.7_x64-setup.exe');
                         } else {
-                            window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/SpaceFrog-Setup-1.0.0.exe');
+                            window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc-png/Space-Frog-App/releases/download/v1.1.0/Space.Frog-Setup-1.1.0.exe');
                         }
                     },
                     onDecline: () => {}
