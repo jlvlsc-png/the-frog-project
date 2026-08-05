@@ -31,7 +31,6 @@
     <!-- Firebase Web SDK (compat -> window.firebase) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 
@@ -90,8 +89,13 @@
         .modal-box { transform: scale(0.9) translateY(20px); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 2.5rem; overflow: hidden; }
         #modalOverlay.active .modal-box { transform: scale(1) translateY(0); }
 
+        /* Pause all background animations inside the modal while it is hidden */
+        #modalOverlay:not(.active) .animate-modal-blob,
+        #modalOverlay:not(.active) .neon-grid,
+        #modalOverlay:not(.active) .neon-sweep { animation: none !important; }
 
-        section { scroll-snap-align: start; scroll-snap-stop: always; }
+
+        section { scroll-snap-align: start; scroll-snap-stop: normal; }
         
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -105,27 +109,17 @@
         }
         .animate-frog-bounce { animation: frogBounce 2s ease-in-out infinite; }
 
-        /* New: Neon Grid Animation */
-        @keyframes neonGridPulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.4; }
-        }
+        /* Neon Grid (static overlay — cheaper than animating full-screen opacity) */
         .neon-grid {
             background-image: linear-gradient(to right, rgba(180,240,42,0.1) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(180,240,42,0.1) 1px, transparent 1px);
             background-size: 40px 40px;
-            animation: neonGridPulse 4s ease-in-out infinite alternate;
         }
 
-        /* New: Neon Sweep Scanlines */
-        @keyframes scanlines {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
-        }
+        /* Neon Sweep Scanlines (static overlay — animated background-position repaints the whole screen) */
         .neon-sweep {
             background: repeating-linear-gradient(to bottom, transparent, transparent 1px, rgba(180,240,42,0.05) 1px, rgba(180,240,42,0.05) 2px);
-            background-size: 100% 100px; /* Adjust height for scanline density */
-            animation: scanlines 10s linear infinite;
+            background-size: 100% 100px;
         }
 
         .neon-pulse { animation: neonPulse 0.8s ease-in-out infinite; will-change: opacity, box-shadow; }
@@ -150,7 +144,7 @@
         }
 
         /* Keep reveal + underline that your markup uses */
-        .reveal-up, .reveal-scale { opacity: 0; transform: translateY(26px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform, contents; }
+        .reveal-up, .reveal-scale { opacity: 0; transform: translateY(26px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
         .reveal-scale { transform: translateY(26px) scale(0.98); }
         .reveal-up.visible { opacity: 1; transform: translateY(0); }
         .reveal-scale.visible { opacity: 1; transform: translateY(0) scale(1); }
@@ -309,9 +303,6 @@
         }
     </style>
     <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
-
-    <!-- Firebase RTDB SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
     <body class="bg-[#0F1319] text-white transition-colors duration-300">
         <canvas id="bgCanvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></canvas>
@@ -340,10 +331,10 @@
 
     <!-- Moving Graphic Elements -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 0s; animation-duration: 8s;"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s; animation-duration: 10s;"></div>
-        <div class="absolute top-[20%] right-[5%] w-[20%] h-[20%] bg-frog/5 rounded-full blur-[80px] animate-pulse" style="animation-delay: 4s; animation-duration: 7s;"></div>
-        <div class="absolute bottom-[10%] left-[15%] w-[25%] h-[25%] bg-blue-500/5 rounded-full blur-[100px] animate-pulse" style="animation-delay: 6s; animation-duration: 9s;"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px]"></div>
+        <div class="absolute top-[20%] right-[5%] w-[20%] h-[20%] bg-frog/5 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-[10%] left-[15%] w-[25%] h-[25%] bg-blue-500/5 rounded-full blur-[100px]"></div>
         <!-- Animated Grid -->
         <div class="absolute inset-0 neon-grid opacity-50"></div>
         <div class="absolute inset-0 neon-sweep scanlines opacity-60"></div>
@@ -519,7 +510,15 @@
         /* Optimized particle count */
         for (let i = 0; i < 60; i++) particles.push(new Particle());
 
+        /* Only run the canvas while the tab is visible */
+        let bgAnimating = true;
+        document.addEventListener('visibilitychange', () => {
+            bgAnimating = document.visibilityState === 'visible';
+            if (bgAnimating) requestAnimationFrame(animateBg);
+        });
+
         function animateBg() {
+            if (!bgAnimating) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
                 p.update();
@@ -530,8 +529,9 @@
             ctx.lineWidth = 0.5;
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
-                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-                    if (dist < 100) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    if (dx * dx + dy * dy < 10000) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -606,6 +606,11 @@
         
         // --- Updates / What's New Feature ---
         const websiteUpdates = [
+            {
+                date: "2026-08-06", // Format: YYYY-MM-DD
+                title: "Website Optimization",
+                description: "Made the website 5x lighter and optimized."
+            },
             {
                 date: "2026-08-06", // Format: YYYY-MM-DD
                 title: "Site Frog — Latest Update v1.0.7",

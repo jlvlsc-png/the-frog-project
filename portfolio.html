@@ -90,10 +90,10 @@
 
     <!-- Background blobs -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 0s; animation-duration: 8s;"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s; animation-duration: 10s;"></div>
-        <div class="absolute top-[20%] right-[5%] w-[20%] h-[20%] bg-frog/5 rounded-full blur-[80px] animate-pulse" style="animation-delay: 4s; animation-duration: 7s;"></div>
-        <div class="absolute bottom-[10%] left-[15%] w-[25%] h-[25%] bg-blue-500/5 rounded-full blur-[100px] animate-pulse" style="animation-delay: 6s; animation-duration: 9s;"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-frog/5 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px]"></div>
+        <div class="absolute top-[20%] right-[5%] w-[20%] h-[20%] bg-frog/5 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-[10%] left-[15%] w-[25%] h-[25%] bg-blue-500/5 rounded-full blur-[100px]"></div>
         <div class="absolute inset-0 neon-grid opacity-50"></div>
         <div class="absolute inset-0 neon-sweep opacity-60"></div>
     </div>
@@ -277,15 +277,24 @@
 
         for (let i = 0; i < 50; i++) particles.push(new Particle());
 
+        /* Only run the canvas while the tab is visible */
+        let bgAnimating = true;
+        document.addEventListener('visibilitychange', () => {
+            bgAnimating = document.visibilityState === 'visible';
+            if (bgAnimating) requestAnimationFrame(animateBg);
+        });
+
         function animateBg() {
+            if (!bgAnimating) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
             ctx.strokeStyle = 'rgba(180, 240, 42, 0.1)';
             ctx.lineWidth = 0.5;
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
-                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-                    if (dist < 100) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    if (dx * dx + dy * dy < 10000) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
