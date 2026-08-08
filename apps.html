@@ -224,54 +224,6 @@
             box-shadow: none !important;
         }
         .modal-download-btn:disabled::before { content: none; }
-        .modal-update-wrap {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1rem;
-        }
-        .modal-update-cover {
-            position: absolute;
-            inset: 0;
-            z-index: 20;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px 18px;
-            text-align: center;
-            background: rgba(15,19,25,0.82);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border: 1px solid rgba(180,240,42,0.28);
-            border-radius: 1rem;
-            box-shadow: inset 0 0 40px rgba(180,240,42,0.06);
-            cursor: not-allowed;
-        }
-        @keyframes updateCoverPulse {
-            0% { box-shadow: inset 0 0 40px rgba(180,240,42,0.06), 0 0 0 0 rgba(180,240,42,0.12); }
-            50% { box-shadow: inset 0 0 40px rgba(180,240,42,0.14), 0 0 0 6px rgba(180,240,42,0); }
-            100% { box-shadow: inset 0 0 40px rgba(180,240,42,0.06), 0 0 0 0 rgba(180,240,42,0.12); }
-        }
-        .modal-update-cover {
-            animation: modal-spin-wrap 2.2s ease-in-out infinite;
-        }
-        @keyframes modal-spin-wrap {
-            0% { box-shadow: inset 0 0 40px rgba(180,240,42,0.08), 0 0 0 0 rgba(180,240,42,0.14); }
-            50% { box-shadow: inset 0 0 40px rgba(180,240,42,0.2), 0 0 0 7px rgba(180,240,42,0); }
-            100% { box-shadow: inset 0 0 40px rgba(180,240,42,0.08), 0 0 0 0 rgba(180,240,42,0.14); }
-        }
-        .modal-update-loader { flex-shrink: 0; }
-        .modal-update-cover .modal-update-loader-ring {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 3px solid rgba(180,240,42,0.15);
-            border-top-color: #B4F02A;
-            animation: modalLoaderSpin 0.9s linear infinite;
-        }
-        @keyframes modalLoaderSpin { to { transform: rotate(360deg); } }
-        .modal-update-cover p { margin: 0; }
         .modal-stat-box {
             flex: 1;
             padding: 12px;
@@ -692,31 +644,38 @@
         const modalContent = document.getElementById('modalContent');
         let countdownInterval;
 
+        // ── Download Lock Toggle ─────────────────────────────────────────
+        // Downloads lock persists in localStorage. Toggle anytime with:
+        //   window.__frogToggleDownloads()            // flips lock
+        //   window.__frogSetDownloadsLocked(true)     // force lock ON
+        //   window.__frogSetDownloadsLocked(false)    // force lock OFF
+        window.__frogDownloadsLocked = window.__frogDownloadsLocked || function() {
+            return localStorage.getItem('frogDownloadLocked') !== 'false';
+        };
+        window.__frogSetDownloadsLocked = window.__frogSetDownloadsLocked || function(locked) {
+            localStorage.setItem('frogDownloadLocked', locked ? 'true' : 'false');
+            return window.__frogDownloadsLocked();
+        };
+        window.__frogToggleDownloads = window.__frogToggleDownloads || function() {
+            return window.__frogSetDownloadsLocked(!window.__frogDownloadsLocked());
+        };
+
         function openToolModal(index) {
             const tool = tools[index];
             let actionHtml = '';
             if (tool.name === 'SPACE FROG' || tool.name === 'SITE FROG') {
+                const downloadsLocked = window.__frogDownloadsLocked();
                 actionHtml = `
                     <div class="w-full flex flex-col gap-3 relative select-none">
-                        <div class="modal-update-wrap">
-                            <button
-                               id="${tool.name === 'SPACE FROG' ? 'spaceFrogDownloadBtn' : 'siteFrogDownloadBtn'}"
-                               type="button"
-                               disabled
-                               aria-disabled="true"
-                               tabindex="-1"
-                               onclick="event.preventDefault(); return false;"
-                               class="modal-download-btn">
-                                <i class="ph ph-download-simple" style="font-size:1.2rem;"></i>
-                                <span>Download for Windows</span>
-                                <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
-                            </button>
-                            <div class="modal-update-cover" aria-hidden="true">
-                                <div class="modal-update-loader modal-update-loader-ring"></div>
-                                <p style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#fff;line-height:1.4;">Updating the app software to a higher-grade setup</p>
-                                <p style="font-size:10px;letter-spacing:0.08em;color:rgba(255,255,255,0.55);text-transform:uppercase;">Please wait, the new build is being prepared</p>
-                            </div>
-                        </div>
+                        <button
+                           id="${tool.name === 'SPACE FROG' ? 'spaceFrogDownloadBtn' : 'siteFrogDownloadBtn'}"
+                           type="button"
+                           ${downloadsLocked ? 'disabled aria-disabled="true" tabindex="-1"' : `onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('${tool.name}');"`}
+                           class="modal-download-btn">
+                            <i class="ph-bold ph-download-simple" style="font-size:1.2rem;"></i>
+                            <span>Download for Windows</span>
+                            <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
+                        </button>
                         <button
                            type="button"
                            class="modal-download-btn"
@@ -1105,6 +1064,7 @@ right to a refund or chargeback once a transaction is processed.
         // ── Download Gate ────────────────────────────────────────────────
         window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName) {
             if (appName !== 'SPACE FROG' && appName !== 'SITE FROG') return;
+            if (window.__frogDownloadsLocked && window.__frogDownloadsLocked()) return;
 
             if (localStorage.getItem('frogTcAccepted') === 'true') {
                 if (appName === 'SITE FROG') {
