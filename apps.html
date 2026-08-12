@@ -650,7 +650,7 @@
         //   window.__frogSetDownloadsLocked(true)     // force lock ON
         //   window.__frogSetDownloadsLocked(false)    // force lock OFF
         window.__frogDownloadsLocked = window.__frogDownloadsLocked || function() {
-            return localStorage.getItem('frogDownloadLocked') !== 'false';
+            return localStorage.getItem('frogDownloadLocked') === 'true';
         };
         window.__frogSetDownloadsLocked = window.__frogSetDownloadsLocked || function(locked) {
             localStorage.setItem('frogDownloadLocked', locked ? 'true' : 'false');
