@@ -665,18 +665,17 @@
             let actionHtml = '';
             if (tool.name === 'SPACE FROG' || tool.name === 'SITE FROG') {
                 const downloadsLocked = window.__frogDownloadsLocked();
-                actionHtml = `
-                    <div class="w-full flex flex-col gap-3 relative select-none">
-                        <button
-                           id="${tool.name === 'SPACE FROG' ? 'spaceFrogDownloadBtn' : 'siteFrogDownloadBtn'}"
+                const androidBtn = tool.name === 'SPACE FROG'
+                    ? `<button
                            type="button"
-                           ${downloadsLocked ? 'disabled aria-disabled="true" tabindex="-1"' : `onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('${tool.name}');"`}
-                           class="modal-download-btn">
+                           class="modal-download-btn"
+                           style="margin-top: 8px;"
+                           ${downloadsLocked ? 'disabled aria-disabled="true" tabindex="-1"' : `onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('${tool.name}', 'apk');"`}>
                             <i class="ph-bold ph-download-simple" style="font-size:1.2rem;"></i>
-                            <span>Download for Windows</span>
+                            <span>Download for Android</span>
                             <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
-                        </button>
-                        <button
+                        </button>`
+                    : `<button
                            type="button"
                            class="modal-download-btn"
                            style="margin-top: 8px; opacity: 0.5; cursor: not-allowed; filter: grayscale(100%);"
@@ -685,7 +684,19 @@
                             <span>Download for Android</span>
                             <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
                             <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;margin-left:auto;">COMING SOON</span>
+                        </button>`;
+                actionHtml = `
+                    <div class="w-full flex flex-col gap-3 relative select-none">
+                        <button
+                           id="${tool.name === 'SPACE FROG' ? 'spaceFrogDownloadBtn' : 'siteFrogDownloadBtn'}"
+                           type="button"
+                           ${downloadsLocked ? 'disabled aria-disabled="true" tabindex="-1"' : `onclick="event.preventDefault(); window.__frogTcStartDownload && window.__frogTcStartDownload('${tool.name}', 'exe');"`}
+                           class="modal-download-btn">
+                            <i class="ph-bold ph-download-simple" style="font-size:1.2rem;"></i>
+                            <span>Download for Windows</span>
+                            <span style="font-size:10px;opacity:0.6;font-weight:600;letter-spacing:0.1em;">FREE</span>
                         </button>
+                        ${androidBtn}
                         <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.05em;margin-top:12px;">By downloading, you agree to our Terms & Conditions</p>
                     </div>
                 `;
@@ -700,7 +711,7 @@
             }
 
             const isActiveTool = tool.name === 'SPACE FROG' || tool.name === 'SITE FROG';
-            const appVersion = tool.name === 'SITE FROG' ? '1.0.7' : tool.name === 'SPACE FROG' ? '1.1.0' : null;
+            const appVersion = tool.name === 'SITE FROG' ? '1.0.7' : tool.name === 'SPACE FROG' ? '2.1.0' : null;
             const fileSize = tool.name === 'SPACE FROG' ? '92 MB' : '446 MB';
 
             // Feature chips per app
@@ -954,17 +965,27 @@ right to a refund or chargeback once a transaction is processed.
 
             // Download handlers
             window.__frogSpaceFrogDownloadExe = window.__frogSpaceFrogDownloadExe || function() {
-                const downloadUrl = 'https://github.com/jlvlsc-png/Space-Frog-App/releases/download/v1.1.0/Space.Frog-Setup-1.1.0.exe';
+                const downloadUrl = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-2.1.0.exe';
                 const a = document.createElement('a');
                 a.href = downloadUrl; a.rel = 'noopener noreferrer';
-                a.download = 'Space.Frog-Setup-1.1.0.exe';
+                a.download = 'Space.Frog-Setup-2.1.0.exe';
+                a.style.display = 'none';
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => { try { window.location.href = downloadUrl; } catch(_) {} }, 1500);
+            };
+
+            window.__frogSpaceFrogDownloadApk = window.__frogSpaceFrogDownloadApk || function() {
+                const downloadUrl = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-android.apk';
+                const a = document.createElement('a');
+                a.href = downloadUrl; a.rel = 'noopener noreferrer';
+                a.download = 'Space.Frog-android.apk';
                 a.style.display = 'none';
                 document.body.appendChild(a); a.click(); a.remove();
                 setTimeout(() => { try { window.location.href = downloadUrl; } catch(_) {} }, 1500);
             };
 
             window.__frogSiteFrogDownloadExe = window.__frogSiteFrogDownloadExe || function() {
-                const downloadUrl = 'https://github.com/jlvlsc/site-frog/releases/download/v.1.0.6/Site.Frog_1.0.7_x64-setup.exe';
+                const downloadUrl = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Site.Frog_1.0.7_x64-setup.exe';
                 const a = document.createElement('a');
                 a.href = downloadUrl; a.rel = 'noopener noreferrer';
                 a.download = 'Site.Frog_1.0.7_x64-setup.exe';
@@ -1062,28 +1083,28 @@ right to a refund or chargeback once a transaction is processed.
         }
 
         // ── Download Gate ────────────────────────────────────────────────
-        window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName) {
+        window.__frogTcStartDownload = window.__frogTcStartDownload || function(appName, platform = 'exe') {
             if (appName !== 'SPACE FROG' && appName !== 'SITE FROG') return;
             if (window.__frogDownloadsLocked && window.__frogDownloadsLocked()) return;
 
-            if (localStorage.getItem('frogTcAccepted') === 'true') {
+            const runDownload = () => {
                 if (appName === 'SITE FROG') {
-                    window.__frogSiteFrogDownloadExe ? window.__frogSiteFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/site-frog/releases/download/v.1.0.6/Site.Frog_1.0.7_x64-setup.exe');
+                    window.__frogSiteFrogDownloadExe ? window.__frogSiteFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Site.Frog_1.0.7_x64-setup.exe');
+                } else if (platform === 'apk') {
+                    window.__frogSpaceFrogDownloadApk ? window.__frogSpaceFrogDownloadApk() : (window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-android.apk');
                 } else {
-                    window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc-png/Space-Frog-App/releases/download/v1.1.0/Space.Frog-Setup-1.1.0.exe');
+                    window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/Space-Frog/releases/download/v1.0.0/Space.Frog-Setup-2.1.0.exe');
                 }
+            };
+
+            if (localStorage.getItem('frogTcAccepted') === 'true') {
+                runDownload();
                 closeModal(); return;
             }
 
             if (typeof openFrogTcModalOnly === 'function') {
                 openFrogTcModalOnly({
-                    onAgree: () => {
-                        if (appName === 'SITE FROG') {
-                            window.__frogSiteFrogDownloadExe ? window.__frogSiteFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc/site-frog/releases/download/v.1.0.6/Site.Frog_1.0.7_x64-setup.exe');
-                        } else {
-                            window.__frogSpaceFrogDownloadExe ? window.__frogSpaceFrogDownloadExe() : (window.location.href = 'https://github.com/jlvlsc-png/Space-Frog-App/releases/download/v1.1.0/Space.Frog-Setup-1.1.0.exe');
-                        }
-                    },
+                    onAgree: runDownload,
                     onDecline: () => {}
                 });
             }
